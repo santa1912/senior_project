@@ -33,11 +33,11 @@
       <div class="max-w-7xl mx-auto pt-20 pb-16 px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center">
           <h1 class="text-5xl tracking-tight font-extrabold text-gray-900 sm:text-6xl md:text-7xl" :class="{ 'animate__animated animate__fadeInUp': isLoaded }">
-            <span class="block">Business Intelligence</span>
-            <span class="block bg-clip-text text-transparent bg-gradient-to-r from-[#046e93] to-[#03799f]">Management System</span>
+            <span class="block">School of Management</span>
+            <span class="block bg-clip-text text-transparent bg-gradient-to-r from-[#046e93] to-[#03799f]">Business Intelligence</span>
           </h1>
           <p class="mt-6 max-w-md mx-auto text-base text-gray-600 sm:text-lg md:mt-8 md:text-xl md:max-w-3xl" :class="{ 'animate__animated animate__fadeIn animate__delay-1s': isLoaded }">
-            Streamline your senior project journey with our comprehensive management platform designed for the School of Management Business Intelligence program.
+            Empowering future business leaders with data-driven insights. Join MFU's premier Business Intelligence program at the School of Management.
           </p>
           <div class="mt-10" :class="{ 'animate__animated animate__fadeInUp animate__delay-1s': isLoaded }">
             <button @click="signInWithGoogle" class="px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gradient-to-r from-[#046e93] to-[#035475] hover:from-[#035e80] hover:to-[#024a64] md:py-4 md:text-lg md:px-10 shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
@@ -52,8 +52,8 @@
     <div class="py-16 bg-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
-          <h2 class="text-3xl font-bold text-gray-900">Key Features</h2>
-          <p class="mt-4 text-xl text-gray-600 max-w-2xl mx-auto">Our platform provides everything you need to manage your business intelligence projects effectively.</p>
+          <h2 class="text-3xl font-bold text-gray-900">Program Highlights</h2>
+          <p class="mt-4 text-xl text-gray-600 max-w-2xl mx-auto">Discover what makes our Business Intelligence program unique at Mae Fah Luang University.</p>
         </div>
         
         <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3" :class="{ 'animate__animated animate__fadeInUp animate__delay-2s': isLoaded }">
@@ -63,9 +63,9 @@
             <div class="rounded-full p-3 bg-[#eaf4f8] inline-block mb-4">
               <DocumentTextIcon class="h-7 w-7 text-[#046e93]" />
             </div>
-            <h3 class="text-xl font-semibold text-gray-900">Project Tracking</h3>
+            <h3 class="text-xl font-semibold text-gray-900">Data Analytics</h3>
             <p class="mt-3 text-gray-600 leading-relaxed">
-              Easily monitor project progress, milestones, and deadlines in real-time with intuitive dashboards.
+              Master the latest tools and techniques in data analytics, from statistical analysis to machine learning applications.
             </p>
           </div>
 
@@ -75,9 +75,9 @@
             <div class="rounded-full p-3 bg-[#eaf4f8] inline-block mb-4">
               <UserGroupIcon class="h-7 w-7 text-[#046e93]" />
             </div>
-            <h3 class="text-xl font-semibold text-gray-900">Collaboration</h3>
+            <h3 class="text-xl font-semibold text-gray-900">Industry Projects</h3>
             <p class="mt-3 text-gray-600 leading-relaxed">
-              Seamless communication between students, lecturers, and project supervisors.
+              Work on real-world projects with leading companies, gaining practical experience in business intelligence implementation.
             </p>
           </div>
 
@@ -87,9 +87,9 @@
             <div class="rounded-full p-3 bg-[#eaf4f8] inline-block mb-4">
               <ChartBarIcon class="h-7 w-7 text-[#046e93]" />
             </div>
-            <h3 class="text-xl font-semibold text-gray-900">Analytics</h3>
+            <h3 class="text-xl font-semibold text-gray-900">Career Opportunities</h3>
             <p class="mt-3 text-gray-600 leading-relaxed">
-              Track performance metrics and generate insights for better project outcomes.
+              Graduate ready for roles in business analytics, data science, and strategic management across various industries.
             </p>
           </div>
         </div>
