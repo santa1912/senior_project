@@ -8,7 +8,7 @@
             <img src="/mfu-logo.png" alt="MFU Logo" class="h-10 w-auto" />
             <div class="ml-3">
               <span class="text-xl font-bold text-[#046e93]">SOM</span>
-              <span class="text-xl font-medium text-gray-700">Business Intelligence</span>
+              <span class="text-xl font-medium text-gray-700"> Business Intelligence</span>
             </div>
           </div>
           <div class="flex items-center">

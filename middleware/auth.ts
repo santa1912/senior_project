@@ -6,7 +6,10 @@ const DEAN_EMAILS = [
   '6531503174@lamduan.mfu.ac.th',
   '6531503176@lamduan.mfu.ac.th'
 ]
-const LECTURER_EMAIL = 'phyominthein.leo@gmail.com'
+const LECTURER_EMAILS = [
+  'phyominthein.leo@gmail.com',
+  'phyominthein.icloud@gmail.com'
+]
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
   const auth = getAuth()
@@ -19,7 +22,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   if (to.path.startsWith('/dean/') && (!email || !DEAN_EMAILS.includes(email))) {
     return navigateTo('/')
   }
-  if (to.path.startsWith('/lecturer/') && email !== LECTURER_EMAIL) {
+  if (to.path.startsWith('/lecturer/') && (!email || !LECTURER_EMAILS.includes(email))) {
     return navigateTo('/')
   }
 })

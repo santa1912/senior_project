@@ -18,7 +18,7 @@
       <nav class="flex-1 px-4 py-6">
         <ul class="space-y-1">
           <li>
-            <a href="#" class="flex items-center px-4 py-3 text-white bg-[#035475] rounded-md">
+            <a href="/lecturer/lecturer" class="flex items-center px-4 py-3 text-white bg-[#035475] rounded-md">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
@@ -26,7 +26,7 @@
             </a>
           </li>
           <li>
-            <a href="#" class="flex items-center px-4 py-3 text-white hover:bg-[#035e80] rounded-md transition-colors">
+            <a href="/lecturer/kpi-overview" class="flex items-center px-4 py-3 text-white hover:bg-[#035e80] rounded-md transition-colors">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
               </svg>
@@ -178,8 +178,53 @@
             </ul>
           </div>
 
-          <!-- Right Column: Publications and Notifications -->
+          <!-- Right Column: KPI Overview and Projects -->
           <div class="md:col-span-2 space-y-8">
+            <!-- KPI Performance Preview -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-gray-800">KPI Performance</h2>
+                <a href="/lecturer/kpi-overview" class="text-blue-600 text-sm hover:underline">View Full Dashboard</a>
+              </div>
+              
+              <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
+                <div class="bg-blue-50 p-4 rounded-lg text-center">
+                  <span class="block text-2xl font-bold text-blue-700">60%</span>
+                  <span class="text-sm text-gray-600">Teaching</span>
+                </div>
+                <div class="bg-yellow-50 p-4 rounded-lg text-center">
+                  <span class="block text-2xl font-bold text-yellow-600">15%</span>
+                  <span class="text-sm text-gray-600">Research</span>
+                </div>
+                <div class="bg-green-50 p-4 rounded-lg text-center">
+                  <span class="block text-2xl font-bold text-green-600">10%</span>
+                  <span class="text-sm text-gray-600">Academic Service</span>
+                </div>
+                <div class="bg-indigo-50 p-4 rounded-lg text-center">
+                  <span class="block text-2xl font-bold text-indigo-600">5%</span>
+                  <span class="text-sm text-gray-600">Administration</span>
+                </div>
+                <div class="bg-purple-50 p-4 rounded-lg text-center">
+                  <span class="block text-2xl font-bold text-purple-600">3.75%</span>
+                  <span class="text-sm text-gray-600">Arts & Culture</span>
+                </div>
+              </div>
+              
+              <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                  <div class="w-16 h-16 rounded-full flex items-center justify-center bg-gradient-to-br from-[#046e93] to-[#1b3455] text-white text-xl font-bold">92%</div>
+                  <div class="ml-4">
+                    <p class="text-lg font-semibold">Overall Performance</p>
+                    <p class="text-sm text-gray-600">Excellent (85-100%)</p>
+                  </div>
+                </div>
+                <div class="space-x-2">
+                  <a href="/lecturer/teaching-performance" class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium hover:bg-blue-200">Teaching</a>
+                  <a href="/lecturer/research-performance" class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium hover:bg-blue-200">Research</a>
+                  <a href="/lecturer/academic-performance" class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium hover:bg-blue-200">Academic</a>
+                </div>
+              </div>
+            </div>
             <!-- Assigned Projects Table -->
             <div class="bg-white rounded-lg shadow-md p-6">
               <div class="flex justify-between items-center mb-6">
@@ -260,8 +305,8 @@ const pendingProjects = computed(() => {
 })
 
 const notifications = ref([
-  { id: 1, text: 'You have 2 projects pending review.' },
-  { id: 2, text: 'Student Emily Wong submitted a new report.' },
-  { id: 3, text: 'Reminder: Project review meeting on April 28.' },
+  { id: 1, text: 'You have 2 projects pending review.', time: '2 hours ago' },
+  { id: 2, text: 'Student Emily Wong submitted a new report.', time: 'Today' },
+  { id: 3, text: 'Reminder: Project review meeting on April 28.', time: 'Yesterday' },
 ])
 </script>

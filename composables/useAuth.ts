@@ -6,7 +6,10 @@ const DEAN_EMAILS = [
   '6531503174@lamduan.mfu.ac.th',
   '6531503176@lamduan.mfu.ac.th'
 ]
-const LECTURER_EMAIL = 'phyominthein.leo@gmail.com'
+const LECTURER_EMAILS = [
+  'phyominthein.leo@gmail.com',
+  'phyominthein.icloud@gmail.com'
+]
 
 export function useAuth() {
   const auth = getAuth()
@@ -19,7 +22,7 @@ export function useAuth() {
       const email = result.user.email
       if (email && DEAN_EMAILS.includes(email)) {
         router.push('/dean/dean')
-      } else if (email === LECTURER_EMAIL) {
+      } else if (email && LECTURER_EMAILS.includes(email)) {
         router.push('/lecturer/lecturer')
       } else {
         alert('Unauthorized email')
