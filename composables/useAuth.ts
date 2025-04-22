@@ -17,6 +17,8 @@ export function useAuth() {
 
   const signInWithGoogle = async () => {
     const provider = new GoogleAuthProvider()
+    provider.addScope('profile')
+    provider.addScope('email')
     try {
       const result = await signInWithPopup(auth, provider)
       const email = result.user.email

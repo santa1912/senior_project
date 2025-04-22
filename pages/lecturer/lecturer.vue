@@ -46,10 +46,10 @@
       <!-- User Profile at Bottom -->
       <div class="p-4 border-t border-[#035e80] flex items-center">
         <div class="w-10 h-10 rounded-full bg-white overflow-hidden mr-3">
-          <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="w-full h-full object-cover" />
+          <img :src="user?.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user?.displayName || 'User')" :alt="user?.displayName || 'User'" class="w-full h-full object-cover" />
         </div>
         <div>
-          <p class="text-sm font-medium">Phyo Min Thein</p>
+          <p class="text-sm font-medium">{{ user?.displayName || 'User' }}</p>
           <p class="text-xs text-[#7fc6de]">Lecturer</p>
         </div>
         <button @click="logout" class="ml-auto text-blue-300 hover:text-white">
@@ -131,7 +131,7 @@
             </div>
             <!-- Profile Image -->
             <div class="md:w-1/3 bg-blue-50 flex justify-center items-center p-6">
-              <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Phyo Min Thein" class="w-48 h-48 object-cover rounded-full border-4 border-white shadow-lg" />
+              <img :src="user?.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user?.displayName || 'User')" :alt="user?.displayName || 'User'" class="w-48 h-48 object-cover rounded-full border-4 border-white shadow-lg" />
             </div>
           </div>
         </div>
@@ -278,16 +278,9 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({ middleware: 'auth' })
-import { useRouter } from 'vue-router'
-import { getAuth, signOut } from 'firebase/auth'
+// Auth is handled by useFirebaseAuth composable
 import { ref, computed } from 'vue'
-const router = useRouter()
-const logout = async () => {
-  const auth = getAuth()
-  await signOut(auth)
-  router.push('/')
-}
+import { useFirebaseAuth } from '@/composables/useFirebaseAuth'
 
 // Mockup data
 const assignedProjects = ref([
@@ -297,7 +290,8 @@ const assignedProjects = ref([
   { id: 4, project: 'Inventory Tracker', student: 'Henry Lee', status: 'In Progress', due: '2025-05-10' },
 ])
 // UI state
-const showSidebar = ref(false)
+const showSidebar = ref(true)
+const { user, isLoading, logout } = useFirebaseAuth()
 
 // Computed properties
 const pendingProjects = computed(() => {

@@ -46,10 +46,10 @@
         <!-- User Profile at Bottom -->
         <div class="p-4 border-t border-[#035e80] flex items-center">
           <div class="w-10 h-10 rounded-full bg-white overflow-hidden mr-3">
-            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="w-full h-full object-cover" />
+            <img :src="user?.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user?.displayName || 'User')" :alt="user?.displayName || 'User'" class="w-full h-full object-cover" />
           </div>
           <div>
-            <p class="text-sm font-medium">Phyo Min Thein</p>
+            <p class="text-sm font-medium">{{ user?.displayName || 'User' }}</p>
             <p class="text-xs text-[#7fc6de]">Lecturer</p>
           </div>
           <button @click="logout" class="ml-auto text-blue-300 hover:text-white">
@@ -278,86 +278,71 @@
     </div>
   </template>
   
-  <script setup>
+  <script setup lang="ts">
   import { ref, onMounted } from 'vue'
-  import { getAuth, signOut } from 'firebase/auth'
-  import { useRouter } from 'vue-router'
   import Chart from 'chart.js/auto'
-  
-  const router = useRouter()
-  const academicServiceChart = ref(null)
+  import { useFirebaseAuth } from '@/composables/useFirebaseAuth'
+
+  const academicServiceChart = ref<HTMLCanvasElement | null>(null)
   const showMobileMenu = ref(false)
-  
+  const { user, logout } = useFirebaseAuth()
+
   const toggleMobileMenu = () => {
     showMobileMenu.value = !showMobileMenu.value
   }
-  
-  const logout = async () => {
-    const auth = getAuth()
-    try {
-      await signOut(auth)
-      router.push('/')
-    } catch (e) {
-      console.error('Logout failed', e)
-    }
-  }
-  
+
   onMounted(() => {
     // Create radar chart
-    const ctx = academicServiceChart.value.getContext('2d')
-    
-    new Chart(ctx, {
-      type: 'radar',
-      data: {
-        labels: [
-          'Academic Service to External Organizations', 
-          'Academic Service to University', 
-          'Community Service', 
-          'Professional Development',
-          'Mentorship',
-          'Consulting'
-        ],
-        datasets: [
-          {
-            label: 'Threshold',
-            data: [5, 5, 5, 5, 3, 2],
-            backgroundColor: 'rgba(4, 110, 147, 0.2)',
-            borderColor: 'rgba(4, 110, 147, 0.8)',
+    if (academicServiceChart.value) {
+      new Chart(academicServiceChart.value, {
+        type: 'radar',
+        data: {
+          labels: [
+            'Teaching',
+            'Research',
+            'Academic Service',
+            'Administration',
+            'Art and Culture',
+          ],
+          datasets: [{
+            label: 'Current Performance',
+            data: [80, 70, 75, 65, 60],
+            backgroundColor: 'rgba(37, 99, 235, 0.2)',
+            borderColor: '#2563eb',
             borderWidth: 2,
-            pointBackgroundColor: 'rgba(4, 110, 147, 1)',
+            pointBackgroundColor: '#2563eb',
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: '#2563eb'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            r: {
+              angleLines: {
+                color: '#e2e8f0'
+              },
+              grid: {
+                color: '#e2e8f0'
+              },
+              pointLabels: {
+                color: '#64748b'
+              },
+              ticks: {
+                backdropColor: 'transparent',
+                color: '#64748b'
+              }
+            }
           },
-          {
-            label: 'Earned',
-            data: [10, 5, 5, 3, 1, 1],
-            backgroundColor: 'rgba(234, 179, 8, 0.2)',
-            borderColor: 'rgba(234, 179, 8, 0.8)',
-            borderWidth: 2,
-            pointBackgroundColor: 'rgba(234, 179, 8, 1)',
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          r: {
-            angleLines: {
-              display: true,
-              color: 'rgba(0, 0, 0, 0.1)'
-            },
-            ticks: {
-              backdropColor: 'transparent',
-              showLabelBackdrop: false
+          plugins: {
+            legend: {
+              display: false
             }
           }
-        },
-        plugins: {
-          legend: {
-            position: 'bottom',
-          }
         }
-      }
-    })
+      })
+    }
   })
-  </script>
-  
+</script>

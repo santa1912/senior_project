@@ -46,10 +46,10 @@
         <!-- User Profile at Bottom -->
         <div class="p-4 border-t border-[#035e80] flex items-center">
           <div class="w-10 h-10 rounded-full bg-white overflow-hidden mr-3">
-            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="w-full h-full object-cover" />
+            <img :src="user?.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user?.displayName || 'User')" :alt="user?.displayName || 'User'" class="w-full h-full object-cover" />
           </div>
           <div>
-            <p class="text-sm font-medium">Phyo Min Thein</p>
+            <p class="text-sm font-medium">{{ user?.displayName || 'User' }}</p>
             <p class="text-xs text-[#7fc6de]">Lecturer</p>
           </div>
           <button @click="logout" class="ml-auto text-blue-300 hover:text-white">
@@ -270,71 +270,59 @@
     </div>
   </template>
   
-  <script setup>
+  <script setup lang="ts">
   import { ref, onMounted } from 'vue'
-  import { getAuth, signOut } from 'firebase/auth'
-  import { useRouter } from 'vue-router'
   import Chart from 'chart.js/auto'
-  
-  const router = useRouter()
-  const performanceChart = ref(null)
+  import { useFirebaseAuth } from '@/composables/useFirebaseAuth'
+
+  const performanceChart = ref<HTMLCanvasElement | null>(null)
   const showMobileMenu = ref(false)
-  
+  const { user, logout } = useFirebaseAuth()
+
   const toggleMobileMenu = () => {
     showMobileMenu.value = !showMobileMenu.value
   }
-  
-  const logout = async () => {
-    const auth = getAuth()
-    try {
-      await signOut(auth)
-      router.push('/')
-    } catch (e) {
-      console.error('Logout failed', e)
-    }
-  }
-  
+
   onMounted(() => {
     // Create doughnut chart
-    const ctx = performanceChart.value.getContext('2d')
-    
-    new Chart(ctx, {
-      type: 'doughnut',
-      data: {
-        labels: ['Teaching', 'Research', 'Academic Service', 'Administration', 'Art and Culture'],
-        datasets: [{
-          data: [60, 15, 10, 5, 3.75],
-          backgroundColor: [
-            '#2563eb', // blue
-            '#eab308', // yellow
-            '#14b8a6', // teal
-            '#9333ea', // purple
-            '#ec4899', // pink
-          ],
-          borderWidth: 0,
-          borderRadius: 5,
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        cutout: '70%',
-        plugins: {
-          legend: {
-            display: false
-          },
-          title: {
-            display: true,
-            text: 'Academic Performance',
-            position: 'center',
-            font: {
-              size: 16,
-              weight: 'bold'
+    if (performanceChart.value) {
+      new Chart(performanceChart.value, {
+        type: 'doughnut',
+        data: {
+          labels: ['Teaching', 'Research', 'Academic Service', 'Administration', 'Art and Culture'],
+          datasets: [{
+            data: [60, 15, 10, 5, 3.75],
+            backgroundColor: [
+              '#2563eb', // blue
+              '#eab308', // yellow
+              '#14b8a6', // teal
+              '#9333ea', // purple
+              '#ec4899', // pink
+            ],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '70%',
+          plugins: {
+            legend: {
+              display: false
+            },
+            title: {
+              display: true,
+              text: 'Academic Performance',
+              position: 'bottom' as const,
+              font: {
+                size: 16,
+                weight: 'bold'
+              }
             }
           }
         }
-      }
-    })
+      })
+    }
   })
   </script>
   

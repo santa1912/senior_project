@@ -46,10 +46,10 @@
         <!-- User Profile at Bottom -->
         <div class="p-4 border-t border-[#035e80] flex items-center">
           <div class="w-10 h-10 rounded-full bg-white overflow-hidden mr-3">
-            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="w-full h-full object-cover" />
+            <img :src="user?.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user?.displayName || 'User')" :alt="user?.displayName || 'User'" class="w-full h-full object-cover" />
           </div>
           <div>
-            <p class="text-sm font-medium">Phyo Min Thein</p>
+            <p class="text-sm font-medium">{{ user?.displayName || 'User' }}</p>
             <p class="text-xs text-[#7fc6de]">Lecturer</p>
           </div>
           <button @click="logout" class="ml-auto text-blue-300 hover:text-white">
@@ -225,95 +225,92 @@
               </div>
             </div>
           </div>
+
+          <!-- Navigation Links -->
+          <div class="mt-8 flex justify-between">
+            <NuxtLink to="/lecturer/kpi-overview" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-[#046e93] hover:bg-[#035475] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#046e93]">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+              </svg>
+              Back to KPI
+            </NuxtLink>
+            <NuxtLink to="/lecturer/research-performance" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-[#046e93] hover:bg-[#035475] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#046e93]">
+              Research Performance
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </NuxtLink>
+          </div>
         </div>
       </div>
     </div>
   </template>
   
-  <script setup>
+  <script setup lang="ts">
   import { ref, onMounted } from 'vue'
-  import { getAuth, signOut } from 'firebase/auth'
-  import { useRouter } from 'vue-router'
   import Chart from 'chart.js/auto'
-  
-  const router = useRouter()
-  const teachingChart = ref(null)
+  import { useFirebaseAuth } from '@/composables/useFirebaseAuth'
+
+  const teachingChart = ref<HTMLCanvasElement | null>(null)
   const showMobileMenu = ref(false)
-  
+  const { user, logout } = useFirebaseAuth()
+
   const toggleMobileMenu = () => {
     showMobileMenu.value = !showMobileMenu.value
   }
-  
-  const logout = async () => {
-    const auth = getAuth()
-    try {
-      await signOut(auth)
-      router.push('/')
-    } catch (e) {
-      console.error('Logout failed', e)
-    }
-  }
-  
+
   onMounted(() => {
-    // Create horizontal bar chart
-    const ctx = teachingChart.value.getContext('2d')
-    
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: [
-          'Undergraduate Teaching', 
-          'Graduate Teaching', 
-          'Student Internships', 
-          'Student Projects or Special Issues', 
-          'Thesis Oversight Duties', 
-          'Other Teaching Tasks Assigned by the Academic Office'
-        ],
-        datasets: [
-          {
-            label: 'Threshold',
-            data: [100, 40, 10, 10, 10, 5],
-            backgroundColor: '#1e3a8a',
-            barPercentage: 0.6,
-          },
-          {
-            label: 'Earned',
-            data: [151.5, 48.45, 4, 0, 0, 0],
-            backgroundColor: '#be185d',
-            barPercentage: 0.6,
-          }
-        ]
-      },
-      options: {
-        indexAxis: 'y',
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            position: 'bottom',
-          },
-          title: {
-            display: false,
-          }
+    // Create bar chart
+    if (teachingChart.value) {
+      new Chart(teachingChart.value, {
+        type: 'bar',
+        data: {
+          labels: [
+            'Teaching Quality',
+            'Student Feedback',
+            'Course Development',
+            'Teaching Innovation',
+            'Student Support',
+          ],
+          datasets: [{
+            label: 'Teaching Performance',
+            data: [85, 90, 75, 80, 85],
+            backgroundColor: '#2563eb',
+            borderWidth: 0,
+            borderRadius: 4,
+          }]
         },
-        scales: {
-          x: {
-            title: {
-              display: true,
-              text: 'Raw Score'
+        options: {
+          indexAxis: 'y' as const,
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: {
+              beginAtZero: true,
+              max: 100,
+              grid: {
+                display: false
+              },
+              ticks: {
+                color: '#64748b'
+              }
             },
-            grid: {
-              display: true
+            y: {
+              grid: {
+                display: false
+              },
+              ticks: {
+                color: '#64748b'
+              }
             }
           },
-          y: {
-            grid: {
+          plugins: {
+            legend: {
               display: false
             }
           }
         }
-      }
-    })
+      })
+    }
   })
   </script>
-  

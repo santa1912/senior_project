@@ -46,10 +46,10 @@
         <!-- User Profile at Bottom -->
         <div class="p-4 border-t border-[#035e80] flex items-center">
           <div class="w-10 h-10 rounded-full bg-white overflow-hidden mr-3">
-            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="w-full h-full object-cover" />
+            <img :src="user?.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user?.displayName || 'User')" :alt="user?.displayName || 'User'" class="w-full h-full object-cover" />
           </div>
           <div>
-            <p class="text-sm font-medium">Phyo Min Thein</p>
+            <p class="text-sm font-medium">{{ user?.displayName || 'User' }}</p>
             <p class="text-xs text-[#7fc6de]">Lecturer</p>
           </div>
           <button @click="logout" class="ml-auto text-blue-300 hover:text-white">
@@ -214,91 +214,68 @@
     </div>
   </template>
   
-  <script setup>
+  <script setup lang="ts">
   import { ref, onMounted } from 'vue'
-  import { getAuth, signOut } from 'firebase/auth'
-  import { useRouter } from 'vue-router'
   import Chart from 'chart.js/auto'
-  
-  const router = useRouter()
-  const researchChart = ref(null)
+  import { useFirebaseAuth } from '@/composables/useFirebaseAuth'
+
+  const researchChart = ref<HTMLCanvasElement | null>(null)
   const showMobileMenu = ref(false)
-  
+  const { user, logout } = useFirebaseAuth()
+
   const toggleMobileMenu = () => {
     showMobileMenu.value = !showMobileMenu.value
   }
-  
-  const logout = async () => {
-    const auth = getAuth()
-    try {
-      await signOut(auth)
-      router.push('/')
-    } catch (e) {
-      console.error('Logout failed', e)
-    }
-  }
-  
+
   onMounted(() => {
     // Create horizontal bar chart
-    const ctx = researchChart.value.getContext('2d')
-    
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: [
-          'Research Studies', 
-          'Research Publication', 
-          'Academic Articles', 
-          'Composition of textbooks, Books, and Interactive e-Learning Materials', 
-          'Patented Inventions',
-          'Other Academic Work',
-          'Other Academic Work assigned by the School'
-        ],
-        datasets: [
-          {
-            label: 'Threshold',
-            data: [5, 10, 5, 3, 1, 0.5, 0.5],
-            backgroundColor: '#1e3a8a',
-            barPercentage: 0.6,
-          },
-          {
-            label: 'Earned',
-            data: [5, 85, 0, 5, 0, 0, 0],
-            backgroundColor: '#f97316',
-            barPercentage: 0.6,
-          }
-        ]
-      },
-      options: {
-        indexAxis: 'y',
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            position: 'bottom',
-          },
-          title: {
-            display: false,
-          }
+    if (researchChart.value) {
+      new Chart(researchChart.value, {
+        type: 'bar',
+        data: {
+          labels: [
+            'Research Studies', 
+            'Research Publication', 
+          ],
+          datasets: [{
+            label: 'Research Performance',
+            data: [85, 70],
+            backgroundColor: '#2563eb',
+            borderWidth: 0,
+            borderRadius: 4,
+          }]
         },
-        scales: {
-          x: {
-            title: {
-              display: true,
-              text: 'Raw Score'
+        options: {
+          indexAxis: 'y' as const,
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: {
+              beginAtZero: true,
+              max: 100,
+              grid: {
+                display: false
+              },
+              ticks: {
+                color: '#64748b'
+              }
             },
-            grid: {
-              display: true
+            y: {
+              grid: {
+                display: false
+              },
+              ticks: {
+                color: '#64748b'
+              }
             }
           },
-          y: {
-            grid: {
+          plugins: {
+            legend: {
               display: false
             }
           }
         }
-      }
     })
-  })
-  </script>
-  
+  }
+})
+</script>
