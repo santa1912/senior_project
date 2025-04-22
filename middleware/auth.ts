@@ -1,5 +1,6 @@
 import { defineNuxtRouteMiddleware, useRouter } from '#app'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import type { User } from 'firebase/auth'
 
 const DEAN_EMAILS = [
   '6531503172@lamduan.mfu.ac.th',
@@ -13,11 +14,19 @@ const LECTURER_EMAILS = [
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
   const auth = getAuth()
-  const user = auth.currentUser
-  // Wait for auth state if not loaded
+  
+  // Wait for Firebase to initialize and get auth state
+  const user = await new Promise<User | null>((resolve) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      unsubscribe()
+      resolve(user)
+    })
+  })
+
   if (!user) {
     return navigateTo('/')
   }
+
   const email = user.email
   if (to.path.startsWith('/dean/') && (!email || !DEAN_EMAILS.includes(email))) {
     return navigateTo('/')
