@@ -1,10 +1,11 @@
 <template>
   <div class="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
+    <div class="fixed inset-0 -z-10 bg-[radial-gradient(45rem_50rem_at_top,theme(colors.indigo.100),white)] opacity-20"></div>
     <!-- Header/Navigation -->
     <nav class="bg-white shadow-md">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-20">
-          <div class="flex items-center">
+          <div class="flex items-center" :class="{ 'animate__animated animate__fadeInLeft': isLoaded }">
             <img src="/mfu-logo.png" alt="MFU Logo" class="h-10 w-auto" />
             <div class="ml-3">
               <span class="text-xl font-bold text-[#046e93]">SOM</span>
@@ -31,14 +32,14 @@
       
       <div class="max-w-7xl mx-auto pt-20 pb-16 px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center">
-          <h1 class="text-5xl tracking-tight font-extrabold text-gray-900 sm:text-6xl md:text-7xl">
+          <h1 class="text-5xl tracking-tight font-extrabold text-gray-900 sm:text-6xl md:text-7xl" :class="{ 'animate__animated animate__fadeInUp': isLoaded }">
             <span class="block">Business Intelligence</span>
             <span class="block bg-clip-text text-transparent bg-gradient-to-r from-[#046e93] to-[#03799f]">Management System</span>
           </h1>
-          <p class="mt-6 max-w-md mx-auto text-base text-gray-600 sm:text-lg md:mt-8 md:text-xl md:max-w-3xl">
+          <p class="mt-6 max-w-md mx-auto text-base text-gray-600 sm:text-lg md:mt-8 md:text-xl md:max-w-3xl" :class="{ 'animate__animated animate__fadeIn animate__delay-1s': isLoaded }">
             Streamline your senior project journey with our comprehensive management platform designed for the School of Management Business Intelligence program.
           </p>
-          <div class="mt-10">
+          <div class="mt-10" :class="{ 'animate__animated animate__fadeInUp animate__delay-1s': isLoaded }">
             <button @click="signInWithGoogle" class="px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gradient-to-r from-[#046e93] to-[#035475] hover:from-[#035e80] hover:to-[#024a64] md:py-4 md:text-lg md:px-10 shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
               Get Started
             </button>
@@ -55,9 +56,10 @@
           <p class="mt-4 text-xl text-gray-600 max-w-2xl mx-auto">Our platform provides everything you need to manage your business intelligence projects effectively.</p>
         </div>
         
-        <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3" :class="{ 'animate__animated animate__fadeInUp animate__delay-2s': isLoaded }">
           <!-- Feature 1 -->
-          <div class="relative p-8 bg-white rounded-xl shadow-md border border-gray-100 hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+          <div class="group relative p-8 bg-white rounded-xl shadow-md border border-gray-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-r from-[#046e93]/5 to-[#035475]/5 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
             <div class="rounded-full p-3 bg-[#eaf4f8] inline-block mb-4">
               <DocumentTextIcon class="h-7 w-7 text-[#046e93]" />
             </div>
@@ -68,7 +70,8 @@
           </div>
 
           <!-- Feature 2 -->
-          <div class="relative p-8 bg-white rounded-xl shadow-md border border-gray-100 hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+          <div class="group relative p-8 bg-white rounded-xl shadow-md border border-gray-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-r from-[#046e93]/5 to-[#035475]/5 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
             <div class="rounded-full p-3 bg-[#eaf4f8] inline-block mb-4">
               <UserGroupIcon class="h-7 w-7 text-[#046e93]" />
             </div>
@@ -79,7 +82,8 @@
           </div>
 
           <!-- Feature 3 -->
-          <div class="relative p-8 bg-white rounded-xl shadow-md border border-gray-100 hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+          <div class="group relative p-8 bg-white rounded-xl shadow-md border border-gray-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-r from-[#046e93]/5 to-[#035475]/5 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
             <div class="rounded-full p-3 bg-[#eaf4f8] inline-block mb-4">
               <ChartBarIcon class="h-7 w-7 text-[#046e93]" />
             </div>
@@ -107,7 +111,6 @@
             <p class="text-sm">
               © {{ new Date().getFullYear() }} All rights reserved.
             </p>
-            <p class="text-xs text-[#a5d8e9] mt-2">Designed with ❤️ for MFU</p>
           </div>
         </div>
       </div>
@@ -118,6 +121,13 @@
 <script setup>
 import { DocumentTextIcon, UserGroupIcon, ChartBarIcon } from '@heroicons/vue/24/outline'
 import { useFirebaseAuth } from '@/composables/useFirebaseAuth'
+import 'animate.css'
+import { onMounted, ref } from 'vue'
 
 const { signInWithGoogle } = useFirebaseAuth()
+const isLoaded = ref(false)
+
+onMounted(() => {
+  isLoaded.value = true
+})
 </script>

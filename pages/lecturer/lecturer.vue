@@ -139,53 +139,87 @@
       </div>
 
       <!-- Overview Banner -->
-      <div class="relative bg-gradient-to-r from-[#046e93] via-[#035e80] to-[#1b3455] h-64 overflow-hidden">
+      <div class="relative bg-gradient-to-r from-[#046e93] via-[#035e80] to-[#1b3455] h-72 overflow-hidden transition-all duration-500 ease-in-out hover:h-80">
         <div class="absolute inset-0 bg-[#1b3455] bg-opacity-30">
-          <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle, rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(45deg, rgba(255,255,255,0.05) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.05) 75%, transparent 75%); background-size: 20px 20px, 40px 40px;"></div>
+          <div class="absolute inset-0 opacity-20 animate-pulse" style="background-image: radial-gradient(circle, rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(45deg, rgba(255,255,255,0.05) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.05) 75%, transparent 75%); background-size: 20px 20px, 40px 40px;"></div>
         </div>
-        <div class="relative z-10 h-full flex flex-col justify-center px-8">
-          <h1 class="text-5xl font-bold text-white mb-2">Overview</h1>
-          <p class="text-blue-100 text-xl">Welcome back, Phyo Min Thein</p>
+        <div class="relative z-10 h-full flex flex-col justify-center px-8 max-w-7xl mx-auto">
+          <span class="text-blue-200 text-sm tracking-wider mb-1 opacity-90">DASHBOARD</span>
+          <h1 class="text-5xl font-bold text-white mb-3 tracking-tight">Welcome back, <span class="text-blue-200">{{ user?.displayName || 'User' }}</span></h1>
+          <p class="text-blue-100 text-xl opacity-90">Here's what's happening with your academic activities today.</p>
         </div>
+        <div class="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black/10 to-transparent"></div>
       </div>
 
       <!-- Content Area -->
       <div class="px-8 py-6">
         <!-- Profile Section -->
-        <div class="bg-white rounded-lg shadow-md overflow-hidden mb-8">
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8 transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
           <div class="flex flex-col md:flex-row">
             <!-- Profile Info -->
-            <div class="md:w-2/3 p-6">
-              <div class="flex items-center mb-6">
-                <h2 class="text-2xl font-bold text-gray-800">Phyo Min Thein</h2>
-                <span class="ml-4 px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">Computer Science Program</span>
+            <div class="md:w-2/3 p-8">
+              <div class="flex flex-wrap items-center gap-4 mb-6">
+                <h2 class="text-3xl font-bold text-gray-800">{{ user?.displayName || 'User' }}</h2>
+                <div class="flex gap-2">
+                  <span class="px-4 py-1.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-sm rounded-full font-medium shadow-sm">Computer Science Program</span>
+                  <span class="px-4 py-1.5 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white text-sm rounded-full font-medium shadow-sm">Senior Lecturer</span>
+                </div>
               </div>
               
               <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                  <span class="text-gray-600">phyominthein.leo@gmail.com</span>
+                <div class="group p-4 bg-gray-50 rounded-lg transition-all duration-300 hover:bg-blue-50 hover:shadow-md cursor-pointer">
+                  <div class="flex items-start">
+                    <div class="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors duration-300">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                    <div class="ml-3 min-w-0">
+                      <p class="text-sm text-gray-500 mb-1">Email</p>
+                      <span class="text-gray-900 font-medium break-all">{{ user?.email }}</span>
+                    </div>
+                  </div>
                 </div>
-                <div class="flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                  </svg>
-                  <span class="text-gray-600">053-916789</span>
+                <div class="group p-4 bg-gray-50 rounded-lg transition-all duration-300 hover:bg-blue-50 hover:shadow-md cursor-pointer">
+                  <div class="flex items-start">
+                    <div class="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors duration-300">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                      </svg>
+                    </div>
+                    <div class="ml-3 min-w-0">
+                      <p class="text-sm text-gray-500 mb-1">Phone</p>
+                      <span class="text-gray-900 font-medium">053-916789</span>
+                    </div>
+                  </div>
                 </div>
-                <div class="flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  <span class="text-gray-600">E1-Floor 2, School of Management</span>
+                <div class="group p-4 bg-gray-50 rounded-lg transition-all duration-300 hover:bg-blue-50 hover:shadow-md cursor-pointer">
+                  <div class="flex items-start">
+                    <div class="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors duration-300">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                    </div>
+                    <div class="ml-3 min-w-0">
+                      <p class="text-sm text-gray-500 mb-1">Office</p>
+                      <span class="text-gray-900 font-medium">E1-Floor 2, School of Management</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
             <!-- Profile Image -->
-            <div class="md:w-1/3 bg-blue-50 flex justify-center items-center p-6">
-              <img :src="user?.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user?.displayName || 'User')" :alt="user?.displayName || 'User'" class="w-48 h-48 object-cover rounded-full border-4 border-white shadow-lg" />
+            <div class="md:w-1/3 bg-gradient-to-br from-blue-50 to-blue-100 flex justify-center items-center p-8 relative overflow-hidden">
+              <div class="absolute inset-0 opacity-30" style="background-image: radial-gradient(circle at 30% 107%, rgba(4, 110, 147, 0.05) 0%, rgba(27, 52, 85, 0.05) 5%, rgba(4, 110, 147, 0.05) 45%, rgba(27, 52, 85, 0.05) 100%);"></div>
+              <div class="relative">
+                <div class="w-48 h-48 rounded-full bg-gradient-to-r from-blue-200 to-blue-300 absolute blur-2xl opacity-50 animate-pulse"></div>
+                <img 
+                  :src="user?.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user?.displayName || 'User')" 
+                  :alt="user?.displayName || 'User'" 
+                  class="w-48 h-48 object-cover rounded-full border-4 border-white shadow-xl relative z-10 transition-transform duration-300 hover:scale-105" 
+                />
+              </div>
             </div>
           </div>
         </div>
