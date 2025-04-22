@@ -1,7 +1,11 @@
 import { defineNuxtRouteMiddleware, useRouter } from '#app'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
-const DEAN_EMAIL = '6531503172@lamduan.mfu.ac.th'
+const DEAN_EMAILS = [
+  '6531503172@lamduan.mfu.ac.th',
+  '6531503174@lamduan.mfu.ac.th',
+  '6531503176@lamduan.mfu.ac.th'
+]
 const LECTURER_EMAIL = 'phyominthein.leo@gmail.com'
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
@@ -12,7 +16,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     return navigateTo('/')
   }
   const email = user.email
-  if (to.path.startsWith('/dean/') && email !== DEAN_EMAIL) {
+  if (to.path.startsWith('/dean/') && (!email || !DEAN_EMAILS.includes(email))) {
     return navigateTo('/')
   }
   if (to.path.startsWith('/lecturer/') && email !== LECTURER_EMAIL) {

@@ -1,7 +1,11 @@
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth'
 import { useRouter } from 'vue-router'
 
-const DEAN_EMAIL = '6531503172@lamduan.mfu.ac.th'
+const DEAN_EMAILS = [
+  '6531503172@lamduan.mfu.ac.th',
+  '6531503174@lamduan.mfu.ac.th',
+  '6531503176@lamduan.mfu.ac.th'
+]
 const LECTURER_EMAIL = 'phyominthein.leo@gmail.com'
 
 export function useAuth() {
@@ -13,7 +17,7 @@ export function useAuth() {
     try {
       const result = await signInWithPopup(auth, provider)
       const email = result.user.email
-      if (email === DEAN_EMAIL) {
+      if (email && DEAN_EMAILS.includes(email)) {
         router.push('/dean/dean')
       } else if (email === LECTURER_EMAIL) {
         router.push('/lecturer/lecturer')
