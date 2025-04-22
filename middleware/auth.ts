@@ -1,18 +1,21 @@
-export default defineNuxtRouteMiddleware(async (to) => {
-  const { user, loading } = useFirebaseAuth()
-  
-  // Wait for auth to initialize
-  if (loading.value) {
-    return
+import { defineNuxtRouteMiddleware, useRouter } from '#app'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+
+const DEAN_EMAIL = '6531503172@lamduan.mfu.ac.th'
+const LECTURER_EMAIL = 'phyominthein.leo@gmail.com'
+
+export default defineNuxtRouteMiddleware(async (to, from) => {
+  const auth = getAuth()
+  const user = auth.currentUser
+  // Wait for auth state if not loaded
+  if (!user) {
+    return navigateTo('/')
   }
-  
-  // If user is not authenticated and trying to access protected route
-  if (!user.value && to.path.startsWith('/lecturer')) {
-    return navigateTo('/login')
+  const email = user.email
+  if (to.path.startsWith('/dean/') && email !== DEAN_EMAIL) {
+    return navigateTo('/')
   }
-  
-  // If user is authenticated and trying to access login page
-  if (user.value && to.path === '/login') {
-    return navigateTo('/lecturer/dashboard')
+  if (to.path.startsWith('/lecturer/') && email !== LECTURER_EMAIL) {
+    return navigateTo('/')
   }
 })
