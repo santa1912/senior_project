@@ -9,8 +9,8 @@
             <img src="/mfu-logo.png" alt="MFU Logo" class="h-10 w-10" />
           </div>
           <div>
-            <h2 class="text-xl font-bold text-white">SoM.BI</h2>
-            <p class="text-xs text-blue-300">School of Management</p>
+            <h1 class="text-xl font-bold">SoM.BI</h1>
+            <p class="text-xs">School of Management</p>
           </div>
         </div>
       </div>
@@ -18,39 +18,39 @@
       <nav class="flex-1 px-4 py-6">
         <ul class="space-y-1">
           <li>
-            <a href="#" class="flex items-center px-4 py-3 text-white bg-[#035e80] rounded-md">
+            <NuxtLink to="/dean/dean" class="flex items-center px-4 py-3 text-white bg-[#035e80] rounded-md">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
               Profile
-            </a>
+            </NuxtLink>
           </li>
           <li>
-            <a href="#" class="flex items-center px-4 py-3 text-white hover:bg-[#035e80] rounded-md transition-colors">
+            <NuxtLink to="/dean/kpi-overview" class="flex items-center px-4 py-3 text-white hover:bg-[#035e80] rounded-md transition-colors">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
               </svg>
               KPI
-            </a>
+            </NuxtLink>
           </li>
           <li>
-            <a href="#" class="flex items-center px-4 py-3 text-white hover:bg-[#035e80] rounded-md transition-colors">
+            <NuxtLink to="#" class="flex items-center px-4 py-3 text-white hover:bg-[#035e80] rounded-md transition-colors">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               Budget
-            </a>
+            </NuxtLink>
           </li>
         </ul>
       </nav>
       <!-- User Profile at Bottom -->
       <div class="p-4 border-t border-[#035e80] flex items-center">
         <div class="w-10 h-10 rounded-full bg-white overflow-hidden mr-3">
-          <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" class="w-full h-full object-cover" />
+          <img :src="user?.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user?.displayName || 'User')" :alt="user?.displayName || 'User'" class="w-full h-full object-cover" />
         </div>
         <div>
-          <p class="text-sm font-medium">Dr. Supansa Chaising</p>
-          <p class="text-xs text-[#7fc6de]">Lecturer</p>
+          <p class="text-sm font-medium">{{ user?.displayName || 'User' }}</p>
+          <p class="text-xs text-[#7fc6de]">Dean</p>
         </div>
         <button @click="logout" class="ml-auto text-blue-300 hover:text-white">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -123,35 +123,52 @@
             <!-- Profile Info -->
             <div class="md:w-2/3 p-6">
               <div class="flex items-center mb-6">
-                <h2 class="text-2xl font-bold text-gray-800">Dr. Supansa Chaising (SA)</h2>
+                <h2 class="text-2xl font-bold text-gray-800">{{ user?.displayName || 'User' }}</h2>
                 <span class="ml-4 px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">Accounting Program</span>
               </div>
               
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="flex items-center bg-gray-50 rounded-lg p-3 hover:bg-gray-100 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
-                  <span class="text-gray-600">supansa.cha@mfu.ac.th</span>
+                  <div>
+                    <div class="text-xs text-gray-500 font-medium">Email</div>
+                    <div class="text-sm text-gray-700">{{ user?.email || 'No email available' }}</div>
+                  </div>
                 </div>
-                <div class="flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div class="flex items-center bg-gray-50 rounded-lg p-3 hover:bg-gray-100 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                   </svg>
-                  <span class="text-gray-600">053-916703</span>
+                  <div>
+                    <div class="text-xs text-gray-500 font-medium">Phone</div>
+                    <div class="text-sm text-gray-700">{{ user?.phoneNumber || 'No phone available' }}</div>
+                  </div>
                 </div>
-                <div class="flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  <span class="text-gray-600">E1-Floor 3, School of Management</span>
+              </div>
+              <div class="flex items-center mt-6">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <div>
+                  <div class="text-xs text-gray-500 font-medium">Location</div>
+                  <div class="text-sm text-gray-700">Mae Fah Luang University</div>
                 </div>
               </div>
             </div>
             <!-- Profile Image -->
             <div class="md:w-1/3 bg-blue-50 flex justify-center items-center p-6">
-              <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Dr. Supansa" class="w-48 h-48 object-cover rounded-full border-4 border-white shadow-lg" />
+              <div class="relative w-48 h-48">
+                <img 
+                  :src="user?.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.displayName || 'User')}&size=384&background=e3f2fd&color=1e88e5`" 
+                  :alt="user?.displayName || 'User'" 
+                  class="w-full h-full object-cover rounded-full border-4 border-white shadow-lg ring-2 ring-blue-100 ring-offset-2"
+                  loading="eager"
+                  referrerpolicy="no-referrer"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -223,8 +240,8 @@
                   </div>
                 </div>
                 <div class="bg-gray-50 p-3 flex items-center">
-                  <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Dr. Supansa" class="w-8 h-8 rounded-full mr-2" />
-                  <span class="text-sm font-medium">Dr. Supansa Chaising</span>
+                  <img :src="user?.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user?.displayName || 'User')" :alt="user?.displayName || 'User'" class="w-8 h-8 rounded-full mr-2" />
+                  <span class="text-sm font-medium">{{ user?.displayName || 'User' }}</span>
                 </div>
               </div>
 
@@ -238,8 +255,8 @@
                   </div>
                 </div>
                 <div class="bg-gray-50 p-3 flex items-center">
-                  <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Dr. Supansa" class="w-8 h-8 rounded-full mr-2" />
-                  <span class="text-sm font-medium">Dr. Supansa Chaising</span>
+                  <img :src="user?.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user?.displayName || 'User')" :alt="user?.displayName || 'User'" class="w-8 h-8 rounded-full mr-2" />
+                  <span class="text-sm font-medium">{{ user?.displayName || 'User' }}</span>
                 </div>
               </div>
 
@@ -253,8 +270,8 @@
                   </div>
                 </div>
                 <div class="bg-gray-50 p-3 flex items-center">
-                  <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Dr. Supansa" class="w-8 h-8 rounded-full mr-2" />
-                  <span class="text-sm font-medium">Dr. Supansa Chaising</span>
+                  <img :src="user?.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user?.displayName || 'User')" :alt="user?.displayName || 'User'" class="w-8 h-8 rounded-full mr-2" />
+                  <span class="text-sm font-medium">{{ user?.displayName || 'User' }}</span>
                 </div>
               </div>
             </div>
@@ -266,16 +283,11 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({ middleware: 'auth' })
-import { useRouter } from 'vue-router'
-import { getAuth, signOut } from 'firebase/auth'
 import { ref } from 'vue'
-const router = useRouter()
-const logout = async () => {
-  const auth = getAuth()
-  await signOut(auth)
-  router.push('/')
-}
+import { useFirebaseAuth } from '@/composables/useFirebaseAuth'
+
+const { user, logout } = useFirebaseAuth()
+
 // UI state
 const showSidebar = ref(false)
 

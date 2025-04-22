@@ -117,23 +117,7 @@
 
 <script setup>
 import { DocumentTextIcon, UserGroupIcon, ChartBarIcon } from '@heroicons/vue/24/outline'
-import { useAuth } from '@/composables/useAuth'
-import { useRouter } from 'vue-router'
-import { onMounted } from 'vue'
+import { useFirebaseAuth } from '@/composables/useFirebaseAuth'
 
-const { signInWithGoogle } = useAuth()
-const router = useRouter()
-
-// Optional: If already signed in, redirect to dashboard
-onMounted(() => {
-  const auth = window.$nuxt?.$firebase?.auth || undefined
-  if (auth && auth.currentUser) {
-    const email = auth.currentUser.email
-    if (email === '6531503172@lamduan.mfu.ac.th') {
-      router.push('/dean')
-    } else if (email === 'phyominthein.leo@gmail.com') {
-      router.push('/lecturer')
-    }
-  }
-})
+const { signInWithGoogle } = useFirebaseAuth()
 </script>
