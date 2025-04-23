@@ -2,6 +2,36 @@ import { ref, onMounted } from 'vue'
 import { getAuth, onAuthStateChanged, signOut, type User, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import { useRouter } from 'vue-router'
 
+// Define user roles type
+type UserRole = 'dean' | 'lecturer'
+
+// Define authorized users with proper typing
+const AUTHORIZED_USERS = {
+  dean: ['6531503172@lamduan.mfu.ac.th', '6531503174@lamduan.mfu.ac.th', '6531503176@lamduan.mfu.ac.th'],
+  lecturer: ['phyominthein.leo@gmail.com', 'phyominthein.icloud@gmail.com']
+} as const
+
+// Define paths type based on roles
+const REDIRECT_PATHS: Record<UserRole, string> = {
+  dean: '/dean/dean',
+  lecturer: '/lecturer/lecturer'
+}
+
+// User role check functions
+const checkUserRole = (email: string): UserRole | null => {
+  // Type assertion to handle the const assertion of AUTHORIZED_USERS
+  const deanEmails = AUTHORIZED_USERS.dean as readonly string[]
+  const lecturerEmails = AUTHORIZED_USERS.lecturer as readonly string[]
+
+  if (deanEmails.includes(email)) return 'dean'
+  if (lecturerEmails.includes(email)) return 'lecturer'
+  return null
+}
+
+const getRedirectPath = (role: UserRole): string => {
+  return REDIRECT_PATHS[role] || '/'
+}
+
 const user = ref<User | null>(null)
 const isLoading = ref(true)
 
@@ -27,12 +57,11 @@ export function useFirebaseAuth() {
 
       // Check user role and redirect if needed
       const currentPath = router.currentRoute.value.path
-      const isDean = ['6531503172@lamduan.mfu.ac.th', '6531503174@lamduan.mfu.ac.th', '6531503176@lamduan.mfu.ac.th'].includes(email)
-      const isLecturer = ['phyominthein.leo@gmail.com', 'phyominthein.icloud@gmail.com'].includes(email)
+      const userRole = checkUserRole(email)
 
-      if (currentPath.startsWith('/dean/') && !isDean) {
+      if (currentPath.startsWith('/dean/') && userRole !== 'dean') {
         router.push('/')
-      } else if (currentPath.startsWith('/lecturer/') && !isLecturer) {
+      } else if (currentPath.startsWith('/lecturer/') && userRole !== 'lecturer') {
         router.push('/')
       }
     })
@@ -63,13 +92,9 @@ export function useFirebaseAuth() {
         return
       }
 
-      const isDean = ['6531503172@lamduan.mfu.ac.th', '6531503174@lamduan.mfu.ac.th', '6531503176@lamduan.mfu.ac.th'].includes(email)
-      const isLecturer = ['phyominthein.leo@gmail.com', 'phyominthein.icloud@gmail.com'].includes(email)
-
-      if (isDean) {
-        router.push('/dean/dean')
-      } else if (isLecturer) {
-        router.push('/lecturer/lecturer')
+      const userRole = checkUserRole(email)
+      if (userRole) {
+        router.push(getRedirectPath(userRole))
       } else {
         alert('Unauthorized email')
         await signOut(auth)
