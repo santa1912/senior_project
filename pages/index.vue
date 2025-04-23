@@ -6,10 +6,12 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-20">
           <div class="flex items-center" :class="{ 'animate__animated animate__fadeInLeft': isLoaded }">
-            <img src="/mfu-logo.png" alt="MFU Logo" class="h-10 w-auto" />
-            <div class="ml-3">
-              <span class="text-xl font-bold text-[#046e93]">SOM</span>
-              <span class="text-xl font-medium text-gray-700"> Business Intelligence</span>
+            <mfulogo/>
+            <div class="w-0.5 h-10 bg-[#035e80] mx-3"></div>
+            <div>
+              <h2 class="text-xl font-bold text-gray-700 mb-1">SoM.BI</h2>
+              <div class="w-full h-0.5 bg-[#035e80] mb-1"></div>
+              <p class="text-xs text-gray-600">School of Management</p>
             </div>
           </div>
           <div class="flex items-center">

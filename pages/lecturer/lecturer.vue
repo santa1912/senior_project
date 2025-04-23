@@ -3,14 +3,17 @@
     <!-- Sidebar -->
     <aside class="w-64 bg-gradient-to-br from-[#046e93] via-[#035e80] to-[#1b3455] text-white flex-col sticky top-0 h-screen hidden md:flex">
       <!-- Logo Section -->
-      <div class="p-6 border-b border-[#035e80]">
-        <div class="flex items-center">
-          <div class="mr-3">
-            <img src="/mfu-logo.png" alt="MFU Logo" class="h-10 w-10" />
-          </div>
+      <div class="px-8 py-6 border-b border-[#035e80]">
+        <div class="flex items-center justify-center">
+          <!-- <div class="mr-2"> -->
+            <mfulogo/>
+            <!-- <img src="/mfu-logo.png" alt="MFU Logo" class="h-14 w-auto object-contain" /> -->
+          <!-- </div> -->
+          <div class="w-0.5 h-10 bg-[#035e80] mx-3"></div>
           <div>
-            <h2 class="text-xl font-bold text-white">SoM.BI</h2>
-            <p class="text-xs text-blue-300">School of Management</p>
+            <h2 class="text-xl font-bold text-white mb-1">SoM.BI</h2>
+            <div class="w-full h-0.5 bg-[#035e80] mb-1"></div>
+            <p class="text-xs text-white">School of Management</p>
           </div>
         </div>
       </div>
@@ -63,11 +66,10 @@
     <!-- Mobile Sidebar (optional) -->
     <aside class="fixed inset-y-0 left-0 bg-gradient-to-br from-[#046e93] via-[#035e80] to-[#1b3455] shadow-xl w-64 z-40 flex flex-col md:hidden" v-if="showSidebar">
       <!-- Logo Section -->
-      <div class="p-6 border-b border-[#035e80]">
-        <div class="flex items-center">
-          <div class="mr-3">
-            <img src="/mfu-logo.png" alt="MFU Logo" class="h-10 w-10" />
-          </div>
+      <div class="px-8 py-6 border-b border-[#035e80]">
+        <div class="flex items-center justify-center">
+          <mfulogo/>
+          <div class="w-px h-10 bg-[#035e80] mx-4"></div>
           <div>
             <h2 class="text-xl font-bold text-white">SoM.BI</h2>
             <p class="text-xs text-blue-300">School of Management</p>

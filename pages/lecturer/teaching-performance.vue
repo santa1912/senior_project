@@ -3,13 +3,16 @@
       <!-- Sidebar - Same as lecturer.vue -->
       <aside class="w-64 bg-gradient-to-br from-[#046e93] via-[#035e80] to-[#1b3455] text-white flex-col sticky top-0 h-screen hidden md:flex">
         <!-- Logo Section -->
-        <div class="p-6 border-b border-[#035e80]">
-          <div class="flex items-center">
-            <div class="mr-3">
-              <img src="/mfu-logo.png" alt="MFU Logo" class="h-10 w-10" />
-            </div>
+        <div class="px-8 py-6 border-b border-[#035e80]">
+          <div class="flex items-center justify-center">
+            <!-- <div class="mr-2">
+              <img src="/mfu-logo.png" alt="MFU Logo" class="h-14 w-auto object-contain" />
+            </div> -->
+            <mfulogo/>
+            <div class="w-0.5 h-10 bg-[#035e80] mx-3"></div>
             <div>
-              <h1 class="text-xl font-bold">SoM.BI</h1>
+              <h1 class="text-xl font-bold mb-1">SoM.BI</h1>
+              <div class="w-full h-0.5 bg-[#035e80] mb-1"></div>
               <p class="text-xs">School of Management</p>
             </div>
           </div>
@@ -65,7 +68,7 @@
         <!-- Mobile Header -->
         <div class="md:hidden bg-white shadow-sm p-4 flex items-center justify-between">
           <div class="flex items-center">
-            <img src="/mfu-logo.png" alt="MFU Logo" class="h-8 w-8 mr-2" />
+            <img src="/mfu-logo.png" alt="MFU Logo" class="h-12 w-auto object-contain mr-2" />
             <h1 class="text-lg font-bold">SoM.BI</h1>
           </div>
           <button @click="toggleMobileMenu" class="text-gray-500">
