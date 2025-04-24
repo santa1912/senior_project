@@ -99,6 +99,10 @@
 import { ref } from 'vue'
 import { useFirebaseAuth } from '@/composables/useFirebaseAuth'
 
+definePageMeta({
+  layout: 'lecturer'
+})
+
 // Mockup data
 const assignedProjects = ref([
   { id: 1, project: 'Sentiment Analysis Tool', student: 'Emily Wong', status: 'Pending Review', due: '2025-04-25' },
@@ -114,10 +118,4 @@ const notifications = ref([
 ])
 
 const { user } = useFirebaseAuth()
-</script>
-
-<script lang="ts">
-definePageMeta({
-  layout: 'lecturer'
-})
 </script>
