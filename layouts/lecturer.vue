@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen flex">
     <!-- Sidebar -->
-    <aside class="w-64 bg-gradient-to-br from-[#046e93] via-[#035e80] to-[#1b3455] text-white flex-col sticky top-0 h-screen hidden md:flex">
+    <aside class="w-64 bg-gradient-to-b from-[#18345c] via-[#17688f] to-[#137b97] text-white flex-col sticky top-0 h-screen hidden md:flex">
       <!-- Logo Section -->
       <div class="px-8 py-6 border-b border-[#035e80]">
         <div class="flex items-center justify-center">
@@ -61,7 +61,7 @@
     </aside>
 
     <!-- Mobile Sidebar -->
-    <aside class="fixed inset-y-0 left-0 bg-gradient-to-br from-[#046e93] via-[#035e80] to-[#1b3455] shadow-xl w-64 z-50 flex flex-col md:hidden" v-if="showSidebar" aria-label="Mobile sidebar" style="z-index:9999">
+    <aside class="fixed inset-y-0 left-0 bg-gradient-to-b from-[#18345c] via-[#17688f] to-[#1597bb] shadow-xl w-64 z-50 flex flex-col md:hidden" v-if="showSidebar" aria-label="Mobile sidebar" style="z-index:9999">
       <!-- Mobile Logo Section -->
       <div class="px-8 py-6 border-b border-[#035e80] flex justify-between items-center">
         <div class="flex items-center">

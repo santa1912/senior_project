@@ -1,7 +1,7 @@
 <template>
   <!-- Overview Banner -->
-  <div class="relative bg-gradient-to-r from-[#046e93] via-[#035e80] to-[#1b3455] h-72 overflow-hidden transition-all duration-500 ease-in-out hover:h-80">
-    <div class="absolute inset-0 bg-[#1b3455] bg-opacity-30">
+  <div class="relative bg-gradient-to-b from-[#18345c] via-[#17688f] to-[#1597bb] h-72 overflow-hidden transition-all duration-500 ease-in-out hover:h-80">
+    <div class="absolute inset-0 bg-[#18345c] bg-opacity-30">
       <div class="container mx-auto px-8 py-20 relative z-10">
         <h1 class="text-4xl font-bold text-white mb-4">Welcome, {{ user?.displayName || 'User' }}!</h1>
         <p class="text-blue-100 text-lg max-w-2xl">
