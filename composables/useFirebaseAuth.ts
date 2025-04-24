@@ -8,7 +8,7 @@ type UserRole = 'dean' | 'lecturer'
 
 // Define authorized users with proper typing
 const AUTHORIZED_USERS = {
-  dean: ['6531503172@lamduan.mfu.ac.th', '6531503174@lamduan.mfu.ac.th', '6531503176@lamduan.mfu.ac.th'],
+  dean: ['6531503172@lamduan.mfu.ac.th', '6531503174@lamduan.mfu.ac.th', '6531503176@lamduan.mfu.ac.th', '6531503137@lamduan.mfu.ac.th'],
   lecturer: ['phyominthein.leo@gmail.com', 'phyominthein.icloud@gmail.com']
 } as const
 
