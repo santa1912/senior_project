@@ -8,14 +8,14 @@ type UserRole = 'dean' | 'lecturer'
 
 // Define authorized users with proper typing
 const AUTHORIZED_USERS = {
-  dean: ['6531503172@lamduan.mfu.ac.th', '6531503174@lamduan.mfu.ac.th', '6531503176@lamduan.mfu.ac.th','6531503069@lamduan.mfu.ac.th'],
-  lecturer: ['phyominthein.leo@gmail.com', 'phyominthein.icloud@gmail.com','foven0047@gmail.com','6531503069@lamduan.mfu.ac.th']
+  dean: ['6531503172@lamduan.mfu.ac.th', '6531503174@lamduan.mfu.ac.th', '6531503176@lamduan.mfu.ac.th', '6531503137@lamduan.mfu.ac.th'],
+  lecturer: ['phyominthein.leo@gmail.com', 'phyominthein.icloud@gmail.com', 'chitminthu.mdy2000@gmail.com']
 } as const
 
 // Define paths type based on roles
 const REDIRECT_PATHS: Record<UserRole, string> = {
   dean: '/dean/dean',
-  lecturer: '/lecturer/lecturer'
+  lecturer: '/lecturer/profile'
 }
 
 // User role check functions

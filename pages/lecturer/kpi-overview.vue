@@ -198,15 +198,13 @@
   </div>
 </template>
 
-<script lang="ts">
-definePageMeta({
-  layout: 'lecturer'
-})
-</script>
-
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import Chart from 'chart.js/auto'
+
+definePageMeta({
+  layout: 'lecturer'
+})
 
 const performanceChart = ref<HTMLCanvasElement | null>(null)
 
