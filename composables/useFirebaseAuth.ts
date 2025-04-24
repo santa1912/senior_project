@@ -15,7 +15,7 @@ const AUTHORIZED_USERS = {
 // Define paths type based on roles
 const REDIRECT_PATHS: Record<UserRole, string> = {
   dean: '/dean/dean',
-  lecturer: '/lecturer/lecturer'
+  lecturer: '/lecturer/profile'
 }
 
 // User role check functions
