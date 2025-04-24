@@ -1,6 +1,7 @@
 import { ref, onMounted } from 'vue'
-import { getAuth, onAuthStateChanged, signOut, type User, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import { getAuth, onAuthStateChanged, signOut, type User, GoogleAuthProvider, signInWithPopup, type AuthError } from 'firebase/auth'
 import { useRouter } from 'vue-router'
+import { useAlert } from './useAlert'
 
 // Define user roles type
 type UserRole = 'dean' | 'lecturer'
@@ -71,15 +72,19 @@ export function useFirebaseAuth() {
   })
 
   const logout = async () => {
+    const { showAlert } = useAlert()
     try {
       await signOut(auth)
+      showAlert('info', 'Goodbye!', 'You have been successfully signed out')
       router.push('/')
     } catch (error) {
       console.error('Logout error:', error)
+      showAlert('error', 'Error', 'Failed to sign out. Please try again.')
     }
   }
 
   const signInWithGoogle = async () => {
+    const { showAlert } = useAlert()
     try {
       const provider = new GoogleAuthProvider()
       provider.addScope('profile')
@@ -88,7 +93,7 @@ export function useFirebaseAuth() {
       const result = await signInWithPopup(auth, provider)
       const email = result.user.email
       if (!email) {
-        alert('No email found')
+        showAlert('error', 'Sign In Failed', 'No email found in your Google account')
         return
       }
 
@@ -96,12 +101,30 @@ export function useFirebaseAuth() {
       if (userRole) {
         router.push(getRedirectPath(userRole))
       } else {
-        alert('Unauthorized email')
+        showAlert('error', 'Unauthorized', 'Your email is not authorized to access this website')
         await signOut(auth)
       }
     } catch (error) {
-      console.error('Sign in error:', error)
-      alert('Sign in failed')
+      const authError = error as AuthError
+      let errorMessage = 'An error occurred during sign in'
+      
+      switch (authError.code) {
+        case 'auth/popup-closed-by-user':
+          errorMessage = 'Sign in was cancelled'
+          break
+        case 'auth/popup-blocked':
+          errorMessage = 'Sign in popup was blocked. Please allow popups for this site'
+          break
+        case 'auth/cancelled-popup-request':
+          errorMessage = 'Another sign in attempt is in progress'
+          break
+        case 'auth/network-request-failed':
+          errorMessage = 'Network error. Please check your internet connection'
+          break
+      }
+      
+      showAlert('error', 'Sign In Failed', errorMessage)
+      console.error('Sign in error:', authError)
     }
   }
 

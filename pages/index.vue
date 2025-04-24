@@ -1,5 +1,12 @@
 <template>
   <div class="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
+    <Alert
+      :show="alert.show"
+      :type="alert.type"
+      :title="alert.title"
+      :message="alert.message"
+      @close="hideAlert"
+    />
     <div class="fixed inset-0 -z-10 bg-[radial-gradient(45rem_50rem_at_top,theme(colors.indigo.100),white)] opacity-20"></div>
     <!-- Header/Navigation -->
     <nav class="bg-white shadow-md">
@@ -123,10 +130,13 @@
 <script setup>
 import { DocumentTextIcon, UserGroupIcon, ChartBarIcon } from '@heroicons/vue/24/outline'
 import { useFirebaseAuth } from '@/composables/useFirebaseAuth'
+import { useAlert } from '@/composables/useAlert'
+import Alert from '@/components/ui/Alert.vue'
 import 'animate.css'
 import { onMounted, ref } from 'vue'
 
 const { signInWithGoogle } = useFirebaseAuth()
+const { alert, hideAlert } = useAlert()
 const isLoaded = ref(false)
 
 onMounted(() => {
