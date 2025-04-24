@@ -54,47 +54,27 @@
       </ul>
     </div>
 
-    <!-- Assigned Projects Table -->
+    <!-- Research Area -->
     <div class="bg-white rounded-lg shadow-md p-6">
-      <div class="flex justify-between items-center mb-6">
-        <h2 class="text-xl font-bold text-gray-800">Assigned Projects</h2>
-        <a href="#" class="text-blue-600 text-sm hover:underline">View All</a>
-      </div>
-      <table class="min-w-full divide-y divide-gray-200">
-        <thead>
-          <tr>
-            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Project</th>
-            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Student</th>
-            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Due Date</th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-gray-100">
-          <tr v-for="item in assignedProjects" :key="item.id" class="hover:bg-gray-50">
-            <td class="px-4 py-3 font-medium text-gray-900">{{ item.project }}</td>
-            <td class="px-4 py-3">{{ item.student }}</td>
-            <td class="px-4 py-3">
-              <span :class="item.status === 'Completed' ? 'bg-green-100 text-green-700' : item.status === 'Pending Review' ? 'bg-yellow-100 text-yellow-700' : 'bg-blue-100 text-blue-700'" class="px-2 py-1 rounded text-xs font-semibold">{{ item.status }}</span>
-            </td>
-            <td class="px-4 py-3 text-gray-500">{{ item.due }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <h2 class="text-xl font-bold text-gray-800 mb-4">Research Area</h2>
+      <ul class="list-disc list-inside text-gray-700 space-y-2">
+        <li v-for="(area, idx) in researchAreas" :key="idx">
+          {{ area }}
+        </li>
+      </ul>
     </div>
 
-    <!-- Notifications -->
+    <!-- Recent Publications -->
     <div class="bg-white rounded-lg shadow-md p-6 mt-8">
-      <h2 class="text-xl font-bold text-gray-800 mb-4">Recent Notifications</h2>
-      <ul class="space-y-4">
-        <li v-for="note in notifications" :key="note.id" class="flex items-start p-3 border-l-4 border-blue-500 bg-blue-50 rounded-r-md">
-          <span class="mt-1 text-blue-500 mr-3">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 8v4m0 4h.01" />
-            </svg>
-          </span>
-          <div>
-            <p class="text-gray-700">{{ note.text }}</p>
-            <p class="text-xs text-gray-500 mt-1">{{ note.time || 'Today' }}</p>
+      <h2 class="text-xl font-bold text-gray-800 mb-4">Recent Publications</h2>
+      <ul class="divide-y divide-gray-100">
+        <li v-for="(pub, idx) in publications" :key="idx" class="py-3">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+            <div>
+              <p class="font-semibold text-blue-900">{{ pub.title }}</p>
+              <p class="text-gray-600 text-sm">{{ pub.venue }} &bull; {{ pub.year }}</p>
+            </div>
+            <a :href="pub.link" v-if="pub.link" class="text-blue-600 text-sm hover:underline mt-2 md:mt-0" target="_blank">View</a>
           </div>
         </li>
       </ul>
@@ -111,19 +91,6 @@ definePageMeta({
 })
 
 // Mockup data
-const assignedProjects = ref([
-  { id: 1, project: 'Sentiment Analysis Tool', student: 'Emily Wong', status: 'Pending Review', due: '2025-04-25' },
-  { id: 2, project: 'Sales Forecast App', student: 'Frank Miller', status: 'In Progress', due: '2025-05-02' },
-  { id: 3, project: 'Customer Segmentation', student: 'Grace Park', status: 'Completed', due: '2025-04-15' },
-  { id: 4, project: 'Inventory Tracker', student: 'Henry Lee', status: 'In Progress', due: '2025-05-10' },
-])
-
-const notifications = ref([
-  { id: 1, text: 'You have 2 projects pending review.', time: '2 hours ago' },
-  { id: 2, text: 'Student Emily Wong submitted a new report.', time: 'Today' },
-  { id: 3, text: 'Reminder: Project review meeting on April 28.', time: 'Yesterday' },
-])
-
 const { user } = useFirebaseAuth()
 
 // Example user info (replace with real data or API call as needed)
@@ -136,5 +103,18 @@ const education = ref([
   { degree: 'Ph.D. in Management', institution: 'Mae Fah Luang University', year: 2020 },
   { degree: 'M.B.A.', institution: 'Chulalongkorn University', year: 2015 },
   { degree: 'B.B.A.', institution: 'Chiang Mai University', year: 2012 },
+])
+
+const researchAreas = ref([
+  'Business Intelligence and Data Analytics',
+  'Machine Learning Applications in Management',
+  'Higher Education Administration',
+  'Research Collaboration Networks',
+])
+
+const publications = ref([
+  { title: 'A Novel Approach to Sentiment Analysis', venue: 'Journal of Data Science', year: 2024, link: '#' },
+  { title: 'Machine Learning in Education', venue: 'International Conference on AI', year: 2023, link: '#' },
+  { title: 'Optimizing Research Collaboration', venue: 'Research Management Review', year: 2023, link: '#' },
 ])
 </script>
