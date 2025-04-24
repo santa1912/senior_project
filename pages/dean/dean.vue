@@ -4,7 +4,7 @@
     <div class="flex justify-between items-center mb-8">
       <div>
         <h1 class="text-2xl font-bold text-gray-900">Dean Dashboard</h1>
-        <p class="text-gray-600">Welcome back, Dr. Smith</p>
+        <p class="text-gray-600">Welcome back, Leo</p>
       </div>
       <div class="relative">
         <select class="appearance-none bg-white border border-gray-300 rounded-md py-2 pl-4 pr-10 shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
