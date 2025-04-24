@@ -29,22 +29,29 @@
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div class="bg-blue-50 p-4 rounded-lg">
-            <h3 class="text-lg font-semibold text-blue-700 mb-2">Teaching Hours</h3>
-            <p class="text-3xl font-bold text-blue-900">24</p>
-            <p class="text-sm text-blue-600">This semester</p>
+            <h3 class="text-lg font-semibold text-blue-700 mb-2">Email</h3>
+            <p class="text-md font-medium text-blue-900">{{ user?.email || 'n/a' }}</p>
           </div>
           <div class="bg-green-50 p-4 rounded-lg">
-            <h3 class="text-lg font-semibold text-green-700 mb-2">Research Projects</h3>
-            <p class="text-3xl font-bold text-green-900">3</p>
-            <p class="text-sm text-green-600">Active projects</p>
+            <h3 class="text-lg font-semibold text-green-700 mb-2">Phone Number</h3>
+            <p class="text-md font-medium text-green-900">{{ userInfo.phone || 'n/a' }}</p>
           </div>
           <div class="bg-purple-50 p-4 rounded-lg">
-            <h3 class="text-lg font-semibold text-purple-700 mb-2">Publications</h3>
-            <p class="text-3xl font-bold text-purple-900">12</p>
-            <p class="text-sm text-purple-600">Last 12 months</p>
+            <h3 class="text-lg font-semibold text-purple-700 mb-2">Location</h3>
+            <p class="text-md font-medium text-purple-900">{{ userInfo.location || 'n/a' }}</p>
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- Education Area -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8 p-6">
+      <h3 class="text-xl font-bold text-gray-800 mb-4">Education</h3>
+      <ul class="list-disc list-inside text-gray-700 space-y-2">
+        <li v-for="(edu, idx) in education" :key="idx">
+          <span class="font-semibold">{{ edu.degree }}</span> — {{ edu.institution }} ({{ edu.year }})
+        </li>
+      </ul>
     </div>
 
     <!-- Assigned Projects Table -->
@@ -118,4 +125,16 @@ const notifications = ref([
 ])
 
 const { user } = useFirebaseAuth()
+
+// Example user info (replace with real data or API call as needed)
+const userInfo = ref({
+  phone: '081-234-5678',
+  location: 'Chiang Rai, Thailand',
+})
+
+const education = ref([
+  { degree: 'Ph.D. in Management', institution: 'Mae Fah Luang University', year: 2020 },
+  { degree: 'M.B.A.', institution: 'Chulalongkorn University', year: 2015 },
+  { degree: 'B.B.A.', institution: 'Chiang Mai University', year: 2012 },
+])
 </script>
