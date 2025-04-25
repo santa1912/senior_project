@@ -1,6 +1,4 @@
 <template>
- 
-  
   <div class="container mx-auto px-4 py-8">
     <!-- Header with Round Selector -->
     <div class="flex justify-between items-center mb-8">
