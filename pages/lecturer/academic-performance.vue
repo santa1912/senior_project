@@ -26,28 +26,72 @@
       <p class="text-center text-sm text-gray-500 mb-4">11 Feb 2025-31 July 2025</p>
     </div>
 
-    <!-- KPI Categories -->
+    <!-- KPI Categories with NuxtLink-->
     <div class="grid grid-cols-5 gap-4 mb-8">
-      <div class="bg-gray-100 rounded-lg p-4 text-center">
+      <NuxtLink
+        to="/lecturer/teaching-performance"
+        class="rounded-lg p-4 text-center transition-colors cursor-pointer"
+        :class="
+          $route.path === '/lecturer/teaching-performance'
+            ? 'bg-blue-200'
+            : 'bg-gray-100 hover:bg-blue-100'
+        "
+      >
         <p class="text-sm text-gray-600">Teaching (60%)</p>
         <p class="text-xl font-bold text-gray-700">60%</p>
-      </div>
-      <div class="bg-gray-100 rounded-lg p-4 text-center">
+      </NuxtLink>
+
+      <NuxtLink
+        to="/lecturer/research-performance"
+        class="rounded-lg p-4 text-center transition-colors cursor-pointer"
+        :class="
+          $route.path === '/lecturer/research-performance'
+            ? 'bg-blue-200'
+            : 'bg-gray-100 hover:bg-blue-100'
+        "
+      >
         <p class="text-sm text-gray-600">Research (15%)</p>
         <p class="text-xl font-bold text-gray-700">15%</p>
-      </div>
-      <div class="bg-blue-500 bg-opacity-10 rounded-lg p-4 text-center">
+      </NuxtLink>
+
+      <NuxtLink
+        to="/lecturer/academic-performance"
+        class="rounded-lg p-4 text-center transition-colors cursor-pointer"
+        :class="
+          $route.path === '/lecturer/academic-performance'
+            ? 'bg-blue-200'
+            : 'bg-gray-100 hover:bg-blue-100'
+        "
+      >
         <p class="text-sm text-gray-600">Academic Service (10%)</p>
-        <p class="text-xl font-bold text-blue-600">10%</p>
-      </div>
-      <div class="bg-gray-100 rounded-lg p-4 text-center">
+        <p class="text-xl font-bold text-gray-700">10%</p>
+      </NuxtLink>
+
+      <NuxtLink
+        to="/lecturer/administration"
+        class="rounded-lg p-4 text-center transition-colors cursor-pointer"
+        :class="
+          $route.path === '/lecturer/administration'
+            ? 'bg-blue-200'
+            : 'bg-gray-100 hover:bg-blue-100'
+        "
+      >
         <p class="text-sm text-gray-600">Administration (5%)</p>
         <p class="text-xl font-bold text-gray-700">5%</p>
-      </div>
-      <div class="bg-gray-100 rounded-lg p-4 text-center">
+      </NuxtLink>
+
+      <NuxtLink
+        to="/lecturer/arts-culture"
+        class="rounded-lg p-4 text-center transition-colors cursor-pointer"
+        :class="
+          $route.path === '/lecturer/arts-culture'
+            ? 'bg-blue-200'
+            : 'bg-gray-100 hover:bg-blue-100'
+        "
+      >
         <p class="text-sm text-gray-600">Arts and culture (10%)</p>
         <p class="text-xl font-bold text-gray-700">3.75%</p>
-      </div>
+      </NuxtLink>
     </div>
 
     <!-- Academic Service Performance -->

@@ -10,11 +10,12 @@
       </div>
       <div class="relative">
         <select
+          v-model="selectedRoundId"
+          @change="onRoundChange"
           class="appearance-none bg-white border border-gray-300 rounded-md py-2 pl-4 pr-10 shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
         >
-          <option>Round 2/2025</option>
-          <option>Round 1/2025</option>
-          <option>Round 2/2024</option>
+          <option v-for="round in kpiRounds" :key="round.id" :value="round.id">{{ round.name }}</option>
+          <option v-if="kpiRounds.length === 0" disabled>No KPI rounds available</option>
         </select>
         <div
           class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
@@ -35,18 +36,8 @@
       </div>
     </div>
 
-    <!-- Teaching Track -->
-    <div class="mb-6">
-      <h2 class="text-center text-lg font-medium text-gray-700 mb-1">
-        Teaching Track
-      </h2>
-      <p class="text-center text-sm text-gray-500 mb-4">
-        11 Feb 2025-31 July 2025
-      </p>
-    </div>
-
     <!-- KPI Categories with NuxtLink-->
-    <div class="grid grid-cols-5 gap-4 mb-8">
+    <div v-if="selectedRound" class="grid grid-cols-5 gap-4 mb-8">
       <NuxtLink
         to="/lecturer/teaching-performance"
         class="rounded-lg p-4 text-center transition-colors cursor-pointer"
@@ -56,8 +47,8 @@
             : 'bg-gray-100 hover:bg-blue-100'
         "
       >
-        <p class="text-sm text-gray-600">Teaching (60%)</p>
-        <p class="text-xl font-bold text-gray-700">45.75%</p>
+        <p class="text-sm text-gray-600">Teaching ({{ selectedRound?.categories[0]?.percent || 0 }}%)</p>
+        <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[0]?.value || 0 }}%</p>
       </NuxtLink>
 
       <NuxtLink
@@ -69,8 +60,8 @@
             : 'bg-gray-100 hover:bg-blue-100'
         "
       >
-        <p class="text-sm text-gray-600">Research (15%)</p>
-        <p class="text-xl font-bold text-gray-700">15.25%</p>
+        <p class="text-sm text-gray-600">Research ({{ selectedRound?.categories[1]?.percent || 0 }}%)</p>
+        <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[1]?.value || 0 }}%</p>
       </NuxtLink>
 
       <NuxtLink
@@ -82,8 +73,8 @@
             : 'bg-gray-100 hover:bg-blue-100'
         "
       >
-        <p class="text-sm text-gray-600">Academic Service (10%)</p>
-        <p class="text-xl font-bold text-gray-700">7.5%</p>
+        <p class="text-sm text-gray-600">Academic Service ({{ selectedRound?.categories[2]?.percent || 0 }}%)</p>
+        <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[2]?.value || 0 }}%</p>
       </NuxtLink>
 
       <NuxtLink
@@ -95,8 +86,8 @@
             : 'bg-gray-100 hover:bg-blue-100'
         "
       >
-        <p class="text-sm text-gray-600">Administration (5%)</p>
-        <p class="text-xl font-bold text-gray-700">5%</p>
+        <p class="text-sm text-gray-600">Administration ({{ selectedRound?.categories[3]?.percent || 0 }}%)</p>
+        <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[3]?.value || 0 }}%</p>
       </NuxtLink>
 
       <NuxtLink
@@ -108,8 +99,8 @@
             : 'bg-gray-100 hover:bg-blue-100'
         "
       >
-        <p class="text-sm text-gray-600">Arts and culture (10%)</p>
-        <p class="text-xl font-bold text-gray-700">3.75%</p>
+        <p class="text-sm text-gray-600">Arts and culture ({{ selectedRound?.categories[4]?.percent }}%)</p>
+        <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[4]?.value }}%</p>
       </NuxtLink>
     </div>
 
@@ -120,37 +111,29 @@
           Teaching Track
         </h2>
         <p class="text-center text-sm text-gray-500 mb-6">
-          11 Feb 2025-31 July 2025
+          <template v-if="isLoading">Loading...</template>
+          <template v-else-if="error">{{ error }}</template>
+          <template v-else-if="selectedRound">
+            {{ formatDate(selectedRound.startDate) }}-{{ formatDate(selectedRound.endDate) }}
+          </template>
         </p>
 
         <!-- Performance Chart -->
         <div class="flex justify-center">
-          <div class="w-full max-w-lg h-80">
+          <div class="w-full max-w-lg h-80 relative">
             <canvas ref="performanceChart"></canvas>
+            <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+              <span class="text-lg font-semibold text-gray-700">Academic</span>
+              <span class="text-xl font-bold text-gray-800">Performance</span>
+            </div>
           </div>
         </div>
 
         <!-- Legend -->
-        <div class="mt-8 flex flex-wrap justify-center gap-4">
-          <div class="flex items-center">
-            <span class="w-3 h-3 rounded-full bg-blue-600 mr-2"></span>
-            <span class="text-sm text-gray-700">Teaching</span>
-          </div>
-          <div class="flex items-center">
-            <span class="w-3 h-3 rounded-full bg-yellow-500 mr-2"></span>
-            <span class="text-sm text-gray-700">Research</span>
-          </div>
-          <div class="flex items-center">
-            <span class="w-3 h-3 rounded-full bg-teal-500 mr-2"></span>
-            <span class="text-sm text-gray-700">Academic Service</span>
-          </div>
-          <div class="flex items-center">
-            <span class="w-3 h-3 rounded-full bg-purple-500 mr-2"></span>
-            <span class="text-sm text-gray-700">Administration</span>
-          </div>
-          <div class="flex items-center">
-            <span class="w-3 h-3 rounded-full bg-pink-500 mr-2"></span>
-            <span class="text-sm text-gray-700">Art and Culture</span>
+        <div v-if="selectedRound" class="mt-8 flex flex-wrap justify-center gap-4">
+          <div v-for="cat in selectedRound.categories" :key="cat.name" class="flex items-center">
+            <span class="w-3 h-3 rounded-full mr-2" :style="{ backgroundColor: cat.color }"></span>
+            <span class="text-sm text-gray-700">{{ cat.name }}</span>
           </div>
         </div>
       </div>
@@ -163,59 +146,59 @@
           </h2>
 
           <div class="space-y-4">
-            <div>
+            <div v-if="selectedRound">
               <div class="flex justify-between mb-1">
                 <span class="text-sm font-medium text-gray-700"
                   >Academic Performance (60%)</span
                 >
-                <span class="text-sm font-medium text-gray-700">56.25%</span>
+                <span class="text-sm font-medium text-gray-700">{{ academicPerformance }}%</span>
               </div>
               <div class="w-full bg-gray-200 rounded-full h-2">
                 <div
                   class="bg-blue-600 h-2 rounded-full"
-                  style="width: 56.25%"
+                  :style="{ width: academicPerformance + '%' }"
                 ></div>
               </div>
             </div>
 
-            <div>
+            <div v-if="selectedRound">
               <div class="flex justify-between mb-1">
                 <span class="text-sm font-medium text-gray-700"
                   >Behavior (40%)</span
                 >
-                <span class="text-sm font-medium text-gray-700">36%</span>
+                <span class="text-sm font-medium text-gray-700">{{ behavior }}%</span>
               </div>
               <div class="w-full bg-gray-200 rounded-full h-2">
                 <div
                   class="bg-green-600 h-2 rounded-full"
-                  style="width: 36%"
+                  :style="{ width: kpiData.behavior + '%' }"
                 ></div>
               </div>
             </div>
 
-            <div>
+            <div v-if="selectedRound">
               <div class="flex justify-between mb-1">
                 <span class="text-sm font-medium text-gray-700"
                   >Total Score (100%)</span
                 >
-                <span class="text-sm font-medium text-gray-700">92.25%</span>
+                <span class="text-sm font-medium text-gray-700">{{ kpiData.totalScore }}%</span>
               </div>
               <div class="w-full bg-gray-200 rounded-full h-2">
                 <div
                   class="bg-indigo-600 h-2 rounded-full"
-                  style="width: 92.25%"
+                  :style="{ width: kpiData.totalScore + '%' }"
                 ></div>
               </div>
             </div>
 
-            <div class="pt-4 border-t border-gray-200">
+            <div class="pt-4 border-t border-gray-200" v-if="selectedRound">
               <div class="flex justify-between items-center">
                 <span class="text-sm font-medium text-gray-700"
                   >Performance Level</span
                 >
                 <span
                   class="px-3 py-1 text-sm font-medium bg-yellow-100 text-yellow-800 rounded-full"
-                  >Excellent</span
+                  >{{ kpiData.performanceLevel }}</span
                 >
               </div>
             </div>
@@ -272,62 +255,108 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch, computed } from "vue";
 import Chart from "chart.js/auto";
+import { useAirtableKpi } from '@/composables/useAirtableKpi'
+import type { KPIRound } from '@/types/kpi'
+
+const { kpiRounds, selectedRound, selectRound, isLoading, error } = useAirtableKpi()
+const selectedRoundId = ref(selectedRound.value?.id || '')
+
+// Computed properties for derived values
+const academicPerformance = computed(() => {
+  return selectedRound.value?.categories.find(c => c.name === 'Teaching')?.value || 0
+})
+
+const behavior = computed(() => {
+  return selectedRound.value?.categories.find(c => c.name === 'Research')?.value || 0
+})
+
+const totalScore = computed(() => {
+  if (!selectedRound.value) return 0
+  return selectedRound.value.categories.reduce((sum, cat) => sum + cat.value, 0)
+})
+
+const performanceLevel = computed(() => {
+  const total = totalScore.value
+  if (total >= 90) return 'Excellent'
+  if (total >= 80) return 'Very Good'
+  if (total >= 70) return 'Good'
+  if (total >= 60) return 'Fair'
+  return 'Needs Improvement'
+})
+
+// Type-safe accessors for KPI data
+const kpiData = computed(() => ({
+  behavior: behavior.value,
+  totalScore: totalScore.value,
+  performanceLevel: performanceLevel.value
+}))
 
 definePageMeta({
-  layout: "lecturer",
-});
+  layout: 'lecturer'
+})
 
-const performanceChart = ref<HTMLCanvasElement | null>(null);
+function onRoundChange() {
+  selectRound(selectedRoundId.value)
+}
 
-onMounted(() => {
-  // Create doughnut chart
-  if (performanceChart.value) {
-    new Chart(performanceChart.value, {
-      type: "doughnut",
+function formatDate(dateStr: string) {
+  const d = new Date(dateStr)
+  return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
+}
+
+// Chart logic
+const performanceChart = ref<HTMLCanvasElement | null>(null)
+let chartInstance: Chart | null = null
+
+function renderChart() {
+  if (!performanceChart.value || !selectedRound.value) return;
+  if (chartInstance) chartInstance.destroy();
+  
+  const categories = selectedRound.value.categories;
+  // Multi-ring: each category as a separate dataset, only one value per dataset
+  const datasets = categories.map((cat, idx) => ({
+    data: Array(categories.length).fill(0).map((_, i) => i === idx ? Number(cat.value) : 0),
+    backgroundColor: cat.color,
+    borderWidth: 0,
+    cutout: `${70 - idx * 10}%`,
+    radius: `${100 - idx * 12}%`,
+    hoverOffset: 0,
+  }));
+  
+  if (performanceChart.value instanceof HTMLCanvasElement) {
+    chartInstance = new Chart(performanceChart.value, {
+      type: 'doughnut',
       data: {
-        labels: [
-          "Teaching",
-          "Research",
-          "Academic Service",
-          "Administration",
-          "Art and Culture",
-        ],
-        datasets: [
-          {
-            data: [60, 15, 10, 5, 3.75],
-            backgroundColor: [
-              "#2563eb", // blue
-              "#eab308", // yellow
-              "#14b8a6", // teal
-              "#9333ea", // purple
-              "#ec4899", // pink
-            ],
-            borderWidth: 0,
-          },
-        ],
+        labels: categories.map(cat => cat.name),
+        datasets,
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        cutout: "70%",
+        cutout: '60%',
         plugins: {
-          legend: {
-            display: false,
-          },
-          title: {
-            display: true,
-            text: "Academic Performance",
-            position: "bottom" as const,
-            font: {
-              size: 16,
-              weight: "bold",
-            },
-          },
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                const idx = context.dataIndex;
+                const cat = categories[idx];
+                return `${cat.name}: ${cat.value}%`;
+              }
+            }
+          }
         },
       },
     });
   }
+}
+
+onMounted(renderChart)
+watch(() => selectedRound.value, renderChart)
+
+definePageMeta({
+  layout: "lecturer",
 });
 </script>
