@@ -95,7 +95,7 @@
       </div>
   
       <!-- Academic Service Performance -->
-      <div class="bg-white rounded-lg shadow-md p-6 mb-8 ">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-20 ml-20 mr-20 ">
         <div class="flex flex-col items-center">
             <h2 class="text-lg font-medium text-gray-900 mb-1">Administration Performance</h2>
             <span class="text-sm text-gray-500 mb-6">Threshold (30) - Earned score (115)</span>
@@ -112,6 +112,7 @@
   <script setup lang="ts">
   import { ref, onMounted } from 'vue'
   import Chart from 'chart.js/auto'
+  import ChartDataLabels from 'chartjs-plugin-datalabels'
   import { useFirebaseAuth } from '@/composables/useFirebaseAuth'
   
   definePageMeta({
@@ -156,8 +157,18 @@
         plugins: {
           legend: {
             display: false
-          }
-        },
+          },
+        datalabels: {               
+                    anchor: 'end',              
+                    align: 'end',               
+                    color: '#6B7280',           
+                    font: {
+                    size: 12,
+                    weight: 'bold'
+                    },
+                    offset: 4                  
+                }
+            },
         scales: {
           x: {
             beginAtZero: true,
@@ -190,7 +201,8 @@
             }
           }
         }
-      }
+      },
+      plugins: [ChartDataLabels]        // 👉 Register datalabels plugin here
     })
   }
 })
