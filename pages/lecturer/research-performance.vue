@@ -14,7 +14,7 @@
     </div>
 
     <!-- KPI Categories with NuxtLink-->
-    <div class="grid grid-cols-5 gap-4 mb-8">
+    <div v-if="selectedRound" class="grid grid-cols-5 gap-4 mb-8">
       <NuxtLink
         to="/lecturer/teaching-performance"
         class="rounded-lg p-4 text-center transition-colors cursor-pointer"
@@ -24,8 +24,8 @@
             : 'bg-gray-100 hover:bg-blue-100'
         "
       >
-        <p class="text-sm text-gray-600">Teaching (60%)</p>
-        <p class="text-xl font-bold text-gray-700">45.75%</p>
+        <p class="text-sm text-gray-600">Teaching ({{ selectedRound?.categories[0]?.percent || 0 }}%)</p>
+        <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[0]?.value || 0 }}%</p>
       </NuxtLink>
 
       <NuxtLink
@@ -37,8 +37,8 @@
             : 'bg-gray-100 hover:bg-blue-100'
         "
       >
-        <p class="text-sm text-gray-600">Research (20%)</p>
-        <p class="text-xl font-bold text-gray-700">15.25%</p>
+        <p class="text-sm text-gray-600">Research ({{ selectedRound?.categories[1]?.percent || 0 }}%)</p>
+        <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[1]?.value || 0 }}%</p>
       </NuxtLink>
 
       <NuxtLink
@@ -50,8 +50,8 @@
             : 'bg-gray-100 hover:bg-blue-100'
         "
       >
-        <p class="text-sm text-gray-600">Academic (10%)</p>
-        <p class="text-xl font-bold text-gray-700">7.5%</p>
+        <p class="text-sm text-gray-600">Academic Service ({{ selectedRound?.categories[2]?.percent || 0 }}%)</p>
+        <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[2]?.value || 0 }}%</p>
       </NuxtLink>
 
       <NuxtLink
@@ -63,8 +63,8 @@
             : 'bg-gray-100 hover:bg-blue-100'
         "
       >
-        <p class="text-sm text-gray-600">Administration (5%)</p>
-        <p class="text-xl font-bold text-gray-700">5%</p>
+        <p class="text-sm text-gray-600">Administration ({{ selectedRound?.categories[3]?.percent || 0 }}%)</p>
+        <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[3]?.value || 0 }}%</p>
       </NuxtLink>
 
       <NuxtLink
@@ -76,11 +76,11 @@
             : 'bg-gray-100 hover:bg-blue-100'
         "
       >
-        <p class="text-sm text-gray-600">Arts and culture (10%)</p>
-        <p class="text-xl font-bold text-gray-700">3.75%</p>
+        <p class="text-sm text-gray-600">Arts and culture ({{ selectedRound?.categories[4]?.percent || 0 }}%)</p>
+        <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[4]?.value || 0 }}%</p>
       </NuxtLink>
     </div>
-
+  
     <!-- Research Performance -->
     <div class="bg-white rounded-lg shadow-md p-6 mb-8">
       <h2 class="text-lg font-medium text-gray-900 mb-1">Research Performance</h2>
@@ -170,6 +170,10 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import Chart from 'chart.js/auto'
+import { useAirtableKpi } from '@/composables/useAirtableKpi'
+
+const { kpiRounds, selectedRound, selectRound, isLoading, error } = useAirtableKpi()
+const selectedRoundId = ref(selectedRound.value?.id || '')
 
 definePageMeta({
   layout: 'lecturer'

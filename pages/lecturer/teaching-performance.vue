@@ -7,20 +7,30 @@
           Domain 1: Teaching Performance
         </h1>
       </div>
+      <div class="relative inline-block">
+        <select
+          class="appearance-none bg-white border border-gray-300 rounded-lg py-2 pl-4 pr-10 shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
+        >
+          <option>Round 2/2025</option>
+          <option>Round 1/2025</option>
+          <option>Round 2/2024</option>
+        </select>
+        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+          <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+        </div>
+      </div>
     </div>
 
-    <!-- Teaching Track -->
+    <!-- Research Track -->
     <div class="mb-6">
-      <h2 class="text-center text-lg font-medium text-gray-700 mb-1">
-        Teaching Track
-      </h2>
-      <p class="text-center text-sm text-gray-500 mb-4">
-        11 Feb 2025-31 July 2025
-      </p>
+      <h2 class="text-center text-lg font-medium text-gray-700 mb-1">Research Track</h2>
+      <p class="text-center text-sm text-gray-500 mb-4">11 Feb 2025-31 July 2025</p>
     </div>
 
     <!-- KPI Categories with NuxtLink-->
-    <div class="grid grid-cols-5 gap-4 mb-8">
+    <div v-if="selectedRound" class="grid grid-cols-5 gap-4 mb-8">
       <NuxtLink
         to="/lecturer/teaching-performance"
         class="rounded-lg p-4 text-center transition-colors cursor-pointer"
@@ -30,8 +40,8 @@
             : 'bg-gray-100 hover:bg-blue-100'
         "
       >
-        <p class="text-sm text-gray-600">Teaching (60%)</p>
-        <p class="text-xl font-bold text-gray-700">45.75%</p>
+        <p class="text-sm text-gray-600">Teaching ({{ selectedRound?.categories[0]?.percent || 0 }}%)</p>
+        <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[0]?.value || 0 }}%</p>
       </NuxtLink>
 
       <NuxtLink
@@ -43,8 +53,8 @@
             : 'bg-gray-100 hover:bg-blue-100'
         "
       >
-        <p class="text-sm text-gray-600">Research (20%)</p>
-        <p class="text-xl font-bold text-gray-700">15.25%</p>
+        <p class="text-sm text-gray-600">Research ({{ selectedRound?.categories[1]?.percent || 0 }}%)</p>
+        <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[1]?.value || 0 }}%</p>
       </NuxtLink>
 
       <NuxtLink
@@ -56,8 +66,8 @@
             : 'bg-gray-100 hover:bg-blue-100'
         "
       >
-        <p class="text-sm text-gray-600">Academic (10%)</p>
-        <p class="text-xl font-bold text-gray-700">7.5%</p>
+        <p class="text-sm text-gray-600">Academic Service ({{ selectedRound?.categories[2]?.percent || 0 }}%)</p>
+        <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[2]?.value || 0 }}%</p>
       </NuxtLink>
 
       <NuxtLink
@@ -69,8 +79,8 @@
             : 'bg-gray-100 hover:bg-blue-100'
         "
       >
-        <p class="text-sm text-gray-600">Administration (5%)</p>
-        <p class="text-xl font-bold text-gray-700">5%</p>
+        <p class="text-sm text-gray-600">Administration ({{ selectedRound?.categories[3]?.percent || 0 }}%)</p>
+        <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[3]?.value || 0 }}%</p>
       </NuxtLink>
 
       <NuxtLink
@@ -82,211 +92,113 @@
             : 'bg-gray-100 hover:bg-blue-100'
         "
       >
-        <p class="text-sm text-gray-600">Arts and culture (10%)</p>
-        <p class="text-xl font-bold text-gray-700">3.75%</p>
+        <p class="text-sm text-gray-600">Arts and culture ({{ selectedRound?.categories[4]?.percent || 0 }}%)</p>
+        <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[4]?.value || 0 }}%</p>
       </NuxtLink>
     </div>
 
-    <!-- Teaching Performance -->
-    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
-      <h2 class="text-lg font-medium text-gray-900 mb-1">
-        Teaching Performance
-      </h2>
-      <p class="text-sm text-gray-500 mb-6">
-        Threshold (175) - Earned score (203.95)
-      </p>
-
-      <!-- Performance Chart -->
-      <div class="h-96 mb-6">
-        <canvas ref="teachingChart"></canvas>
-      </div>
-    </div>
-
-    <!-- Teaching Tables -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <!-- Undergraduate Teaching -->
-      <div class="bg-white rounded-lg shadow-md p-6">
-        <h2 class="text-lg font-medium text-gray-900 mb-4">
-          Undergraduate Teaching
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Teaching Performance Card -->
+      <div class="md:col-span-2 bg-white rounded-2xl shadow-xl p-8">
+        <h2 class="text-xl font-bold text-gray-900 mb-2">
+          Teaching Performance
         </h2>
-        <div class="overflow-x-auto">
-          <table class="min-w-full divide-y divide-gray-200">
-            <thead>
-              <tr>
-                <th
-                  class="px-4 py-3 bg-[#046e93] text-white text-left text-xs font-medium uppercase tracking-wider"
-                >
-                  No.
-                </th>
-                <th
-                  class="px-4 py-3 bg-[#046e93] text-white text-left text-xs font-medium uppercase tracking-wider"
-                >
-                  Course Title
-                </th>
-                <th
-                  class="px-4 py-3 bg-[#046e93] text-white text-left text-xs font-medium uppercase tracking-wider"
-                >
-                  Course Code
-                </th>
-                <th
-                  class="px-4 py-3 bg-[#046e93] text-white text-left text-xs font-medium uppercase tracking-wider"
-                >
-                  Number of Students
-                </th>
-              </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-              <tr>
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                  1
-                </td>
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                  Business Research
-                </td>
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                  1503910
-                </td>
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                  50
-                </td>
-              </tr>
-              <tr class="bg-gray-50">
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                  2
-                </td>
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                  Research Methodology
-                </td>
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                  1503911
-                </td>
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                  50
-                </td>
-              </tr>
-              <tr>
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                  3
-                </td>
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                  Seminar in Business Administration
-                </td>
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                  1503913
-                </td>
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                  50
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <p class="text-sm text-gray-600 mb-6">
+          Threshold (170) - Earned score (203.95)
+        </p>
+        <div class="h-[400px] w-full">
+          <canvas ref="teachingChart"></canvas>
         </div>
       </div>
 
-      <!-- Graduate Teaching -->
-      <div class="bg-white rounded-lg shadow-md p-6">
-        <h2 class="text-lg font-medium text-gray-900 mb-4">
-          Graduate Teaching
-        </h2>
-        <div class="overflow-x-auto">
-          <table class="min-w-full divide-y divide-gray-200">
-            <thead>
-              <tr>
-                <th
-                  class="px-4 py-3 bg-[#046e93] text-white text-left text-xs font-medium uppercase tracking-wider"
-                >
-                  No.
-                </th>
-                <th
-                  class="px-4 py-3 bg-[#046e93] text-white text-left text-xs font-medium uppercase tracking-wider"
-                >
-                  Course Title
-                </th>
-                <th
-                  class="px-4 py-3 bg-[#046e93] text-white text-left text-xs font-medium uppercase tracking-wider"
-                >
-                  Course Code
-                </th>
-                <th
-                  class="px-4 py-3 bg-[#046e93] text-white text-left text-xs font-medium uppercase tracking-wider"
-                >
-                  Number of Students
-                </th>
-              </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-              <tr>
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                  1
-                </td>
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                  Advanced Research Methods
-                </td>
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                  1503920
-                </td>
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                  25
-                </td>
-              </tr>
-              <tr class="bg-gray-50">
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                  2
-                </td>
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                  Business Analytics
-                </td>
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                  1503921
-                </td>
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                  25
-                </td>
-              </tr>
-            </tbody>
-          </table>
+      <!-- Tables stacked vertically in a card column -->
+      <div class="flex flex-col gap-6">
+        <!-- Undergraduate Teaching -->
+        <div class="bg-white rounded-2xl shadow-xl p-3">
+          <h2 class="text-base font-semibold text-gray-900 mb-2">Undergraduate Teaching</h2>
+          <div class="overflow-x-auto">
+            <table class="min-w-full text-xs">
+              <thead>
+                <tr>
+                  <th class="px-3 py-2 bg-[#046e93] text-white text-center text-[11px] font-bold uppercase rounded-tl-xl">No.</th>
+                  <th class="px-3 py-2 bg-[#046e93] text-white text-center text-[11px] font-bold uppercase">Course</th>
+                  <th class="px-3 py-2 bg-[#046e93] text-white text-center text-[11px] font-bold uppercase">Course Code</th>
+                  <th class="px-3 py-2 bg-[#046e93] text-white text-center text-[11px] font-bold uppercase rounded-tr-xl">Number of Students</th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                <tr>
+                  <td class="px-3 py-1 text-center">1.</td>
+                  <td class="px-3 py-1">Business Research</td>
+                  <td class="px-3 py-1 text-center">1203331</td>
+                  <td class="px-3 py-1 text-center">50</td>
+                </tr>
+                <tr class="bg-gray-50">
+                  <td class="px-3 py-1 text-center">2.</td>
+                  <td class="px-3 py-1">Business Law and Ethics</td>
+                  <td class="px-3 py-1 text-center">1203217</td>
+                  <td class="px-3 py-1 text-center">50</td>
+                </tr>
+                <tr>
+                  <td class="px-3 py-1 text-center">3.</td>
+                  <td class="px-3 py-1">Principles of Marketing</td>
+                  <td class="px-3 py-1 text-center">1203121</td>
+                  <td class="px-3 py-1 text-center">50</td>
+                </tr>
+                <tr class="bg-gray-50">
+                  <td class="px-3 py-1 text-center">4.</td>
+                  <td class="px-3 py-1">Digital Business</td>
+                  <td class="px-3 py-1 text-center">1203108</td>
+                  <td class="px-3 py-1 text-center">50</td>
+                </tr>
+                <tr>
+                  <td class="px-3 py-1 text-center">5.</td>
+                  <td class="px-3 py-1">Business Analysis</td>
+                  <td class="px-3 py-1 text-center">1203223</td>
+                  <td class="px-3 py-1 text-center">50</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- Graduate Teaching -->
+        <div class="bg-white rounded-2xl shadow-xl p-3">
+          <h2 class="text-base font-semibold text-gray-900 mb-2">Graduate Teaching</h2>
+          <div class="overflow-x-auto">
+            <table class="min-w-full text-xs">
+              <thead>
+                <tr>
+                  <th class="px-3 py-2 bg-[#046e93] text-white text-center text-[11px] font-bold uppercase rounded-tl-xl">No.</th>
+                  <th class="px-3 py-2 bg-[#046e93] text-white text-center text-[11px] font-bold uppercase">Course</th>
+                  <th class="px-3 py-2 bg-[#046e93] text-white text-center text-[11px] font-bold uppercase">Course Code</th>
+                  <th class="px-3 py-2 bg-[#046e93] text-white text-center text-[11px] font-bold uppercase rounded-tr-xl">Number of Students</th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                <tr>
+                  <td class="px-3 py-1 text-center">1.</td>
+                  <td class="px-3 py-1">Philosophy and Theory in Business</td>
+                  <td class="px-3 py-1 text-center">1203907</td>
+                  <td class="px-3 py-1 text-center">50</td>
+                </tr>
+                <tr class="bg-gray-50">
+                  <td class="px-3 py-1 text-center">2.</td>
+                  <td class="px-3 py-1">Advanced Research Methodology in Business</td>
+                  <td class="px-3 py-1 text-center">1203911</td>
+                  <td class="px-3 py-1 text-center">50</td>
+                </tr>
+                <tr>
+                  <td class="px-3 py-1 text-center">3.</td>
+                  <td class="px-3 py-1">Seminar in Business Administration</td>
+                  <td class="px-3 py-1 text-center">1203913</td>
+                  <td class="px-3 py-1 text-center">50</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-    </div>
-
-    <!-- Navigation Links -->
-    <div class="mt-8 flex justify-between">
-      <NuxtLink
-        to="/lecturer/kpi-overview"
-        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-[#046e93] hover:bg-[#035475] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#046e93]"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5 mr-2"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
-            clip-rule="evenodd"
-          />
-        </svg>
-        Back to KPI
-      </NuxtLink>
-      <NuxtLink
-        to="/lecturer/research-performance"
-        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-[#046e93] hover:bg-[#035475] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#046e93]"
-      >
-        Research Performance
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5 ml-2"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          />
-        </svg>
-      </NuxtLink>
     </div>
   </div>
 </template>
@@ -294,11 +206,13 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import Chart from "chart.js/auto";
+import { useAirtableKpi } from '@/composables/useAirtableKpi'
 
 definePageMeta({
   layout: "lecturer",
 });
-
+const { kpiRounds, selectedRound, selectRound, isLoading, error } = useAirtableKpi()
+const selectedRoundId = ref(selectedRound.value?.id || '')
 const teachingChart = ref<HTMLCanvasElement | null>(null);
 
 onMounted(() => {
@@ -308,19 +222,29 @@ onMounted(() => {
       type: "bar",
       data: {
         labels: [
-          "Teaching Quality",
-          "Student Feedback",
-          "Course Development",
-          "Teaching Innovation",
-          "Student Support",
+          ["Other Teaching Tasks Assigned", "by the Academic Office"],
+          "Thesis Oversight Duties",
+          ["Student Projects or", "Special Issues"],
+          "Student Internships",
+          "Graduate Teaching",
+          "Undergraduate Teaching"
         ],
         datasets: [
           {
-            label: "Teaching Performance",
-            data: [85, 90, 75, 80, 85],
-            backgroundColor: "#2563eb",
+            label: "Lecture (Score)",
+            data: [0, 0, 0, 2, 30, 90], // Example: 30 for grad, 90 for undergrad
+            backgroundColor: ["#172554", "#172554", "#172554", "#172554", "#172554", "#172554"],
             borderWidth: 0,
-            borderRadius: 4,
+            borderRadius: 0,
+            stack: 'Stack 0',
+          },
+          {
+            label: "Lab (Score)",
+            data: [0, 0, 0, 0, 19.46, 61.5], // Example: 19.46 for grad, 61.5 for undergrad
+            backgroundColor: ["#a21a5b", "#a21a5b", "#a21a5b", "#a21a5b", "#a21a5b", "#a21a5b"],
+            borderWidth: 0,
+            borderRadius: 0,
+            stack: 'Stack 0',
           },
         ],
       },
@@ -330,28 +254,55 @@ onMounted(() => {
         maintainAspectRatio: false,
         scales: {
           x: {
+            stacked: true,
             beginAtZero: true,
-            max: 100,
+            max: 180,
             grid: {
-              display: false,
+              color: "#E5E7EB",
+              drawTicks: false
+            },
+            border: {
+              display: false
             },
             ticks: {
-              color: "#64748b",
-            },
+              color: "#64748B",
+              padding: 8,
+              font: {
+                size: 10
+              }
+            }
           },
           y: {
             grid: {
-              display: false,
+              display: false
+            },
+            border: {
+              display: false
             },
             ticks: {
-              color: "#64748b",
-            },
+              color: "#64748B",
+              padding: 16,
+              font: {
+                size: 10
+              }
+            }
           },
         },
         plugins: {
           legend: {
             display: false,
           },
+          tooltip: {
+            backgroundColor: "#1E293B",
+            titleFont: {
+              size: 13
+            },
+            bodyFont: {
+              size: 12
+            },
+            padding: 12,
+            cornerRadius: 4
+          }
         },
       },
     });

@@ -99,8 +99,8 @@
             : 'bg-gray-100 hover:bg-blue-100'
         "
       >
-        <p class="text-sm text-gray-600">Arts and culture ({{ selectedRound?.categories[4]?.percent }}%)</p>
-        <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[4]?.value }}%</p>
+        <p class="text-sm text-gray-600">Arts and culture ({{ selectedRound?.categories[4]?.percent || 0 }}%)</p>
+        <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[4]?.value || 0 }}%</p>
       </NuxtLink>
     </div>
 
@@ -258,7 +258,6 @@
 import { ref, onMounted, watch, computed } from "vue";
 import Chart from "chart.js/auto";
 import { useAirtableKpi } from '@/composables/useAirtableKpi'
-import type { KPIRound } from '@/types/kpi'
 
 const { kpiRounds, selectedRound, selectRound, isLoading, error } = useAirtableKpi()
 const selectedRoundId = ref(selectedRound.value?.id || '')

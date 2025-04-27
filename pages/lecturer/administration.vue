@@ -26,73 +26,73 @@
         <p class="text-center text-sm text-gray-500 mb-4">11 Feb 2025-31 July 2025</p>
       </div>
   
-      <!-- KPI Categories with NuxtLink-->
-      <div class="grid grid-cols-5 gap-4 mb-8">
-        <NuxtLink
-          to="/lecturer/teaching-performance"
-          class="rounded-lg p-4 text-center transition-colors cursor-pointer"
-          :class="
-            $route.path === '/lecturer/teaching-performance'
-              ? 'bg-blue-200'
-              : 'bg-gray-100 hover:bg-blue-100'
-          "
-        >
-          <p class="text-sm text-gray-600">Teaching (60%)</p>
-          <p class="text-xl font-bold text-gray-700">60%</p>
-        </NuxtLink>
-  
-        <NuxtLink
-          to="/lecturer/research-performance"
-          class="rounded-lg p-4 text-center transition-colors cursor-pointer"
-          :class="
-            $route.path === '/lecturer/research-performance'
-              ? 'bg-blue-200'
-              : 'bg-gray-100 hover:bg-blue-100'
-          "
-        >
-          <p class="text-sm text-gray-600">Research (15%)</p>
-          <p class="text-xl font-bold text-gray-700">15%</p>
-        </NuxtLink>
-  
-        <NuxtLink
-          to="/lecturer/academic-performance"
-          class="rounded-lg p-4 text-center transition-colors cursor-pointer"
-          :class="
-            $route.path === '/lecturer/academic-performance'
-              ? 'bg-blue-200'
-              : 'bg-gray-100 hover:bg-blue-100'
-          "
-        >
-          <p class="text-sm text-gray-600 ">Academic Service (10%)</p>
-          <p class="text-xl font-bold text-gray-700">10%</p>
-        </NuxtLink>
-  
-        <NuxtLink
-          to="/lecturer/administration"
-          class="rounded-lg p-4 text-center transition-colors cursor-pointer"
-          :class="
-            $route.path === '/lecturer/administration'
-              ? 'bg-blue-200'
-              : 'bg-gray-100 hover:bg-blue-100'
-          "
-        >
-          <p class="text-sm text-gray-600">Administration (5%)</p>
-          <p class="text-xl font-bold text-gray-700">5%</p>
-        </NuxtLink>
-  
-        <NuxtLink
-          to="/lecturer/arts-culture"
-          class="rounded-lg p-4 text-center transition-colors cursor-pointer"
-          :class="
-            $route.path === '/lecturer/arts-culture'
-              ? 'bg-blue-200'
-              : 'bg-gray-100 hover:bg-blue-100'
-          "
-        >
-          <p class="text-sm text-gray-600">Arts and culture (10%)</p>
-          <p class="text-xl font-bold text-gray-700">3.75%</p>
-        </NuxtLink>
-      </div>
+       <!-- KPI Categories with NuxtLink-->
+    <div v-if="selectedRound" class="grid grid-cols-5 gap-4 mb-8">
+      <NuxtLink
+        to="/lecturer/teaching-performance"
+        class="rounded-lg p-4 text-center transition-colors cursor-pointer"
+        :class="
+          $route.path === '/lecturer/teaching-performance'
+            ? 'bg-blue-200'
+            : 'bg-gray-100 hover:bg-blue-100'
+        "
+      >
+        <p class="text-sm text-gray-600">Teaching ({{ selectedRound?.categories[0]?.percent || 0 }}%)</p>
+        <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[0]?.value || 0 }}%</p>
+      </NuxtLink>
+
+      <NuxtLink
+        to="/lecturer/research-performance"
+        class="rounded-lg p-4 text-center transition-colors cursor-pointer"
+        :class="
+          $route.path === '/lecturer/research-performance'
+            ? 'bg-blue-200'
+            : 'bg-gray-100 hover:bg-blue-100'
+        "
+      >
+        <p class="text-sm text-gray-600">Research ({{ selectedRound?.categories[1]?.percent || 0 }}%)</p>
+        <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[1]?.value || 0 }}%</p>
+      </NuxtLink>
+
+      <NuxtLink
+        to="/lecturer/academic-performance"
+        class="rounded-lg p-4 text-center transition-colors cursor-pointer"
+        :class="
+          $route.path === '/lecturer/academic-performance'
+            ? 'bg-blue-200'
+            : 'bg-gray-100 hover:bg-blue-100'
+        "
+      >
+        <p class="text-sm text-gray-600">Academic Service ({{ selectedRound?.categories[2]?.percent || 0 }}%)</p>
+        <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[2]?.value || 0 }}%</p>
+      </NuxtLink>
+
+      <NuxtLink
+        to="/lecturer/administration"
+        class="rounded-lg p-4 text-center transition-colors cursor-pointer"
+        :class="
+          $route.path === '/lecturer/administration'
+            ? 'bg-blue-200'
+            : 'bg-gray-100 hover:bg-blue-100'
+        "
+      >
+        <p class="text-sm text-gray-600">Administration ({{ selectedRound?.categories[3]?.percent || 0 }}%)</p>
+        <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[3]?.value || 0 }}%</p>
+      </NuxtLink>
+
+      <NuxtLink
+        to="/lecturer/arts-culture"
+        class="rounded-lg p-4 text-center transition-colors cursor-pointer"
+        :class="
+          $route.path === '/lecturer/arts-culture'
+            ? 'bg-blue-200'
+            : 'bg-gray-100 hover:bg-blue-100'
+        "
+      >
+        <p class="text-sm text-gray-600">Arts and culture ({{ selectedRound?.categories[4]?.percent || 0 }}%)</p>
+        <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[4]?.value || 0 }}%</p>
+      </NuxtLink>
+    </div>
   
       <!-- Academic Service Performance -->
       <div class="bg-white rounded-lg shadow-md p-6 mb-20 ml-20 mr-20 ">
@@ -122,6 +122,10 @@
   const administrationChart = ref<HTMLCanvasElement | null>(null)
   const showMobileMenu = ref(false)
   const { user, logout } = useFirebaseAuth()
+  import { useAirtableKpi } from '@/composables/useAirtableKpi'
+
+  const { kpiRounds, selectedRound, selectRound, isLoading, error } = useAirtableKpi()
+  const selectedRoundId = ref(selectedRound.value?.id || '')
   
   const toggleMobileMenu = () => {
   showMobileMenu.value = !showMobileMenu.value
