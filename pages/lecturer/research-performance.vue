@@ -3,7 +3,23 @@
     <!-- Header with Round Selector -->
     <div class="flex justify-between items-center mb-8">
       <div>
-        <h1 class="text-2xl font-bold text-gray-900">Domain 2: Research Performance</h1>
+        <h1 class="text-2xl font-bold text-gray-900">
+          Domain 2: Research Performance
+        </h1>
+      </div>
+      <div class="relative inline-block">
+        <select
+          class="appearance-none bg-white border border-gray-300 rounded-lg py-2 pl-4 pr-10 shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
+        >
+          <option>Round 2/2025</option>
+          <option>Round 1/2025</option>
+          <option>Round 2/2024</option>
+        </select>
+        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+          <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+        </div>
       </div>
     </div>
 
@@ -80,156 +96,270 @@
         <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[4]?.value || 0 }}%</p>
       </NuxtLink>
     </div>
-  
-    <!-- Research Performance -->
-    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
-      <h2 class="text-lg font-medium text-gray-900 mb-1">Research Performance</h2>
-      <p class="text-sm text-gray-500 mb-6">Threshold (25) - Earned score (94.92)</p>
-      
-      <!-- Performance Chart -->
-      <div class="h-96 mb-6">
-        <canvas ref="researchChart"></canvas>
-      </div>
-    </div>
 
-    <!-- Research Tables -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <!-- Research Studies -->
-      <div class="bg-white rounded-lg shadow-md p-6">
-        <h2 class="text-lg font-medium text-gray-900 mb-4">Research Studies</h2>
-        <div class="overflow-x-auto">
-          <table class="min-w-full divide-y divide-gray-200">
-            <thead>
-              <tr>
-                <th class="px-4 py-3 bg-[#046e93] text-white text-left text-xs font-medium uppercase tracking-wider">No.</th>
-                <th class="px-4 py-3 bg-[#046e93] text-white text-left text-xs font-medium uppercase tracking-wider">Research Title</th>
-              </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-              <tr>
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">1</td>
-                <td class="px-4 py-3 text-sm text-gray-900">SoM Research Journal</td>
-              </tr>
-              <tr class="bg-gray-50">
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">2</td>
-                <td class="px-4 py-3 text-sm text-gray-900">SoM Research Quarterly</td>
-              </tr>
-            </tbody>
-          </table>
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Research Performance Card -->
+      <div class="md:col-span-2 bg-white rounded-2xl shadow-xl p-8">
+        <h2 class="text-xl font-bold text-gray-900 mb-2 text-center">
+          Research Performance
+        </h2>
+        <p class="text-sm text-gray-500 mb-6 text-center">
+          Threshold (25) - Earned score (94.93)
+        </p>
+        <div class="h-[360px] w-full">
+          <canvas ref="researchChart"></canvas>
         </div>
       </div>
 
-      <!-- Research Publication -->
-      <div class="bg-white rounded-lg shadow-md p-6">
-        <h2 class="text-lg font-medium text-gray-900 mb-4">Research Publication</h2>
-        <div class="overflow-x-auto">
-          <table class="min-w-full divide-y divide-gray-200">
-            <thead>
-              <tr>
-                <th class="px-4 py-3 bg-[#046e93] text-white text-left text-xs font-medium uppercase tracking-wider">No.</th>
-                <th class="px-4 py-3 bg-[#046e93] text-white text-left text-xs font-medium uppercase tracking-wider">Publication Title</th>
-              </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-              <tr>
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">4</td>
-                <td class="px-4 py-3 text-sm text-gray-900">SoM Research Highlights</td>
-              </tr>
-              <tr class="bg-gray-50">
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">5</td>
-                <td class="px-4 py-3 text-sm text-gray-900">SoM Digital Humanities</td>
-              </tr>
-              <tr>
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">11</td>
-                <td class="px-4 py-3 text-sm text-gray-900">InsightHub</td>
-              </tr>
-            </tbody>
-          </table>
+      <!-- Tables stacked vertically in a card column -->
+      <div class="flex flex-col gap-6">
+        <!-- Research Studies -->
+        <div class="bg-white rounded-2xl shadow-xl p-3">
+          <h2 class="text-base font-semibold text-gray-900 mb-2">Research Studies</h2>
+          <div class="max-h-[200px] overflow-y-auto">
+            <table class="min-w-full text-xs">
+              <thead class="sticky top-0">
+                <tr>
+                  <th class="px-3 py-2 bg-[#046e93] text-white text-center text-[11px] font-bold uppercase rounded-tl-xl">Level</th>
+                  <th class="px-3 py-2 bg-[#046e93] text-white text-center text-[11px] font-bold uppercase rounded-tr-xl">Project Name</th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                <tr>
+                  <td class="px-3 py-1 text-center">1</td>
+                  <td class="px-3 py-1">Self Project</td>
+                </tr>
+                <tr class="bg-gray-50">
+                  <td class="px-3 py-1 text-center">2</td>
+                  <td class="px-3 py-1">RECAI (Research Centre Reform)</td>
+                </tr>
+                <tr>
+                  <td class="px-3 py-1 text-center">3</td>
+                  <td class="px-3 py-1">AI-Enhanced Learning Analytics</td>
+                </tr>
+                <tr class="bg-gray-50">
+                  <td class="px-3 py-1 text-center">4</td>
+                  <td class="px-3 py-1">Smart Campus Initiative</td>
+                </tr>
+                <tr>
+                  <td class="px-3 py-1 text-center">5</td>
+                  <td class="px-3 py-1">Educational Data Mining Project</td>
+                </tr>
+                <tr class="bg-gray-50">
+                  <td class="px-3 py-1 text-center">6</td>
+                  <td class="px-3 py-1">Student Success Prediction Model</td>
+                </tr>
+                <tr>
+                  <td class="px-3 py-1 text-center">7</td>
+                  <td class="px-3 py-1">Blockchain in Education</td>
+                </tr>
+                <tr class="bg-gray-50">
+                  <td class="px-3 py-1 text-center">8</td>
+                  <td class="px-3 py-1">Virtual Reality Learning Environments</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- Research Publication -->
+        <div class="bg-white rounded-2xl shadow-xl p-3">
+          <h2 class="text-base font-semibold text-gray-900 mb-2">Research Publication</h2>
+          <div class="max-h-[200px] overflow-y-auto">
+            <table class="min-w-full text-xs">
+              <thead class="sticky top-0">
+                <tr>
+                  <th class="px-3 py-2 bg-[#046e93] text-white text-center text-[11px] font-bold uppercase rounded-tl-xl">Level</th>
+                  <th class="px-3 py-2 bg-[#046e93] text-white text-center text-[11px] font-bold uppercase rounded-tr-xl">Project Name</th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                <tr>
+                  <td class="px-3 py-1 text-center">4</td>
+                  <td class="px-3 py-1">Self Research Highlights</td>
+                </tr>
+                <tr class="bg-gray-50">
+                  <td class="px-3 py-1 text-center">5</td>
+                  <td class="px-3 py-1">Gold Chain of Knowledge</td>
+                </tr>
+                <tr>
+                  <td class="px-3 py-1 text-center">6</td>
+                  <td class="px-3 py-1">Machine Learning in Education</td>
+                </tr>
+                <tr class="bg-gray-50">
+                  <td class="px-3 py-1 text-center">7</td>
+                  <td class="px-3 py-1">Adaptive Learning Systems</td>
+                </tr>
+                <tr>
+                  <td class="px-3 py-1 text-center">8</td>
+                  <td class="px-3 py-1">Educational Technology Integration</td>
+                </tr>
+                <tr class="bg-gray-50">
+                  <td class="px-3 py-1 text-center">9</td>
+                  <td class="px-3 py-1">Digital Assessment Methods</td>
+                </tr>
+                <tr>
+                  <td class="px-3 py-1 text-center">10</td>
+                  <td class="px-3 py-1">Learning Analytics Dashboard</td>
+                </tr>
+                <tr class="bg-gray-50">
+                  <td class="px-3 py-1 text-center">11</td>
+                  <td class="px-3 py-1">InsightlyHub</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-    </div>
-
-    <!-- Navigation Links -->
-    <div class="mt-8 flex justify-between">
-      <NuxtLink to="/lecturer/teaching-performance" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-[#046e93] hover:bg-[#035475] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#046e93]">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
-        </svg>
-        Teaching Performance
-      </NuxtLink>
-      <NuxtLink to="/lecturer/academic-performance" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-[#046e93] hover:bg-[#035475] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#046e93]">
-        Academic Performance
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-        </svg>
-      </NuxtLink>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import Chart from 'chart.js/auto'
-import { useAirtableKpi } from '@/composables/useAirtableKpi'
-
-const { kpiRounds, selectedRound, selectRound, isLoading, error } = useAirtableKpi()
-const selectedRoundId = ref(selectedRound.value?.id || '')
+import { useAirtableKpi } from '@/composables/useAirtableKpi';
+import Chart from "chart.js/auto";
+import { onMounted, ref } from "vue";
 
 definePageMeta({
-  layout: 'lecturer'
-})
-
-const researchChart = ref<HTMLCanvasElement | null>(null)
+  layout: "lecturer",
+});
+const { kpiRounds, selectedRound, selectRound, isLoading, error } = useAirtableKpi()
+const selectedRoundId = ref(selectedRound.value?.id || '')
+const researchChart = ref<HTMLCanvasElement | null>(null);
 
 onMounted(() => {
-  // Create horizontal bar chart
+  // Create bar chart
   if (researchChart.value) {
     new Chart(researchChart.value, {
-      type: 'bar',
+      type: "bar",
       data: {
         labels: [
-          'Research Studies', 
-          'Research Publication', 
+          "Other Academic Work (School)",
+          "Other Academic Work",
+          "Patented Inventions",
+          "Textbooks & e-Learning Materials",
+          "Academic Articles",
+          "Research Publication",
+          "Research Studies"
         ],
-        datasets: [{
-          label: 'Research Performance',
-          data: [85, 70],
-          backgroundColor: '#2563eb',
-          borderWidth: 0,
-          borderRadius: 4,
-        }]
+        datasets: [
+          {
+            label: "Level 4 (Score)",
+            data: [10, 0, 0, 50, 0, 25, 15],
+            backgroundColor: "#172554",
+            borderWidth: 0,
+            borderRadius: 4,
+            stack: 'Stack 0'
+          },
+          {
+            label: "Level 6 (Score)",
+            data: [0, 0, 0, 0, 0, 30, 15],
+            backgroundColor: "#a21a5b",
+            borderWidth: 0,
+            borderRadius: 4,
+            stack: 'Stack 0'
+          },
+          {
+            label: "Level 7 (Score)",
+            data: [0, 0, 0, 0, 0, 30, 0],
+            backgroundColor: "#dc2626",
+            borderWidth: 0,
+            borderRadius: 4,
+            stack: 'Stack 0'
+          }
+        ],
       },
       options: {
-        indexAxis: 'y' as const,
+        indexAxis: "y" as const,
         responsive: true,
         maintainAspectRatio: false,
+        layout: {
+          padding: {
+            left: 8,
+            right: 4,
+            top: 4,
+            bottom: 4
+          }
+        },
         scales: {
           x: {
+            stacked: true,
             beginAtZero: true,
-            max: 100,
+            max: 180,
+            title: {
+              display: true,
+              text: 'Raw Score',
+              color: '#64748B',
+              font: {
+                size: 12
+              }
+            },
             grid: {
+              color: "#E5E7EB",
+              drawTicks: false
+            },
+            border: {
               display: false
             },
             ticks: {
-              color: '#64748b'
+              color: "#64748B",
+              padding: 4,
+              font: {
+                size: 11
+              },
+              maxRotation: 0,
+              autoSkip: false
             }
           },
           y: {
             grid: {
               display: false
             },
+            border: {
+              display: false
+            },
             ticks: {
-              color: '#64748b'
+              color: "#64748B",
+              padding: 2,
+              font: {
+                size: 10
+              },
+              maxRotation: 0,
+              autoSkip: false,
+              autoSkipPadding: 0,
+              labelOffset: 0
+            },
+            afterFit: function(scaleInstance) {
+              scaleInstance.width = 160;
             }
-          }
+          },
         },
         plugins: {
           legend: {
-            display: false
+            display: false,
+          },
+          tooltip: {
+            backgroundColor: "#1E293B",
+            titleFont: {
+              size: 13
+            },
+            bodyFont: {
+              size: 12
+            },
+            padding: 12,
+            cornerRadius: 4
+          },
+          // @ts-ignore - Custom plugin options
+          rowSum: {
+            font: {
+              size: 11,
+              family: "'Inter', sans-serif"
+            },
+            color: "#64748B"
           }
-        }
-      }
-    })
+        },
+      },
+    });
   }
-})
+});
 </script>
