@@ -50,7 +50,7 @@
           </div>
           <div class="flex-1 min-w-0">
             <h2 class="text-2xl font-bold text-gray-800">{{ user?.displayName || 'User' }}</h2>
-            <p class="text-gray-600 mb-2">Senior Lecturer</p>
+            <p class="text-gray-600 mb-2">Lecturer</p>
             <div class="flex flex-col gap-4 mt-4 text-gray-700">
               <!-- Email -->
               <div class="flex items-center gap-3">

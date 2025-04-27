@@ -6,6 +6,7 @@
         <h1 class="text-2xl font-bold text-gray-900">
           Domain 2: Research Performance
         </h1>
+        <p class="text-gray-600">Welcome back, {{ user?.displayName }}</p>
       </div>
       <div class="relative inline-block">
         <select
@@ -219,6 +220,7 @@
 import { useAirtableKpi } from '@/composables/useAirtableKpi';
 import Chart from "chart.js/auto";
 import { onMounted, ref } from "vue";
+import { useFirebaseAuth } from '@/composables/useFirebaseAuth'
 
 definePageMeta({
   layout: "lecturer",
@@ -226,6 +228,7 @@ definePageMeta({
 const { kpiRounds, selectedRound, selectRound, isLoading, error } = useAirtableKpi()
 const selectedRoundId = ref(selectedRound.value?.id || '')
 const researchChart = ref<HTMLCanvasElement | null>(null);
+const { user,logout } = useFirebaseAuth()
 
 onMounted(() => {
   // Create bar chart

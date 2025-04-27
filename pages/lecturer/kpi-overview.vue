@@ -6,7 +6,7 @@
         <h1 class="text-2xl font-bold text-gray-900">
           KPI Performance Overview
         </h1>
-        <p class="text-gray-600">Welcome back, Dr. Supansa</p>
+        <p class="text-gray-600">Welcome back, {{ user?.displayName }}</p>
       </div>
       <div class="relative">
         <select
@@ -258,9 +258,11 @@
 import { ref, onMounted, watch, computed } from "vue";
 import Chart from "chart.js/auto";
 import { useAirtableKpi } from '@/composables/useAirtableKpi'
+import { useFirebaseAuth } from '@/composables/useFirebaseAuth'
 
 const { kpiRounds, selectedRound, selectRound, isLoading, error } = useAirtableKpi()
 const selectedRoundId = ref(selectedRound.value?.id || '')
+const { user,logout } = useFirebaseAuth()
 
 // Computed properties for derived values
 const academicPerformance = computed(() => {
