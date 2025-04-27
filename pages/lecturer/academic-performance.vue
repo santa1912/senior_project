@@ -30,7 +30,6 @@
     </div>
 
     <!-- KPI Categories with NuxtLink-->
-<<<<<<< HEAD
     <div class="grid grid-cols-5 gap-4 mb-8">
       <NuxtLink to="/lecturer/teaching-performance" class="rounded-lg p-4 text-center transition-colors cursor-pointer"
         :class="$route.path === '/lecturer/teaching-performance'
@@ -74,72 +73,6 @@
         ">
         <p class="text-sm text-gray-600">Arts and culture (10%)</p>
         <p class="text-xl font-bold text-gray-700">3.75%</p>
-=======
-    <div v-if="selectedRound" class="grid grid-cols-5 gap-4 mb-8">
-      <NuxtLink
-        to="/lecturer/teaching-performance"
-        class="rounded-lg p-4 text-center transition-colors cursor-pointer"
-        :class="
-          $route.path === '/lecturer/teaching-performance'
-            ? 'bg-blue-200'
-            : 'bg-gray-100 hover:bg-blue-100'
-        "
-      >
-        <p class="text-sm text-gray-600">Teaching ({{ selectedRound?.categories[0]?.percent || 0 }}%)</p>
-        <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[0]?.value || 0 }}%</p>
-      </NuxtLink>
-
-      <NuxtLink
-        to="/lecturer/research-performance"
-        class="rounded-lg p-4 text-center transition-colors cursor-pointer"
-        :class="
-          $route.path === '/lecturer/research-performance'
-            ? 'bg-blue-200'
-            : 'bg-gray-100 hover:bg-blue-100'
-        "
-      >
-        <p class="text-sm text-gray-600">Research ({{ selectedRound?.categories[1]?.percent || 0 }}%)</p>
-        <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[1]?.value || 0 }}%</p>
-      </NuxtLink>
-
-      <NuxtLink
-        to="/lecturer/academic-performance"
-        class="rounded-lg p-4 text-center transition-colors cursor-pointer"
-        :class="
-          $route.path === '/lecturer/academic-performance'
-            ? 'bg-blue-200'
-            : 'bg-gray-100 hover:bg-blue-100'
-        "
-      >
-        <p class="text-sm text-gray-600">Academic Service ({{ selectedRound?.categories[2]?.percent || 0 }}%)</p>
-        <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[2]?.value || 0 }}%</p>
-      </NuxtLink>
-
-      <NuxtLink
-        to="/lecturer/administration"
-        class="rounded-lg p-4 text-center transition-colors cursor-pointer"
-        :class="
-          $route.path === '/lecturer/administration'
-            ? 'bg-blue-200'
-            : 'bg-gray-100 hover:bg-blue-100'
-        "
-      >
-        <p class="text-sm text-gray-600">Administration ({{ selectedRound?.categories[3]?.percent || 0 }}%)</p>
-        <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[3]?.value || 0 }}%</p>
-      </NuxtLink>
-
-      <NuxtLink
-        to="/lecturer/arts-culture"
-        class="rounded-lg p-4 text-center transition-colors cursor-pointer"
-        :class="
-          $route.path === '/lecturer/arts-culture'
-            ? 'bg-blue-200'
-            : 'bg-gray-100 hover:bg-blue-100'
-        "
-      >
-        <p class="text-sm text-gray-600">Arts and culture ({{ selectedRound?.categories[4]?.percent || 0 }}%)</p>
-        <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[4]?.value || 0 }}%</p>
->>>>>>> 234082ad85c70eb013ff999744e88a7d93bdfdc9
       </NuxtLink>
     </div>
 
