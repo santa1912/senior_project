@@ -1,16 +1,16 @@
 <template>
-  <div class="min-h-screen flex">
+ <div class="min-h-screen flex">
     <!-- Sidebar -->
-    <aside class="w-64 bg-gradient-to-br from-[#046e93] via-[#035e80] to-[#1b3455] text-white flex-col sticky top-0 h-screen hidden md:flex">
+    <aside class="w-64 bg-gradient-to-b from-[#18345c] via-[#17688f] to-[#137b97] text-white flex-col sticky top-0 h-screen hidden md:flex">
       <!-- Logo Section -->
-      <div class="px-8 py-6 border-b border-[#035e80]">
+      <div class="px-8 py-6">
         <div class="flex items-center justify-center">
           <mfulogo/>
-          <div class="w-0.5 h-10 bg-[#035e80] mx-3"></div>
+          <div class="w-0.5 h-10 bg-[#FFFFFF] mx-3"></div>
           <div>
-            <h1 class="text-xl font-bold mb-1">SoM.BI</h1>
-            <div class="w-full h-0.5 bg-[#035e80] mb-1"></div>
-            <p class="text-xs">School of Management</p>
+            <h2 class="text-xl font-bold text-white mb-1">SoM.BI</h2>
+            <div class="w-full h-0.5 bg-[#FFFFFF] mb-1"></div>
+            <p class="text-xs text-white">School of Management</p>
           </div>
         </div>
       </div>
