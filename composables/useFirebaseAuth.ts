@@ -1,32 +1,41 @@
 import { ref, onMounted } from 'vue'
 import { getAuth, onAuthStateChanged, signOut, type User, GoogleAuthProvider, signInWithPopup, type AuthError } from 'firebase/auth'
+import { getFirestore, doc, getDoc, setDoc, collection } from 'firebase/firestore'
 import { useRouter } from 'vue-router'
 import { useAlert } from './useAlert'
+import type { UserRole, RolePasswordStore, UserRoleData } from '~/types/auth'
 
-// Define user roles type
-type UserRole = 'dean' | 'lecturer'
+// Define user roles
+const ROLES: UserRole[] = ['admin', 'dean', 'lecturer']
 
-// Define authorized users with proper typing
-const AUTHORIZED_USERS = {
-  dean: ['6531503172@lamduan.mfu.ac.th', '6531503174@lamduan.mfu.ac.th', '6531503176@lamduan.mfu.ac.th', '6531503137@lamduan.mfu.ac.th'],
-  lecturer: ['phyominthein.leo@gmail.com', 'phyominthein.icloud@gmail.com', 'chitminthu.mdy2000@gmail.com', 'foven0047@gmail.com','6531503069@lamduan.mfu.ac.th']
-} as const
+// Check if email is from MFU
+const isMFUEmail = (email: string): boolean => {
+  return email.endsWith('@mfu.ac.th') || email.endsWith('@lamduan.mfu.ac.th')
+}
 
 // Define paths type based on roles
 const REDIRECT_PATHS: Record<UserRole, string> = {
-  dean: '/dean/dean',
+  admin: '/admin/profile',
+  dean: '/dean/profile',
   lecturer: '/lecturer/profile'
 }
 
-// User role check functions
-const checkUserRole = (email: string): UserRole | null => {
-  // Type assertion to handle the const assertion of AUTHORIZED_USERS
-  const deanEmails = AUTHORIZED_USERS.dean as readonly string[]
-  const lecturerEmails = AUTHORIZED_USERS.lecturer as readonly string[]
+// Verify role password
+const verifyRolePassword = async (role: UserRole, password: string): Promise<boolean> => {
+  const db = getFirestore()
+  const rolePasswordsDoc = await getDoc(doc(db, 'rolePasswords', 'passwords'))
+  const rolePasswords = rolePasswordsDoc.data() as RolePasswordStore | undefined
+  
+  return rolePasswords?.[role] === password
+}
 
-  if (deanEmails.includes(email)) return 'dean'
-  if (lecturerEmails.includes(email)) return 'lecturer'
-  return null
+// Get user data from Firestore
+const getUserData = async (email: string): Promise<UserRoleData | null> => {
+  const db = getFirestore()
+  const userDoc = await getDoc(doc(db, 'users', email))
+  const userData = userDoc.data() as UserRoleData | undefined
+  console.log('User data from Firestore:', userData)
+  return userData || null
 }
 
 const getRedirectPath = (role: UserRole): string => {
@@ -41,7 +50,7 @@ export function useFirebaseAuth() {
   const auth = getAuth()
 
   onMounted(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       user.value = currentUser
       isLoading.value = false
       
@@ -56,14 +65,24 @@ export function useFirebaseAuth() {
         return
       }
 
-      // Check user role and redirect if needed
       const currentPath = router.currentRoute.value.path
-      const userRole = checkUserRole(email)
+      const userData = await getUserData(email)
+      console.log('Checking user data:', { email, userData })
+      
+      if (!userData) {
+        console.log('No user data found, redirecting to role setup')
+        router.push({ 
+          path: '/auth/role-setup',
+          query: { email: email }
+        })
+        return
+      }
 
-      if (currentPath.startsWith('/dean/') && userRole !== 'dean') {
-        router.push('/')
-      } else if (currentPath.startsWith('/lecturer/') && userRole !== 'lecturer') {
-        router.push('/')
+      // Only redirect if user is on home page or auth pages
+      if (currentPath === '/' || currentPath.startsWith('/auth/')) {
+        const redirectPath = userData.role === 'admin' ? '/admin/dashboard' : 
+                            userData.role === 'dean' ? '/dean/dashboard' : '/lecturer/profile'
+        router.push(redirectPath)
       }
     })
 
@@ -89,6 +108,10 @@ export function useFirebaseAuth() {
       const provider = new GoogleAuthProvider()
       provider.addScope('profile')
       provider.addScope('email')
+      // Restrict to MFU domains
+      provider.setCustomParameters({
+        hd: 'mfu.ac.th' // This will show only @mfu.ac.th and @lamduan.mfu.ac.th emails
+      })
       
       const result = await signInWithPopup(auth, provider)
       const email = result.user.email
@@ -97,13 +120,34 @@ export function useFirebaseAuth() {
         return
       }
 
-      const userRole = checkUserRole(email)
-      if (userRole) {
-        router.push(getRedirectPath(userRole))
-      } else {
-        showAlert('error', 'Unauthorized', 'Your email is not authorized to access this website')
+      if (!isMFUEmail(email)) {
+        showAlert('error', 'Unauthorized', 'Only @mfu.ac.th and @lamduan.mfu.ac.th email addresses are allowed')
         await signOut(auth)
+        return
       }
+
+      const userData = await getUserData(email)
+      console.log('Checking user data:', { email, userData })
+      
+      // If user doesn't have a role yet, show role selection dialog
+      if (!userData) {
+        console.log('No user data found, redirecting to role setup')
+        router.push({ 
+          path: '/auth/role-setup',
+          query: { email: email }
+        })
+        return
+      }
+
+      // Show welcome message and redirect to dashboard
+      showAlert('success', 'Welcome Back!', `You are signed in as ${userData.role}`)
+      
+      // Small delay to ensure alert is shown
+      await new Promise(resolve => setTimeout(resolve, 500))
+      
+      const redirectPath = userData.role === 'admin' ? '/admin/dashboard' : 
+                          userData.role === 'dean' ? '/dean/dashboard' : '/lecturer/profile'
+      router.push(redirectPath)
     } catch (error) {
       const authError = error as AuthError
       let errorMessage = 'An error occurred during sign in'

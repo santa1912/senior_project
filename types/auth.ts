@@ -1,0 +1,17 @@
+export type UserRole = 'admin' | 'dean' | 'lecturer'
+
+export interface RolePassword {
+  role: UserRole
+  password: string
+}
+
+export interface RolePasswordStore {
+  [role: string]: string
+}
+
+export interface UserRoleData {
+  email: string
+  role: UserRole
+  createdAt: Date
+  verified: boolean
+}

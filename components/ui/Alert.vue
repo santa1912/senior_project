@@ -7,46 +7,52 @@
     leave-from-class="opacity-100"
     leave-to-class="opacity-0"
   >
-    <div v-if="show" class="fixed z-50 top-4 right-4 w-full max-w-md overflow-hidden">
+    <div v-if="alertState.show" class="fixed top-4 right-4 z-50 max-w-sm w-full overflow-hidden">
       <!-- Backdrop blur for depth -->
       <div class="absolute inset-0 bg-white/30 backdrop-blur-sm rounded-lg"></div>
-      <div :class="[
-        'relative p-4 rounded-lg shadow-xl pointer-events-auto border',
-        type === 'error' 
-          ? 'bg-red-50/95 border-red-200' 
-          : 'bg-blue-50/95 border-blue-200'
-      ]">
+      <div :class="{
+        'bg-white border-l-4 border-green-500 shadow-green-100': alertState.type === 'success',
+        'bg-white border-l-4 border-blue-500 shadow-blue-100': alertState.type === 'info',
+        'bg-white border-l-4 border-red-500 shadow-red-100': alertState.type === 'error'
+      }" class="rounded-lg p-4 shadow-lg transform transition-all">
         <div class="flex items-start space-x-4">
           <div class="flex-shrink-0">
-            <svg v-if="type === 'error'" class="h-6 w-6 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <svg v-if="alertState.type === 'success'" class="h-6 w-6 text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
             </svg>
-            <svg v-else class="h-6 w-6 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg v-else-if="alertState.type === 'info'" class="h-6 w-6 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <svg v-else class="h-6 w-6 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
           <div class="flex-1 min-w-0">
             <p :class="[
               'text-base font-semibold tracking-tight',
-              type === 'error' ? 'text-red-900' : 'text-blue-900'
+              alertState.type === 'success' ? 'text-green-900' : 
+              alertState.type === 'info' ? 'text-blue-900' : 
+              'text-red-900'
             ]">
-              {{ title }}
+              {{ alertState.title }}
             </p>
             <p :class="[
               'mt-1 text-sm leading-5',
-              type === 'error' ? 'text-red-700' : 'text-blue-700'
+              alertState.type === 'success' ? 'text-green-700' : 
+              alertState.type === 'info' ? 'text-blue-700' : 
+              'text-red-700'
             ]">
-              {{ message }}
+              {{ alertState.message }}
             </p>
           </div>
           <div class="flex-shrink-0 self-start ml-4">
             <button
-              @click="$emit('close')"
+              @click="hideAlert"
               :class="[
                 'p-1.5 rounded-md inline-flex hover:bg-gray-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2',
-                type === 'error' 
-                  ? 'text-red-500 hover:text-red-600 focus:ring-red-500'
-                  : 'text-blue-500 hover:text-blue-600 focus:ring-blue-500'
+                alertState.type === 'success' ? 'text-green-400 hover:text-green-600' : 
+                alertState.type === 'info' ? 'text-blue-400 hover:text-blue-600' : 
+                'text-red-400 hover:text-red-600'
               ]"
             >
               <span class="sr-only">Close</span>
@@ -62,14 +68,6 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
-  show: boolean
-  type: 'error' | 'info'
-  title: string
-  message: string
-}>()
-
-defineEmits<{
-  (e: 'close'): void
-}>()
+import { useAlert } from '~/composables/useAlert'
+const { alert: alertState, hideAlert } = useAlert()
 </script>

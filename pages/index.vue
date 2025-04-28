@@ -1,12 +1,5 @@
 <template>
   <div class="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
-    <Alert
-      :show="alert.show"
-      :type="alert.type"
-      :title="alert.title"
-      :message="alert.message"
-      @close="hideAlert"
-    />
     <div class="fixed inset-0 -z-10 bg-[radial-gradient(45rem_50rem_at_top,theme(colors.indigo.100),white)] opacity-20"></div>
     <!-- Header/Navigation -->
     <nav class="bg-white shadow-md">
@@ -14,11 +7,11 @@
         <div class="flex justify-between h-20">
           <div class="flex items-center" :class="{ 'animate__animated animate__fadeInLeft': isLoaded }">
             <mfulogo/>
-            <div class="w-0.5 h-10 bg-[#035e80] mx-3"></div>
+            <div class="w-0.5 h-10 bg-[#18345c] mx-3"></div>
             <div>
-              <h2 class="text-xl font-bold text-gray-700 mb-1">SoM.BI</h2>
-              <div class="w-full h-0.5 bg-[#035e80] mb-1"></div>
-              <p class="text-xs text-gray-600">School of Management</p>
+              <h2 class="text-xl font-bold text-[#18345c] mb-1">SoM.BI</h2>
+              <div class="w-full h-0.5 bg-[#18345c] mb-1"></div>
+              <p class="text-xs text-[#17688f]">School of Management</p>
             </div>
           </div>
           <div class="flex items-center">
@@ -131,12 +124,10 @@
 import { DocumentTextIcon, UserGroupIcon, ChartBarIcon } from '@heroicons/vue/24/outline'
 import { useFirebaseAuth } from '@/composables/useFirebaseAuth'
 import { useAlert } from '@/composables/useAlert'
-import Alert from '@/components/ui/Alert.vue'
 import 'animate.css'
 import { onMounted, ref } from 'vue'
 
 const { signInWithGoogle } = useFirebaseAuth()
-const { alert, hideAlert } = useAlert()
 const isLoaded = ref(false)
 
 onMounted(() => {

@@ -2,7 +2,7 @@ import { ref } from 'vue'
 
 interface AlertState {
   show: boolean
-  type: 'error' | 'info'
+  type: 'error' | 'info' | 'success'
   title: string
   message: string
 }
@@ -15,7 +15,7 @@ const alertState = ref<AlertState>({
 })
 
 export function useAlert() {
-  const showAlert = (type: 'error' | 'info', title: string, message: string, duration = 5000) => {
+  const showAlert = (type: 'error' | 'info' | 'success', title: string, message: string, duration = 5000) => {
     alertState.value = {
       show: true,
       type,

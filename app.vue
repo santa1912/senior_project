@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Alert />
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
@@ -9,6 +10,7 @@
 <script setup>
 // Add Tailwind CSS
 import '@/assets/css/tailwind.css'
+import Alert from '@/components/ui/Alert.vue'
 </script>
 
 <style>
