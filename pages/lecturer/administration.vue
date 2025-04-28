@@ -94,7 +94,7 @@
       </NuxtLink>
     </div>
   
-      <!-- Academic Service Performance -->
+      <!-- Administration Performance -->
       <div class="bg-white rounded-lg shadow-md p-6 mb-20 ml-20 mr-20 ">
         <div class="flex flex-col items-center">
             <h2 class="text-lg font-medium text-gray-900 mb-1">Administration Performance</h2>
@@ -102,9 +102,11 @@
         </div>
         
         <!-- Performance Chart -->
-        <div class="h-96 mb-6">
-        <canvas ref="administrationChart"></canvas>
-      </div>
+        <div class="flex justify mb-6">
+  <div class="bg-white rounded-xl p-6" style="width: 900px; height: 400px;">
+    <canvas ref="administrationChart" style="width:100%;height:100%"></canvas>
+  </div>
+</div>
       </div>
     </div>
   </template>
@@ -138,15 +140,15 @@
       type: 'bar',
       data: {
         labels: [
-          'Academic Administration assigned\nby the School or University',
-          'Coordination with Guest Lecturer',
+        ['Academic Administration assigned', 'by the School or University'],
+        'Coordination with Guest Lecturer',
           'Course Coordination',
           'University\'s Committee',
           'School\'s Committee',
           'School Committee',
           'Curricular Committee',
-          'Administrative duty assigned\nby the school'
-        ],
+          ['Administrative duty assigned', 'by the school']
+          ],
         datasets: [{
           data: [0, 0, 10, 25, 20, 0, 0, 60],
           backgroundColor: '#1D3555',
