@@ -123,7 +123,6 @@
 <script setup>
 import { DocumentTextIcon, UserGroupIcon, ChartBarIcon } from '@heroicons/vue/24/outline'
 import { useFirebaseAuth } from '@/composables/useFirebaseAuth'
-import { useAlert } from '@/composables/useAlert'
 import 'animate.css'
 import { onMounted, ref } from 'vue'
 

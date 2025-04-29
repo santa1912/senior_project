@@ -46,11 +46,26 @@ const verifyRolePassword = async (role: AppUserRole, password: string): Promise<
   return rolePasswords?.[role] === password
 }
 
+// Standardize Google profile photo URL
+const standardizePhotoURL = (url: string | null | undefined): string | undefined => {
+  if (!url) return undefined
+  // Remove any existing size parameters
+  const baseUrl = url.split('=')[0]
+  // Add standard size (96px) and circular crop
+  return `${baseUrl}=s96-c`
+}
+
 // Get user data from Firestore
 const getUserData = async (email: string): Promise<UserRoleData | null> => {
   const db = getFirestore()
   const userDoc = await getDoc(doc(db, 'users', email))
   const userData = userDoc.data() as UserRoleData | undefined
+  
+  // Standardize photo URL if it exists
+  if (userData?.photoURL) {
+    userData.photoURL = standardizePhotoURL(userData.photoURL)
+  }
+  
   console.log('User data from Firestore:', userData)
   return userData || null
 }
