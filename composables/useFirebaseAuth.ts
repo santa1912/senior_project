@@ -10,7 +10,8 @@ const ROLES: UserRole[] = ['admin', 'dean', 'lecturer']
 
 // Check if email is from MFU
 const isMFUEmail = (email: string): boolean => {
-  return email.endsWith('@mfu.ac.th') || email.endsWith('@lamduan.mfu.ac.th')
+  const mfuDomains = ['@mfu.ac.th', '@lamduan.mfu.ac.th']
+  return mfuDomains.some(domain => email.toLowerCase().endsWith(domain))
 }
 
 // Define role-based route configuration
@@ -176,10 +177,15 @@ export function useFirebaseAuth() {
       const provider = new GoogleAuthProvider()
       provider.addScope('profile')
       provider.addScope('email')
-      provider.setCustomParameters({ hd: 'mfu.ac.th' })
+      
+      // Enforce MFU domain
+      provider.setCustomParameters({
+        hd: 'mfu.ac.th',
+        prompt: 'select_account'
+      })
       
       const result = await signInWithPopup(auth, provider)
-      const email = result.user.email
+      const email = result.user.email?.toLowerCase()
       
       if (!email) {
         showAlert('error', 'Sign In Failed', 'No email found in your Google account')
@@ -188,7 +194,7 @@ export function useFirebaseAuth() {
       }
 
       if (!isMFUEmail(email)) {
-        showAlert('error', 'Unauthorized', 'Only @mfu.ac.th and @lamduan.mfu.ac.th email addresses are allowed')
+        showAlert('error', 'Unauthorized', 'Please sign in with your MFU email address (@mfu.ac.th or @lamduan.mfu.ac.th)')
         await signOut(auth)
         return
       }
