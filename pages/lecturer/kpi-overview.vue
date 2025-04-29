@@ -1,18 +1,18 @@
 <template>
   <div class="container mx-auto px-4 py-8">
     <!-- Header -->
-    <div class="flex justify-between items-center mb-8">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
       <div>
-        <h1 class="text-2xl font-bold text-gray-900">
+        <h1 class="text-xl sm:text-2xl font-bold text-gray-900">
           KPI Performance Overview
         </h1>
-        <p class="text-gray-600">Welcome back, {{ user?.displayName }}</p>
+        <p class="text-sm sm:text-base text-gray-600">Welcome back, {{ user?.displayName }}</p>
       </div>
-      <div class="relative">
+      <div class="relative w-full sm:w-auto">
         <select
-          class="appearance-none bg-white border border-gray-300 rounded-lg py-2 pl-4 pr-10 shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
+          class="w-full sm:w-auto appearance-none bg-white border border-gray-300 rounded-lg py-2 pl-4 pr-10 shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
         >
-          <option>Round 2/2025</option>
+        <option>Round 2/2025</option>
           <option>Round 1/2025</option>
           <option>Round 2/2024</option>
         </select>
@@ -36,7 +36,7 @@
     </div>
 
     <!-- KPI Categories with NuxtLink-->
-    <div v-if="selectedRound" class="grid grid-cols-5 gap-4 mb-8">
+    <div v-if="selectedRound" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
       <NuxtLink
         to="/lecturer/teaching-performance"
         class="rounded-lg p-4 text-center transition-colors cursor-pointer"
@@ -116,30 +116,26 @@
             {{ formatDate(selectedRound.startDate) }}-{{ formatDate(selectedRound.endDate) }}
           </template>
         </p>
-
-        <!-- Performance Chart -->
-        <div class="flex justify-center">
-          <div class="w-full max-w-lg h-80 relative">
-            <canvas ref="performanceChart"></canvas>
-            <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-              <span class="text-lg font-semibold text-gray-700">Academic</span>
-              <span class="text-xl font-bold text-gray-800">Performance</span>
-            </div>
-          </div>
+        <div class="relative w-full h-[250px] sm:h-[300px]">
+          <canvas ref="performanceChart"></canvas>
         </div>
 
-        <!-- Legend -->
-        <div v-if="selectedRound" class="mt-8 flex flex-wrap justify-center gap-4">
-          <div v-for="cat in selectedRound.categories" :key="cat.name" class="flex items-center">
-            <span class="w-3 h-3 rounded-full mr-2" :style="{ backgroundColor: cat.color }"></span>
-            <span class="text-sm text-gray-700">{{ cat.name }}</span>
+        <!-- Chart Legend -->
+        <div class="mt-4 sm:mt-6 flex flex-wrap justify-center gap-3 sm:gap-4">
+          <div
+            v-for="cat in selectedRound?.categories"
+            :key="cat.name"
+            class="flex items-center"
+          >
+            <span class="w-2.5 sm:w-3 h-2.5 sm:h-3 rounded-full mr-1.5 sm:mr-2" :style="{ backgroundColor: cat.color }"></span>
+            <span class="text-xs sm:text-sm text-gray-700">{{ cat.name }}</span>
           </div>
         </div>
       </div>
 
       <!-- Performance Metrics -->
-      <div class="md:col-span-1">
-        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+      <div class="lg:col-span-1">
+        <div class="bg-white rounded-lg shadow-md p-4 sm:p-6 mb-6 sm:mb-8">
           <h2 class="text-lg font-medium text-gray-900 mb-4">
             Overall Performance
           </h2>
@@ -205,7 +201,7 @@
         </div>
 
         <!-- Performance Level Legend -->
-        <div class="bg-white rounded-lg shadow-md p-6">
+        <div class="bg-white rounded-lg shadow-md p-4 sm:p-6">
           <h2 class="text-lg font-medium text-gray-900 mb-4">
             Performance Level
           </h2>

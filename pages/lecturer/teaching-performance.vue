@@ -1,16 +1,18 @@
 <template>
-  <div class="container mx-auto px-4 py-8">
+  <div class="container mx-auto px-4 py-4 sm:py-8">
     <!-- Header with Round Selector -->
-    <div class="flex justify-between items-center mb-8">
-      <div>
-        <h1 class="text-2xl font-bold text-gray-900">
+    <div class="md:flex md:justify-between md:items-center mb-6 sm:mb-8">
+      <!-- Title Section - Always Full Width on Mobile -->
+      <div class="mb-4 md:mb-0">
+        <h1 class="text-xl sm:text-2xl font-bold text-gray-900 leading-tight">
           Domain 1: Teaching Performance
         </h1>
-        <p class="text-gray-600">Welcome back, {{ user?.displayName }}</p>
+        <p class="text-sm sm:text-base text-gray-600 mt-1">Welcome back, {{ user?.displayName }}</p>
       </div>
-      <div class="relative inline-block">
+      <!-- Round Selector - Full Width on Mobile -->
+      <div class="relative w-full md:w-auto">
         <select
-          class="appearance-none bg-white border border-gray-300 rounded-lg py-2 pl-4 pr-10 shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
+          class="w-full md:w-auto appearance-none bg-white border border-gray-300 rounded-lg py-2.5 pl-4 pr-10 shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
         >
           <option>Round 2/2025</option>
           <option>Round 1/2025</option>
@@ -25,13 +27,13 @@
     </div>
 
     <!-- Teaching Track -->
-    <div class="mb-6">
-      <h2 class="text-center text-lg font-medium text-gray-700 mb-1">Teaching Track</h2>
-      <p class="text-center text-sm text-gray-500 mb-4">11 Feb 2025-31 July 2025</p>
+    <div class="mb-4 sm:mb-6">
+      <h2 class="text-center text-base sm:text-lg font-medium text-gray-700 mb-1">Teaching Track</h2>
+      <p class="text-center text-xs sm:text-sm text-gray-500 mb-4">11 Feb 2025-31 July 2025</p>
     </div>
 
     <!-- KPI Categories with NuxtLink-->
-    <div v-if="selectedRound" class="grid grid-cols-5 gap-4 mb-8">
+    <div v-if="selectedRound" class="grid grid-cols-2 sm:grid-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-6 sm:mb-8">
       <NuxtLink
         to="/lecturer/teaching-performance"
         class="rounded-lg p-4 text-center transition-colors cursor-pointer"
@@ -99,16 +101,16 @@
     </div>
 
     <!-- Main Content Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
       <!-- Teaching Performance Card -->
-      <div class="md:col-span-2 bg-white rounded-2xl shadow-xl p-8">
-        <h2 class="text-xl font-bold text-gray-900 mb-2">
+      <div class="lg:col-span-2 bg-white rounded-xl sm:rounded-2xl shadow-md sm:shadow-xl p-3 sm:p-6 lg:p-8">
+        <h2 class="text-base sm:text-lg lg:text-xl font-bold text-gray-900 mb-2 text-center">
           Teaching Performance
         </h2>
-        <p class="text-sm text-gray-600 mb-6">
+        <p class="text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4 lg:mb-6 text-center">
           Threshold (170) - Earned score (203.95)
         </p>
-        <div class="h-[400px] w-full">
+        <div class="h-[250px] sm:h-[300px] lg:h-[400px] w-full">
           <canvas ref="teachingChart"></canvas>
         </div>
       </div>
@@ -116,8 +118,8 @@
       <!-- Tables stacked vertically in a card column -->
       <div class="flex flex-col gap-6">
         <!-- Undergraduate Teaching -->
-        <div class="bg-white rounded-2xl shadow-xl p-3">
-          <h2 class="text-base font-semibold text-gray-900 mb-2">Undergraduate Teaching</h2>
+        <div class="bg-white rounded-xl sm:rounded-2xl shadow-md sm:shadow-xl p-3 sm:p-4">
+          <h2 class="text-sm sm:text-base font-semibold text-gray-900 mb-2">Undergraduate Teaching</h2>
           <div class="overflow-x-auto">
             <table class="min-w-full text-xs">
               <thead>
@@ -164,8 +166,8 @@
           </div>
         </div>
         <!-- Graduate Teaching -->
-        <div class="bg-white rounded-2xl shadow-xl p-3">
-          <h2 class="text-base font-semibold text-gray-900 mb-2">Graduate Teaching</h2>
+        <div class="bg-white rounded-xl sm:rounded-2xl shadow-md sm:shadow-xl p-3 sm:p-4">
+          <h2 class="text-sm sm:text-base font-semibold text-gray-900 mb-2">Graduate Teaching</h2>
           <div class="overflow-x-auto">
             <table class="min-w-full text-xs">
               <thead>

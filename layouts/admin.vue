@@ -56,11 +56,17 @@
 
       <!-- User Profile at Bottom -->
       <div class="p-4 border-t border-[#035e80] flex items-center">
-        <div class="w-10 h-10 rounded-full bg-white overflow-hidden mr-3">
+        <div class="w-10 h-10 rounded-full bg-white overflow-hidden mr-3 relative">
+          <div class="w-full h-full flex items-center justify-center bg-gray-100" :class="{ 'hidden': showImage }">
+            <span class="text-xl font-semibold text-gray-500">{{ (userData?.displayName || 'U')?.[0]?.toUpperCase() }}</span>
+          </div>
           <img 
-            :src="user?.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(userData?.displayName || 'User')}`" 
+            v-show="showImage"
+            :src="userData?.photoURL || user?.photoURL" 
             :alt="userData?.displayName || 'User'" 
-            class="w-full h-full object-cover" 
+            class="w-full h-full object-cover absolute inset-0" 
+            @error="handleImageError"
+            @load="handleImageLoad"
           />
         </div>
         <div>
@@ -189,7 +195,7 @@
         <div class="flex items-center p-2 rounded-xl bg-white/5">
           <div class="w-10 h-10 rounded-full ring-2 ring-white/10 overflow-hidden mr-3 shadow-lg">
             <img 
-              :src="user?.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(userData?.displayName || 'User')}`" 
+              :src="photoURL" 
               :alt="userData?.displayName || 'User'" 
               class="w-full h-full object-cover" 
             />
@@ -227,14 +233,31 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
-import { useFirebaseAuth } from '~/composables/useFirebaseAuth'
+import { ref, onMounted, watch, computed } from 'vue'
+import { useFirebaseAuth, standardizePhotoURL } from '~/composables/useFirebaseAuth'
 import { doc, getDoc, getFirestore } from 'firebase/firestore'
 import mfulogo from '@/components/mfulogo.vue'
 
 const { user, logout } = useFirebaseAuth()
 const showSidebar = ref(false)
 const userData = ref<any>(null)
+const showImage = ref(false)
+
+// Handle image load errors
+const handleImageError = () => {
+  showImage.value = false
+}
+
+// Handle successful image load
+const handleImageLoad = () => {
+  showImage.value = true
+}
+
+// Compute standardized photo URL
+const photoURL = computed(() => {
+  const standardizedURL = standardizePhotoURL(user.value?.photoURL)
+  return standardizedURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.value?.displayName || 'User')}`
+})
 
 async function fetchUserData() {
   if (user.value?.email) {

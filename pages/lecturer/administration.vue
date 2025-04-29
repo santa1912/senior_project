@@ -1,13 +1,14 @@
 <template>
     <div class="container mx-auto px-4 py-8">
       <!-- Header with Round Selector -->
-      <div class="flex justify-between items-center mb-8">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>
-          <h1 class="text-2xl font-bold text-gray-900">Domain 4: Administration Performance</h1>
-          <p class="text-gray-600">Welcome back, {{ user?.displayName }}</p>
+          <h1 class="text-xl md:text-2xl font-bold text-gray-900">Domain 4: Administration Performance</h1>
+          <p class="text-gray-600 text-sm md:text-base">Welcome back, {{ user?.displayName }}</p>
         </div>
-        <div class="relative">
-          <select class="appearance-none bg-white border border-gray-300 rounded-md py-2 pl-4 pr-10 shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+        <div class="relative w-full md:w-auto">
+          <select 
+            class="w-full md:w-auto appearance-none bg-white border border-gray-300 rounded-md py-2 pl-4 pr-10 shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm md:text-base">
             <option>Round 2/2025</option>
             <option>Round 1/2025</option>
             <option>Round 2/2024</option>
@@ -27,7 +28,7 @@
       </div>
   
        <!-- KPI Categories with NuxtLink-->
-    <div v-if="selectedRound" class="grid grid-cols-5 gap-4 mb-8">
+    <div v-if="selectedRound" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
       <NuxtLink
         to="/lecturer/teaching-performance"
         class="rounded-lg p-4 text-center transition-colors cursor-pointer"
@@ -95,18 +96,18 @@
     </div>
   
       <!-- Administration Performance -->
-      <div class="bg-white rounded-lg shadow-md p-6 mb-20 ml-20 mr-20 ">
+      <div class="bg-white rounded-lg shadow-md p-4 md:p-6 mb-8 mx-0 md:mx-4 lg:mx-20">
         <div class="flex flex-col items-center">
-            <h2 class="text-lg font-medium text-gray-900 mb-1">Administration Performance</h2>
-            <span class="text-sm text-gray-500 mb-6">Threshold (30) - Earned score (115)</span>
+            <h2 class="text-lg font-medium text-gray-900 mb-1 text-center">Administration Performance</h2>
+            <span class="text-sm text-gray-500 mb-6 text-center">Threshold (30) - Earned score (115)</span>
         </div>
         
         <!-- Performance Chart -->
-        <div class="flex justify mb-6">
-  <div class="bg-white rounded-xl p-6" style="width: 900px; height: 400px;">
-    <canvas ref="administrationChart" style="width:100%;height:100%"></canvas>
-  </div>
-</div>
+        <div class="w-full overflow-x-auto">
+          <div class="min-w-[320px] md:min-w-[600px] lg:min-w-[900px] h-[400px] bg-white rounded-xl p-4 md:p-6">
+            <canvas ref="administrationChart" style="width:100%;height:100%"></canvas>
+          </div>
+        </div>
       </div>
     </div>
   </template>

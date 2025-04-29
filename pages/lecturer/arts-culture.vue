@@ -1,13 +1,14 @@
 <template>
     <div class="container mx-auto px-4 py-8">
       <!-- Header with Round Selector -->
-      <div class="flex justify-between items-center mb-8">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
         <div>
-          <h1 class="text-2xl font-bold text-gray-900">Domain 5: Arts and Culture Conservation Performance</h1>
-          <p class="text-gray-600">Welcome back, {{ user?.displayName }}</p>
+          <h1 class="text-xl sm:text-2xl font-bold text-gray-900 leading-tight">Domain 5: Arts and Culture Conservation Performance</h1>
+          <p class="text-sm sm:text-base text-gray-600">Welcome back, {{ user?.displayName }}</p>
         </div>
-        <div class="relative">
-          <select class="appearance-none bg-white border border-gray-300 rounded-md py-2 pl-4 pr-10 shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+        <div class="relative w-full sm:w-auto">
+          <select
+            class="w-full sm:w-auto appearance-none bg-white border border-gray-300 rounded-lg py-2 pl-4 pr-10 shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm">
             <option>Round 2/2025</option>
             <option>Round 1/2025</option>
             <option>Round 2/2024</option>
@@ -27,7 +28,7 @@
       </div>
   
       <!-- KPI Categories with NuxtLink-->
-    <div v-if="selectedRound" class="grid grid-cols-5 gap-4 mb-8">
+    <div v-if="selectedRound" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
       <NuxtLink
         to="/lecturer/teaching-performance"
         class="rounded-lg p-4 text-center transition-colors cursor-pointer"
@@ -95,20 +96,21 @@
     </div>
   
       <!-- Academic Service Performance -->
-      <div class="grid grid-cols-1 md:grid-cols-[60%_40%] gap-8">
-        <div class="bg-white rounded-lg shadow-md p-6 mb-8 ">
+      <div class="grid grid-cols-1 lg:grid-cols-[60%_40%] gap-6 sm:gap-8">
+        <div class="bg-white rounded-lg shadow-md p-4 sm:p-6 mb-6 sm:mb-8">
         <div class="flex flex-col items-center">
-            <h2 class="text-lg font-medium text-gray-900 mb-1">Arts and Culture Conservation Performance</h2>
-            <span class="text-sm text-gray-500 mb-6">Threshold (40) - Earned score (15)</span>
+          <h2 class="text-lg sm:text-xl font-bold text-gray-900 mb-2">
+            Arts and Culture Performance
+          </h2>
         </div>
         
         <!-- Performance Chart -->
-        <div class="h-96 mb-6">
-        <canvas ref="acChart"></canvas>
-      </div>
+        <div class="h-[300px] sm:h-[400px] mb-4 sm:mb-6">
+          <canvas ref="acChart"></canvas>
+        </div>
       </div>
       <!-- table -->
-      <div class="bg-white rounded-lg shadow-md p-6 mb-40 mr-8">
+      <div class="bg-white rounded-lg shadow-md p-4 sm:p-6 mb-8 sm:mb-40 mr-0 sm:mr-8">
         <h2 class="text-lg font-medium text-gray-900 mb-4">
           Self Development Projects
         </h2>
@@ -163,6 +165,10 @@ import { useAirtableKpi } from '@/composables/useAirtableKpi'
 
 const { kpiRounds, selectedRound, selectRound, isLoading, error } = useAirtableKpi()
 const selectedRoundId = ref(selectedRound.value?.id || '')
+
+function onRoundChange() {
+  selectRound(selectedRoundId.value)
+}
 
 definePageMeta({
   layout: 'lecturer'

@@ -1,18 +1,17 @@
 <template>
   <div class="container mx-auto px-4 py-8">
     <!-- Header with Round Selector -->
-    <div class="flex justify-between items-center mb-8">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
       <div>
-        <h1 class="text-2xl font-bold text-gray-900">
+        <h1 class="text-xl sm:text-2xl font-bold text-gray-900 leading-tight">
           Domain 2: Research Performance
         </h1>
-        <p class="text-gray-600">Welcome back, {{ user?.displayName }}</p>
+        <p class="text-sm sm:text-base text-gray-600">Welcome back, {{ user?.displayName }}</p>
       </div>
-      <div class="relative inline-block">
+      <div class="relative w-full sm:w-auto">
         <select
-          class="appearance-none bg-white border border-gray-300 rounded-lg py-2 pl-4 pr-10 shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
-        >
-          <option>Round 2/2025</option>
+          class="w-full sm:w-auto appearance-none bg-white border border-gray-300 rounded-lg py-2 pl-4 pr-10 shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm">
+        <option>Round 2/2025</option>
           <option>Round 1/2025</option>
           <option>Round 2/2024</option>
         </select>
@@ -31,7 +30,7 @@
     </div>
 
     <!-- KPI Categories with NuxtLink-->
-    <div v-if="selectedRound" class="grid grid-cols-5 gap-4 mb-8">
+    <div v-if="selectedRound" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
       <NuxtLink
         to="/lecturer/teaching-performance"
         class="rounded-lg p-4 text-center transition-colors cursor-pointer"
@@ -99,16 +98,16 @@
     </div>
 
     <!-- Main Content Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
       <!-- Research Performance Card -->
-      <div class="md:col-span-2 bg-white rounded-2xl shadow-xl p-8">
-        <h2 class="text-xl font-bold text-gray-900 mb-2 text-center">
+      <div class="lg:col-span-2 bg-white rounded-2xl shadow-xl p-4 sm:p-8">
+        <h2 class="text-lg sm:text-xl font-bold text-gray-900 mb-2 text-center">
           Research Performance
         </h2>
-        <p class="text-sm text-gray-500 mb-6 text-center">
+        <p class="text-xs sm:text-sm text-gray-500 text-center mb-4 sm:mb-6">
           Threshold (25) - Earned score (94.93)
         </p>
-        <div class="h-[360px] w-full">
+        <div class="h-[300px] sm:h-[360px] w-full">
           <canvas ref="researchChart"></canvas>
         </div>
       </div>
@@ -116,8 +115,8 @@
       <!-- Tables stacked vertically in a card column -->
       <div class="flex flex-col gap-6">
         <!-- Research Studies -->
-        <div class="bg-white rounded-2xl shadow-xl p-3">
-          <h2 class="text-base font-semibold text-gray-900 mb-2">Research Studies</h2>
+        <div class="bg-white rounded-2xl shadow-xl p-3 sm:p-4">
+          <h2 class="text-sm sm:text-base font-semibold text-gray-900 mb-2">Research Studies</h2>
           <div class="max-h-[200px] overflow-y-auto">
             <table class="min-w-full text-xs">
               <thead class="sticky top-0">
@@ -164,8 +163,8 @@
           </div>
         </div>
         <!-- Research Publication -->
-        <div class="bg-white rounded-2xl shadow-xl p-3">
-          <h2 class="text-base font-semibold text-gray-900 mb-2">Research Publication</h2>
+        <div class="bg-white rounded-2xl shadow-xl p-3 sm:p-4">
+          <h2 class="text-sm sm:text-base font-semibold text-gray-900 mb-2">Research Publication</h2>
           <div class="max-h-[200px] overflow-y-auto">
             <table class="min-w-full text-xs">
               <thead class="sticky top-0">
@@ -229,6 +228,10 @@ const { kpiRounds, selectedRound, selectRound, isLoading, error } = useAirtableK
 const selectedRoundId = ref(selectedRound.value?.id || '')
 const researchChart = ref<HTMLCanvasElement | null>(null);
 const { user,logout } = useFirebaseAuth()
+
+function onRoundChange() {
+  selectRound(selectedRoundId.value)
+}
 
 onMounted(() => {
   // Create bar chart

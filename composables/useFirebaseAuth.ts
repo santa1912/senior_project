@@ -3,10 +3,7 @@ import { getAuth, onAuthStateChanged, signOut, type User, GoogleAuthProvider, si
 import { getFirestore, doc, getDoc, setDoc, collection } from 'firebase/firestore'
 import { useRouter } from 'vue-router'
 import { useAlert } from './useAlert'
-import type { UserRole, RolePasswordStore, UserRoleData } from '~/types/auth'
-
-// Define user roles
-const ROLES: UserRole[] = ['admin', 'dean', 'lecturer']
+import type { UserRoleData } from '~/types/auth'
 
 // Check if email is from MFU
 const isMFUEmail = (email: string): boolean => {
@@ -37,22 +34,43 @@ export const getDefaultPath = (role: AppUserRole): string => {
   return roleRoutes[role].default
 }
 
-// Verify role password
-const verifyRolePassword = async (role: AppUserRole, password: string): Promise<boolean> => {
-  const db = getFirestore()
-  const rolePasswordsDoc = await getDoc(doc(db, 'rolePasswords', 'passwords'))
-  const rolePasswords = rolePasswordsDoc.data() as RolePasswordStore | undefined
-  
-  return rolePasswords?.[role] === password
-}
-
 // Standardize Google profile photo URL
-const standardizePhotoURL = (url: string | null | undefined): string | undefined => {
+export const standardizePhotoURL = (url: string | null | undefined): string | undefined => {
   if (!url) return undefined
   // Remove any existing size parameters
   const baseUrl = url.split('=')[0]
   // Add standard size (96px) and circular crop
   return `${baseUrl}=s96-c`
+}
+
+// Generate default avatar URL
+const getDefaultAvatarURL = (displayName: string) => {
+  return `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName || 'User')}&background=random`
+}
+
+// Get cached photo URL from localStorage
+const getCachedPhotoURL = (email: string): string | null => {
+  const cached = localStorage.getItem(`avatar_${email}`)
+  if (cached) {
+    try {
+      const { url, timestamp } = JSON.parse(cached)
+      // Cache for 24 hours
+      if (Date.now() - timestamp < 24 * 60 * 60 * 1000) {
+        return url
+      }
+    } catch (e) {
+      localStorage.removeItem(`avatar_${email}`)
+    }
+  }
+  return null
+}
+
+// Cache photo URL in localStorage
+const cachePhotoURL = (email: string, url: string) => {
+  localStorage.setItem(`avatar_${email}`, JSON.stringify({
+    url,
+    timestamp: Date.now()
+  }))
 }
 
 // Get user data from Firestore
@@ -61,17 +79,34 @@ const getUserData = async (email: string): Promise<UserRoleData | null> => {
   const userDoc = await getDoc(doc(db, 'users', email))
   const userData = userDoc.data() as UserRoleData | undefined
   
-  // Standardize photo URL if it exists
-  if (userData?.photoURL) {
-    userData.photoURL = standardizePhotoURL(userData.photoURL)
+  if (userData) {
+    // Check cache first
+    const cachedURL = getCachedPhotoURL(email)
+    if (cachedURL) {
+      userData.photoURL = cachedURL
+      return userData
+    }
+
+    // If no photoURL exists, create and store a default avatar
+    if (!userData.photoURL && userData.displayName) {
+      userData.photoURL = getDefaultAvatarURL(userData.displayName)
+      // Update Firestore with the default avatar
+      await setDoc(doc(db, 'users', email), { photoURL: userData.photoURL }, { merge: true })
+    } else if (userData.photoURL) {
+      // Standardize Google photo URL if it exists
+      userData.photoURL = standardizePhotoURL(userData.photoURL)
+    }
+
+    // Cache the final URL
+    if (userData.photoURL) {
+      cachePhotoURL(email, userData.photoURL)
+    }
   }
   
   console.log('User data from Firestore:', userData)
   return userData || null
 }
 
-const user = ref<User | null>(null)
-const isLoading = ref(true)
 
 export function useFirebaseAuth() {
   const router = useRouter()
@@ -212,6 +247,17 @@ export function useFirebaseAuth() {
         showAlert('error', 'Unauthorized', 'Please sign in with your MFU email address (@mfu.ac.th or @lamduan.mfu.ac.th)')
         await signOut(auth)
         return
+      }
+      
+      // Ensure user data exists with a photo URL
+      const db = getFirestore()
+      const userDoc = await getDoc(doc(db, 'users', email))
+      const userData = userDoc.data() as UserRoleData | undefined
+      
+      if (userData && !userData.photoURL) {
+        // If no photo URL exists, set a default avatar
+        const defaultAvatar = getDefaultAvatarURL(userData.displayName || result.user.displayName || 'User')
+        await setDoc(doc(db, 'users', email), { photoURL: defaultAvatar }, { merge: true })
       }
 
       await handleUserAuthState(result.user, true)
