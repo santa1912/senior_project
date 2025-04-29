@@ -118,11 +118,50 @@ import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore'
 import { getAuth, signOut } from 'firebase/auth'
 import type { UserRole } from '~/types/auth'
 import { useAlert } from '~/composables/useAlert'
+import { roleRoutes } from '~/composables/useFirebaseAuth'
 import MFULogo from '~/components/mfulogo.vue'
 
 const route = useRoute()
 const router = useRouter()
 const { showAlert } = useAlert()
+const auth = getAuth()
+
+// Route guard setup
+onMounted(async () => {
+  const currentUser = auth.currentUser
+  
+  // If not logged in, redirect to home
+  if (!currentUser) {
+    showAlert('error', 'Unauthorized', 'Please sign in first')
+    router.push('/')
+    return
+  }
+
+  // If no email in query params, redirect to home
+  if (!route.query.email) {
+    showAlert('error', 'Invalid Access', 'Missing email parameter')
+    router.push('/')
+    return
+  }
+
+  // If query email doesn't match current user's email, redirect to home
+  if (route.query.email !== currentUser.email) {
+    showAlert('error', 'Unauthorized', 'Email mismatch')
+    router.push('/')
+    return
+  }
+
+  // Check if user already has a role
+  const db = getFirestore()
+  const userDoc = await getDoc(doc(db, 'users', currentUser.email))
+  const userData = userDoc.data()
+
+  if (userData?.role) {
+    showAlert('info', 'Role Already Set', 'You already have a role assigned')
+    router.push(`/${userData.role}/dashboard`)
+    return
+  }
+})
 
 const email = route.query.email as string
 const roles = ['admin', 'dean', 'lecturer'] as const
@@ -179,8 +218,7 @@ const verifyAndSetupRole = async () => {
       await setDoc(doc(db, 'users', email), userData)
       
       showAlert('success', 'Success', 'Role setup completed successfully')
-      router.push(selectedRole.value === 'admin' ? '/admin/dashboard' : 
-                 selectedRole.value === 'dean' ? '/dean/dashboard' : '/lecturer/profile')
+      router.push(roleRoutes[selectedRole.value].default)
     } else {
       // Verify existing role password
       if (rolePasswords[selectedRole.value] === password.value) {
@@ -194,8 +232,7 @@ const verifyAndSetupRole = async () => {
         console.log('Creating verified user with existing role:', userData)
         await setDoc(doc(db, 'users', email), userData)
         showAlert('success', 'Success', 'Role setup completed successfully')
-        router.push(selectedRole.value === 'admin' ? '/admin/dashboard' : 
-                   selectedRole.value === 'dean' ? '/dean/dashboard' : '/lecturer/profile')
+        router.push(roleRoutes[selectedRole.value].default)
       } else {
         error.value = 'Invalid role password'
       }

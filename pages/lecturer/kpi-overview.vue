@@ -10,12 +10,11 @@
       </div>
       <div class="relative">
         <select
-          v-model="selectedRoundId"
-          @change="onRoundChange"
-          class="appearance-none bg-white border border-gray-300 rounded-md py-2 pl-4 pr-10 shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+          class="appearance-none bg-white border border-gray-300 rounded-lg py-2 pl-4 pr-10 shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
         >
-          <option v-for="round in kpiRounds" :key="round.id" :value="round.id">{{ round.name }}</option>
-          <option v-if="kpiRounds.length === 0" disabled>No KPI rounds available</option>
+          <option>Round 2/2025</option>
+          <option>Round 1/2025</option>
+          <option>Round 2/2024</option>
         </select>
         <div
           class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"

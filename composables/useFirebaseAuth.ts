@@ -13,15 +13,31 @@ const isMFUEmail = (email: string): boolean => {
   return email.endsWith('@mfu.ac.th') || email.endsWith('@lamduan.mfu.ac.th')
 }
 
-// Define paths type based on roles
-const REDIRECT_PATHS: Record<UserRole, string> = {
-  admin: '/admin/profile',
-  dean: '/dean/profile',
-  lecturer: '/lecturer/profile'
+// Define role-based route configuration
+export const roleRoutes = {
+  admin: {
+    prefix: '/admin',
+    default: '/admin/dashboard'
+  },
+  dean: {
+    prefix: '/dean',
+    default: '/dean/dashboard'
+  },
+  lecturer: {
+    prefix: '/lecturer',
+    default: '/lecturer/dashboard'
+  }
+} as const
+
+type AppUserRole = keyof typeof roleRoutes
+
+// Helper to get default path for a role
+export const getDefaultPath = (role: AppUserRole): string => {
+  return roleRoutes[role].default
 }
 
 // Verify role password
-const verifyRolePassword = async (role: UserRole, password: string): Promise<boolean> => {
+const verifyRolePassword = async (role: AppUserRole, password: string): Promise<boolean> => {
   const db = getFirestore()
   const rolePasswordsDoc = await getDoc(doc(db, 'rolePasswords', 'passwords'))
   const rolePasswords = rolePasswordsDoc.data() as RolePasswordStore | undefined
@@ -38,22 +54,41 @@ const getUserData = async (email: string): Promise<UserRoleData | null> => {
   return userData || null
 }
 
-const getRedirectPath = (role: UserRole): string => {
-  return REDIRECT_PATHS[role] || '/'
-}
-
 const user = ref<User | null>(null)
 const isLoading = ref(true)
 
 export function useFirebaseAuth() {
   const router = useRouter()
   const auth = getAuth()
+  const { showAlert } = useAlert()
+  const user = useState<User | null>('user', () => null)
+  const isLoading = useState<boolean>('isLoading', () => true)
+  
+  // Function to check if a route is accessible for a role
+  const canAccessRoute = async (path: string): Promise<boolean> => {
+    if (!user.value) return false
+
+    // Get user's role
+    const db = getFirestore()
+    const userDoc = await getDoc(doc(db, 'users', user.value.email!))
+    const role = userDoc.data()?.role as keyof typeof roleRoutes | undefined
+
+    if (!role) return false
+
+    // Public routes are always accessible
+    if (path === '/' || path === '/unauthorized' || path.startsWith('/auth/')) {
+      return true
+    }
+
+    // Check if path matches user's role
+    return path.startsWith(roleRoutes[role].prefix)
+  }
 
   onMounted(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       user.value = currentUser
       isLoading.value = false
-      
+
       if (!currentUser) {
         router.push('/')
         return
@@ -78,11 +113,23 @@ export function useFirebaseAuth() {
         return
       }
 
-      // Only redirect if user is on home page or auth pages
-      if (currentPath === '/' || currentPath.startsWith('/auth/')) {
-        const redirectPath = userData.role === 'admin' ? '/admin/dashboard' : 
-                            userData.role === 'dean' ? '/dean/dashboard' : '/lecturer/profile'
-        router.push(redirectPath)
+      // Check if current path is accessible
+      const hasAccess = await canAccessRoute(currentPath)
+      
+      if (!hasAccess) {
+        if (currentPath === '/' || currentPath.startsWith('/auth/')) {
+          // Redirect to appropriate dashboard based on role
+          const userRole = userData.role as AppUserRole
+          const redirectPath = roleRoutes[userRole].default
+          router.push(redirectPath)
+        } else {
+          // Redirect to unauthorized if trying to access forbidden route
+          showAlert('error', 'Access Denied', 'You do not have permission to access this page')
+          router.push('/unauthorized')
+        }
+      } else {
+        // Store current path for future redirects
+        localStorage.setItem('lastPath', currentPath)
       }
     })
 
@@ -145,8 +192,8 @@ export function useFirebaseAuth() {
       // Small delay to ensure alert is shown
       await new Promise(resolve => setTimeout(resolve, 500))
       
-      const redirectPath = userData.role === 'admin' ? '/admin/dashboard' : 
-                          userData.role === 'dean' ? '/dean/dashboard' : '/lecturer/profile'
+      const userRole = userData.role as AppUserRole
+      const redirectPath = roleRoutes[userRole].default
       router.push(redirectPath)
     } catch (error) {
       const authError = error as AuthError

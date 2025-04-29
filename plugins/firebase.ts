@@ -1,6 +1,5 @@
 import { initializeApp } from 'firebase/app'
-import { getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged, type User } from 'firebase/auth'
-import { ref } from 'vue'
+import { getAuth, setPersistence, browserLocalPersistence } from 'firebase/auth'
 
 export default defineNuxtPlugin(async (nuxtApp) => {
   const config = {
@@ -13,25 +12,10 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     appId: "1:51782680110:web:6bc2a46eb9f791892a29bf"
   }
 
+  // Initialize Firebase
   const app = initializeApp(config)
   const auth = getAuth(app)
 
   // Enable auth persistence
   await setPersistence(auth, browserLocalPersistence)
-
-  // Create a reactive user state
-  const user = ref<User | null>(null)
-
-  // Set up auth state listener
-  onAuthStateChanged(auth, (newUser) => {
-    user.value = newUser
-    console.log('Auth state changed in plugin:', newUser?.email)
-  })
-
-  return {
-    provide: {
-      auth,
-      user: user.value
-    }
-  }
 })
