@@ -117,6 +117,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { getFirestore, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
 import { getAuth, signOut } from 'firebase/auth'
 import type { UserRole } from '~/types/auth'
+import type { UserRoleData } from '~/types/auth'
 import { useAlert } from '~/composables/useAlert'
 import { roleRoutes } from '~/composables/useFirebaseAuth'
 import MFULogo from '~/components/mfulogo.vue'
@@ -174,8 +175,17 @@ const cancelSetup = async () => {
   const { showAlert } = useAlert()
   try {
     const auth = getAuth()
+    // Clear any existing error messages
+    error.value = ''
+    loading.value = false
+    
+    // Reset form
+    selectedRole.value = undefined
+    password.value = ''
+    
+    // Sign out and redirect
     await signOut(auth)
-    showAlert('info', 'Setup Cancelled', 'You have been signed out')
+    showAlert('info', 'Setup Cancelled', 'Role setup was cancelled. You have been signed out.')
     router.push('/')
   } catch (error) {
     console.error('Error during sign out:', error)
@@ -190,49 +200,51 @@ const verifyAndSetupRole = async () => {
   error.value = ''
   
   try {
+    loading.value = true
+    error.value = ''
+
+    // Get current user data
+    const auth = getAuth()
+    const currentUser = auth.currentUser
+    if (!currentUser) throw new Error('No authenticated user')
+
+    // Get Firestore instance
     const db = getFirestore()
-    
-    // Check if role password exists
+
+    // Verify role password
     const rolePasswordsDoc = await getDoc(doc(db, 'rolePasswords', 'passwords'))
     const rolePasswords = rolePasswordsDoc.data()
-    console.log('Existing role passwords:', rolePasswords)
-    
+
+    // Check if this is first time setup for this role
     if (!rolePasswords || !rolePasswords[selectedRole.value]) {
       console.log('First time setup for role:', selectedRole.value)
-      // First time setup for this role
+      // Set up role password
       const updatedPasswords = {
         ...rolePasswords,
         [selectedRole.value]: password.value
       }
-      console.log('Setting up new role password:', updatedPasswords)
       await setDoc(doc(db, 'rolePasswords', 'passwords'), updatedPasswords)
-      
-      // Update user document with role
-      const updates = {
-        role: selectedRole.value,
-        verified: true
-      }
-      console.log('Updating user with role:', updates)
-      await updateDoc(doc(db, 'users', email), updates)
-      
-      showAlert('success', 'Success', 'Role setup completed successfully')
-      router.push(roleRoutes[selectedRole.value].default)
-    } else {
-      // Verify existing role password
-      if (rolePasswords[selectedRole.value] === password.value) {
-        // Create user document
-        const updates = {
-          role: selectedRole.value,
-          verified: true as const
-        }
-        console.log('Updating user with existing role:', updates)
-        await updateDoc(doc(db, 'users', email), updates)
-        showAlert('success', 'Success', 'Role setup completed successfully')
-        router.push(roleRoutes[selectedRole.value].default)
-      } else {
-        error.value = 'Invalid role password'
-      }
+    } else if (rolePasswords[selectedRole.value] !== password.value) {
+      error.value = 'Invalid role password'
+      loading.value = false
+      return
     }
+
+    // Create user document with complete data
+    const userData: UserRoleData = {
+      email,
+      displayName: currentUser.displayName || undefined,
+      photoURL: currentUser.photoURL || undefined,
+      role: selectedRole.value,
+      verified: true as const,
+      createdAt: new Date(),
+      isActive: true
+    }
+    console.log('Creating user data with role:', userData)
+    await setDoc(doc(db, 'users', email), userData)
+
+    showAlert('success', 'Success', 'Role setup completed successfully')
+    router.push(roleRoutes[selectedRole.value].default)
   } catch (err) {
     console.error('Role setup error:', err)
     error.value = 'An error occurred during role setup'

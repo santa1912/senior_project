@@ -63,102 +63,104 @@ export function useFirebaseAuth() {
   const { showAlert } = useAlert()
   const user = useState<User | null>('user', () => null)
   const isLoading = useState<boolean>('isLoading', () => true)
-  
+
+  // Helper function to handle user authentication state
+  const handleUserAuthState = async (currentUser: User | null, showWelcome = false) => {
+    if (!currentUser) {
+      router.push('/')
+      return
+    }
+
+    const email = currentUser.email
+    if (!email) {
+      router.push('/')
+      return
+    }
+
+    const userData = await getUserData(email)
+    console.log('Checking user data:', { email, userData })
+
+    // Check if user is deactivated
+    if (userData?.isActive === false) {
+      console.log('User is deactivated:', email)
+      showAlert('error', 'Account Deactivated', 'Your account has been deactivated. Please contact the administrator.')
+      await signOut(auth)
+      router.push('/')
+      return
+    }
+
+    // If no user data, redirect to role setup
+    if (!userData) {
+      console.log('No user data found, redirecting to role setup')
+      const currentPath = router.currentRoute.value.path
+      if (!currentPath.startsWith('/auth/role-setup')) {
+        router.push({ 
+          path: '/auth/role-setup',
+          query: { email }
+        })
+      }
+      return
+    }
+
+    // Show welcome message if requested
+    if (showWelcome) {
+      showAlert('success', 'Welcome Back!', `You are signed in as ${userData.role}`)
+      await new Promise(resolve => setTimeout(resolve, 500))
+    }
+
+    // Handle routing based on role
+    if (userData.role) {
+      const currentPath = router.currentRoute.value.path
+      const userRole = userData.role as AppUserRole
+
+      // Always redirect from index page to dashboard
+      if (currentPath === '/') {
+        const redirectPath = roleRoutes[userRole].default
+        router.push(redirectPath)
+        return
+      }
+
+      // Check if current path is accessible
+      const hasAccess = await canAccessRoute(currentPath)
+      if (!hasAccess) {
+        if (currentPath.startsWith('/auth/')) {
+          router.push(roleRoutes[userRole].default)
+        } else {
+          showAlert('error', 'Access Denied', 'You do not have permission to access this page')
+          router.push('/unauthorized')
+        }
+      } else {
+        localStorage.setItem('lastPath', currentPath)
+      }
+    }
+  }
+
   // Function to check if a route is accessible for a role
   const canAccessRoute = async (path: string): Promise<boolean> => {
-    if (!user.value) return false
+    if (!user.value?.email) return false
 
-    // Get user's role
-    const db = getFirestore()
-    const userDoc = await getDoc(doc(db, 'users', user.value.email!))
-    const role = userDoc.data()?.role as keyof typeof roleRoutes | undefined
+    const userData = await getUserData(user.value.email)
+    const role = userData?.role as keyof typeof roleRoutes | undefined
 
     if (!role) return false
 
-    // Public routes are always accessible
-    if (path === '/' || path === '/unauthorized' || path.startsWith('/auth/')) {
-      return true
-    }
-
-    // Check if path matches user's role
-    return path.startsWith(roleRoutes[role].prefix)
+    return path === '/' || 
+           path === '/unauthorized' || 
+           path.startsWith('/auth/') || 
+           path.startsWith(roleRoutes[role].prefix)
   }
 
   onMounted(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       user.value = currentUser
       isLoading.value = false
-
-      if (!currentUser) {
-        router.push('/')
-        return
-      }
-
-      const email = currentUser.email
-      if (!email) {
-        router.push('/')
-        return
-      }
-
-      const currentPath = router.currentRoute.value.path
-      const userData = await getUserData(email)
-      console.log('Checking user data:', { email, userData })
-      
-      // Check if user is deactivated
-      if (userData?.isActive === false) {
-        console.log('User is deactivated:', email)
-        showAlert('error', 'Account Deactivated', 'Your account has been deactivated. Please contact the administrator.')
-        await signOut(auth)
-        router.push('/')
-        return
-      }
-      
-      if (!userData) {
-        console.log('No user data found, creating initial user data')
-        // Store initial user data with display name and photo
-        const initialUserData: UserRoleData = {
-          email,
-          displayName: currentUser.displayName,
-          photoURL: currentUser.photoURL,
-          createdAt: new Date(),
-          isActive: true // Set active by default for new users
-        }
-        await setDoc(doc(getFirestore(), 'users', email), initialUserData)
-        
-        console.log('Redirecting to role setup')
-        router.push({ 
-          path: '/auth/role-setup',
-          query: { email: email }
-        })
-        return
-      }
-
-      // Check if current path is accessible
-      const hasAccess = await canAccessRoute(currentPath)
-      
-      if (!hasAccess) {
-        if (currentPath === '/' || currentPath.startsWith('/auth/')) {
-          // Redirect to appropriate dashboard based on role
-          const userRole = userData.role as AppUserRole
-          const redirectPath = roleRoutes[userRole].default
-          router.push(redirectPath)
-        } else {
-          // Redirect to unauthorized if trying to access forbidden route
-          showAlert('error', 'Access Denied', 'You do not have permission to access this page')
-          router.push('/unauthorized')
-        }
-      } else {
-        // Store current path for future redirects
-        localStorage.setItem('lastPath', currentPath)
-      }
+      await handleUserAuthState(currentUser)
     })
 
-    // Clean up subscription
     return () => unsubscribe()
   })
 
   const logout = async () => {
-    const { showAlert } = useAlert()
     try {
       await signOut(auth)
       showAlert('info', 'Goodbye!', 'You have been successfully signed out')
@@ -170,20 +172,18 @@ export function useFirebaseAuth() {
   }
 
   const signInWithGoogle = async () => {
-    const { showAlert } = useAlert()
     try {
       const provider = new GoogleAuthProvider()
       provider.addScope('profile')
       provider.addScope('email')
-      // Restrict to MFU domains
-      provider.setCustomParameters({
-        hd: 'mfu.ac.th' // This will show only @mfu.ac.th and @lamduan.mfu.ac.th emails
-      })
+      provider.setCustomParameters({ hd: 'mfu.ac.th' })
       
       const result = await signInWithPopup(auth, provider)
       const email = result.user.email
+      
       if (!email) {
         showAlert('error', 'Sign In Failed', 'No email found in your Google account')
+        await signOut(auth)
         return
       }
 
@@ -193,46 +193,7 @@ export function useFirebaseAuth() {
         return
       }
 
-      // Check if user is deactivated
-      const userData = await getUserData(email)
-      if (userData?.isActive === false) {
-        showAlert('error', 'Account Deactivated', 'Your account has been deactivated. Please contact the administrator.')
-        await signOut(auth)
-        return
-      }
-
-      console.log('Checking user data:', { email, userData })
-      
-      // If user doesn't have a role yet, show role selection dialog
-      if (!userData) {
-        console.log('No user data found, creating initial user data')
-        // Store initial user data with display name and photo
-        const initialUserData: UserRoleData = {
-          email,
-          displayName: user.value?.displayName,
-          photoURL: user.value?.photoURL,
-          createdAt: new Date(),
-          isActive: true // Set active by default for new users
-        }
-        await setDoc(doc(getFirestore(), 'users', email), initialUserData)
-        
-        console.log('Redirecting to role setup')
-        router.push({ 
-          path: '/auth/role-setup',
-          query: { email: email }
-        })
-        return
-      }
-
-      // Show welcome message and redirect to dashboard
-      showAlert('success', 'Welcome Back!', `You are signed in as ${userData.role}`)
-      
-      // Small delay to ensure alert is shown
-      await new Promise(resolve => setTimeout(resolve, 500))
-      
-      const userRole = userData.role as AppUserRole
-      const redirectPath = roleRoutes[userRole].default
-      router.push(redirectPath)
+      await handleUserAuthState(result.user, true)
     } catch (error) {
       const authError = error as AuthError
       let errorMessage = 'An error occurred during sign in'
