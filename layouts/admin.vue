@@ -17,9 +17,6 @@
 
       <!-- Navigation Menu -->
       <nav class="flex-1 px-4 py-4 overflow-y-auto">
-        <div class="mb-4 px-2">
-          <p class="text-[11px] font-medium text-[#7fc6de]/70 uppercase tracking-wider">Administration</p>
-        </div>
         <ul class="space-y-0.5">
           <li>
             <NuxtLink to="/admin/dashboard" class="flex items-center px-4 py-3 text-white hover:bg-[#035e80] rounded-md transition-colors" :class="{ 'bg-[#035475]': $route.path === '/admin/dashboard' }">
