@@ -1,102 +1,134 @@
 <template>
-  <div class="container mx-auto px-4 py-8">
-    <!-- Header -->
-    <div class="flex justify-between items-center mb-8">
-      <div>
-        <h1 class="text-2xl font-bold text-gray-900">Users Management</h1>
-        <p class="text-gray-600">Manage user roles and access</p>
+  <div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Header -->
+      <div class="flex justify-between items-center mb-8 bg-white p-6 rounded-lg shadow-sm">
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900">Users Management</h1>
+          <p class="text-gray-600 mt-1">Manage user roles and system access</p>
+        </div>
+        <div class="bg-blue-50 text-blue-700 px-4 py-2 rounded-full font-medium">
+          {{ users.length }} {{ users.length === 1 ? 'user' : 'users' }} total
+        </div>
       </div>
-      <div class="text-sm text-gray-600">
-        {{ users.length }} {{ users.length === 1 ? 'user' : 'users' }} total
-      </div>
-    </div>
 
     <!-- Search and Filter -->
-    <div class="flex gap-4 mb-6">
-      <div class="flex-1 relative">
-        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
+    <div class="bg-white p-6 rounded-lg shadow-sm mb-6">
+      <div class="flex flex-col sm:flex-row gap-4">
+        <div class="flex-1 relative">
+          <label for="search" class="block text-sm font-medium text-gray-700 mb-2">Search Users</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+            <input 
+              id="search"
+              v-model="searchQuery"
+              type="text"
+              placeholder="Search by name or email..."
+              class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors shadow-sm"
+            />
+          </div>
         </div>
-        <input 
-          v-model="searchQuery"
-          type="text"
-          placeholder="Search by name or email..."
-          class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors"
-        />
-      </div>
-      <div class="w-48 relative">
-        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-          </svg>
+        <div class="sm:w-64">
+          <label for="role-filter" class="block text-sm font-medium text-gray-700 mb-2">Filter by Role</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+            </div>
+            <select 
+              id="role-filter"
+              v-model="roleFilter"
+              class="w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 appearance-none transition-colors shadow-sm bg-white"
+            >
+              <option value="">All Roles</option>
+              <option value="admin">Admin</option>
+              <option value="dean">Dean</option>
+              <option value="lecturer">Lecturer</option>
+            </select>
+            <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+              <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
         </div>
-        <select 
-          v-model="roleFilter"
-          class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 appearance-none transition-colors"
-        >
-          <option value="">All Roles</option>
-          <option value="admin">Admin</option>
-          <option value="dean">Dean</option>
-          <option value="lecturer">Lecturer</option>
-        </select>
       </div>
+    </div>
     </div>
 
     <!-- Users Table -->
-    <div class="bg-white rounded-lg shadow overflow-hidden">
+    <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200">
       <table class="min-w-full divide-y divide-gray-200">
-        <thead class="bg-gray-50">
-          <tr>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+        <thead>
+          <tr class="bg-gray-50 border-b border-gray-200">
+            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">User</th>
+            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Email</th>
+            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Role</th>
+            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
+            <th scope="col" class="px-6 py-4 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">Actions</th>
           </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
           <tr v-for="user in filteredUsers" :key="user.email" class="hover:bg-gray-50">
-            <td class="px-6 py-4 whitespace-nowrap">
+            <td class="px-6 py-5 whitespace-nowrap">
               <div class="flex items-center">
                 <img 
                   :src="user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || 'User')}&background=random`" 
                   :alt="user.displayName"
-                  class="h-10 w-10 rounded-full"
+                  class="h-10 w-10 rounded-full ring-2 ring-gray-100"
+                  loading="lazy"
                 />
                 <div class="ml-4">
-                  <div class="text-sm font-medium text-gray-900">
+                  <div class="text-sm font-semibold text-gray-900">
                     {{ user.displayName || 'No Name' }}
+                  </div>
+                  <div class="text-xs text-gray-500 mt-0.5">
+                    Added {{ user.createdAt?.toDate().toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) || 'N/A' }}
                   </div>
                 </div>
               </div>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-              {{ user.email }}
+            <td class="px-6 py-5 whitespace-nowrap">
+              <div class="text-sm text-gray-900">{{ user.email }}</div>
+              <div class="text-xs text-gray-500 mt-0.5">@mfu.ac.th</div>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm">
+            <td class="px-6 py-5 whitespace-nowrap">
               <span 
-                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
+                class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full items-center justify-center"
                 :class="{
-                  'bg-purple-100 text-purple-800': user.role === 'admin',
-                  'bg-blue-100 text-blue-800': user.role === 'dean',
-                  'bg-green-100 text-green-800': user.role === 'lecturer'
+                  'bg-purple-100 text-purple-800 ring-1 ring-purple-300': user.role === 'admin',
+                  'bg-blue-100 text-blue-800 ring-1 ring-blue-300': user.role === 'dean',
+                  'bg-green-100 text-green-800 ring-1 ring-green-300': user.role === 'lecturer'
                 }"
               >
+                <span class="w-1.5 h-1.5 rounded-full mr-1.5"
+                  :class="{
+                    'bg-purple-500': user.role === 'admin',
+                    'bg-blue-500': user.role === 'dean',
+                    'bg-green-500': user.role === 'lecturer'
+                  }"
+                ></span>
                 {{ user.role }}
               </span>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm">
+            <td class="px-6 py-5 whitespace-nowrap">
               <span 
-                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
-                :class="user.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'"
+                class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full items-center justify-center"
+                :class="user.isActive ? 'bg-green-50 text-green-700 ring-1 ring-green-200' : 'bg-red-50 text-red-700 ring-1 ring-red-200'"
               >
+                <span class="w-1.5 h-1.5 rounded-full mr-1.5"
+                  :class="user.isActive ? 'bg-green-500' : 'bg-red-500'"
+                ></span>
                 {{ user.isActive ? 'Active' : 'Inactive' }}
               </span>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-              <div class="flex items-center justify-end space-x-3">
+            <td class="px-6 py-5 whitespace-nowrap text-right text-sm font-medium">
+              <div class="flex items-center justify-end space-x-2">
                 <button
                   @click="openEditModal(user)"
                   class="inline-flex items-center px-3 py-1.5 border border-blue-600 text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
@@ -213,12 +245,15 @@ import { useAlert } from '~/composables/useAlert'
 definePageMeta({
   layout: 'admin'
 })
+import { Timestamp } from 'firebase/firestore'
+
 interface User {
   email: string
   displayName: string | undefined
   photoURL: string | undefined
   role: 'admin' | 'dean' | 'lecturer'
   isActive: boolean
+  createdAt: Timestamp
 }
 
 const { showAlert } = useAlert()
