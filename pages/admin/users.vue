@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-gray-50 py-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Header -->
-      <div class="flex justify-between items-center mb-8 bg-white p-6 rounded-lg shadow-sm">
+      <div class="flex justify-between items-center mb-8 bg-white p-8 rounded-lg shadow-sm">
         <div>
           <h1 class="text-2xl font-bold text-gray-900">Users Management</h1>
           <p class="text-gray-600 mt-1">Manage user roles and system access</p>
@@ -131,34 +131,37 @@
               <div class="flex items-center justify-end space-x-2">
                 <button
                   @click="openEditModal(user)"
-                  class="inline-flex items-center px-3 py-1.5 border border-blue-600 text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+                  class="p-1.5 text-blue-600 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-lg transition-all duration-200 group relative shadow-sm hover:shadow-md"
+                  title="Edit User"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                   </svg>
-                  Edit
+                  <span class="absolute -top-9 left-1/2 -translate-x-1/2 px-2 py-1 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-50">Edit User</span>
                 </button>
                 <button
                   @click="toggleUserStatus(user)"
                   :class="user.isActive 
-                    ? 'inline-flex items-center px-3 py-1.5 border border-red-600 text-red-600 hover:bg-red-50 rounded-md transition-colors' 
-                    : 'inline-flex items-center px-3 py-1.5 border border-green-600 text-green-600 hover:bg-green-50 rounded-md transition-colors'"
+                    ? 'p-1.5 text-red-600 bg-red-50 hover:bg-red-100 border border-red-200 rounded-lg transition-all duration-200 group relative shadow-sm hover:shadow-md' 
+                    : 'p-1.5 text-green-600 bg-green-50 hover:bg-green-100 border border-green-200 rounded-lg transition-all duration-200 group relative shadow-sm hover:shadow-md'"
+                  :title="user.isActive ? 'Deactivate User' : 'Activate User'"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path v-if="user.isActive" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
                     <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                  {{ user.isActive ? 'Deactivate' : 'Activate' }}
+                  <span class="absolute -top-9 left-1/2 -translate-x-1/2 px-2 py-1 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-50">{{ user.isActive ? 'Deactivate User' : 'Activate User' }}</span>
                 </button>
                 <button
                   v-if="auth.currentUser?.email !== user.email"
                   @click="confirmDelete(user)"
-                  class="inline-flex items-center px-3 py-1.5 border border-red-600 text-red-600 hover:bg-red-50 rounded-md transition-colors"
+                  class="p-1.5 text-red-600 bg-red-50 hover:bg-red-100 border border-red-200 rounded-lg transition-all duration-200 group relative shadow-sm hover:shadow-md"
+                  title="Delete User"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                   </svg>
-                  Delete
+                  <span class="absolute -top-9 left-1/2 -translate-x-1/2 px-2 py-1 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-50">Delete User</span>
                 </button>
               </div>
             </td>
