@@ -11,7 +11,10 @@ export interface RolePasswordStore {
 
 export interface UserRoleData {
   email: string
-  role: UserRole
+  role?: UserRole
+  displayName?: string | null
+  photoURL?: string | null
   createdAt: Date
-  verified: boolean
+  verified?: boolean
+  isActive?: boolean
 }

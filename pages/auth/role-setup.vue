@@ -114,7 +114,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore'
+import { getFirestore, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
 import { getAuth, signOut } from 'firebase/auth'
 import type { UserRole } from '~/types/auth'
 import { useAlert } from '~/composables/useAlert'
@@ -207,15 +207,13 @@ const verifyAndSetupRole = async () => {
       console.log('Setting up new role password:', updatedPasswords)
       await setDoc(doc(db, 'rolePasswords', 'passwords'), updatedPasswords)
       
-      // Create user document
-      const userData = {
-        email,
+      // Update user document with role
+      const updates = {
         role: selectedRole.value,
-        createdAt: new Date(),
         verified: true
       }
-      console.log('Creating new verified user:', userData)
-      await setDoc(doc(db, 'users', email), userData)
+      console.log('Updating user with role:', updates)
+      await updateDoc(doc(db, 'users', email), updates)
       
       showAlert('success', 'Success', 'Role setup completed successfully')
       router.push(roleRoutes[selectedRole.value].default)
@@ -223,14 +221,12 @@ const verifyAndSetupRole = async () => {
       // Verify existing role password
       if (rolePasswords[selectedRole.value] === password.value) {
         // Create user document
-        const userData = {
-          email,
+        const updates = {
           role: selectedRole.value,
-          createdAt: new Date(),
-          verified: true as const // Explicitly type as true
+          verified: true as const
         }
-        console.log('Creating verified user with existing role:', userData)
-        await setDoc(doc(db, 'users', email), userData)
+        console.log('Updating user with existing role:', updates)
+        await updateDoc(doc(db, 'users', email), updates)
         showAlert('success', 'Success', 'Role setup completed successfully')
         router.push(roleRoutes[selectedRole.value].default)
       } else {

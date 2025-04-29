@@ -104,8 +104,28 @@ export function useFirebaseAuth() {
       const userData = await getUserData(email)
       console.log('Checking user data:', { email, userData })
       
+      // Check if user is deactivated
+      if (userData?.isActive === false) {
+        console.log('User is deactivated:', email)
+        showAlert('error', 'Account Deactivated', 'Your account has been deactivated. Please contact the administrator.')
+        await signOut(auth)
+        router.push('/')
+        return
+      }
+      
       if (!userData) {
-        console.log('No user data found, redirecting to role setup')
+        console.log('No user data found, creating initial user data')
+        // Store initial user data with display name and photo
+        const initialUserData: UserRoleData = {
+          email,
+          displayName: currentUser.displayName,
+          photoURL: currentUser.photoURL,
+          createdAt: new Date(),
+          isActive: true // Set active by default for new users
+        }
+        await setDoc(doc(getFirestore(), 'users', email), initialUserData)
+        
+        console.log('Redirecting to role setup')
         router.push({ 
           path: '/auth/role-setup',
           query: { email: email }
@@ -173,12 +193,30 @@ export function useFirebaseAuth() {
         return
       }
 
+      // Check if user is deactivated
       const userData = await getUserData(email)
+      if (userData?.isActive === false) {
+        showAlert('error', 'Account Deactivated', 'Your account has been deactivated. Please contact the administrator.')
+        await signOut(auth)
+        return
+      }
+
       console.log('Checking user data:', { email, userData })
       
       // If user doesn't have a role yet, show role selection dialog
       if (!userData) {
-        console.log('No user data found, redirecting to role setup')
+        console.log('No user data found, creating initial user data')
+        // Store initial user data with display name and photo
+        const initialUserData: UserRoleData = {
+          email,
+          displayName: user.value?.displayName,
+          photoURL: user.value?.photoURL,
+          createdAt: new Date(),
+          isActive: true // Set active by default for new users
+        }
+        await setDoc(doc(getFirestore(), 'users', email), initialUserData)
+        
+        console.log('Redirecting to role setup')
         router.push({ 
           path: '/auth/role-setup',
           query: { email: email }
