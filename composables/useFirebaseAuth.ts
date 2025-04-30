@@ -114,6 +114,29 @@ export function useFirebaseAuth() {
   const { showAlert } = useAlert()
   const user = useState<User | null>('user', () => null)
   const isLoading = useState<boolean>('isLoading', () => true)
+  const loginAttempts = useState<{ [key: string]: { count: number; lastAttempt: number } }>('loginAttempts', () => ({}))
+
+  // Rate limiting function
+  const checkRateLimit = (email: string): boolean => {
+    const now = Date.now()
+    const attempts = loginAttempts.value[email] || { count: 0, lastAttempt: 0 }
+    
+    // Reset counter if last attempt was more than 15 minutes ago
+    if (now - attempts.lastAttempt > 15 * 60 * 1000) {
+      attempts.count = 0
+    }
+    
+    // Allow max 5 attempts within 15 minutes
+    if (attempts.count >= 5) {
+      return false
+    }
+    
+    attempts.count++
+    attempts.lastAttempt = now
+    loginAttempts.value[email] = attempts
+    
+    return true
+  }
 
   // Helper function to handle user authentication state
   const handleUserAuthState = async (currentUser: User | null, showWelcome = false) => {
@@ -228,10 +251,12 @@ export function useFirebaseAuth() {
       provider.addScope('profile')
       provider.addScope('email')
       
-      // Enforce MFU domain
+      // Enforce MFU domain and additional security parameters
       provider.setCustomParameters({
         hd: 'mfu.ac.th',
-        prompt: 'select_account'
+        prompt: 'select_account',
+        // Add additional security parameters
+        auth_type: 'reauthenticate'
       })
       
       const result = await signInWithPopup(auth, provider)
@@ -243,22 +268,55 @@ export function useFirebaseAuth() {
         return
       }
 
+      // Check rate limit
+      if (!checkRateLimit(email)) {
+        showAlert('error', 'Too Many Attempts', 'Too many sign in attempts. Please try again in 15 minutes.')
+        await signOut(auth)
+        return
+      }
+
       if (!isMFUEmail(email)) {
         showAlert('error', 'Unauthorized', 'Please sign in with your MFU email address (@mfu.ac.th or @lamduan.mfu.ac.th)')
         await signOut(auth)
         return
       }
       
-      // Ensure user data exists with a photo URL
+      // Check if user is deactivated before proceeding
       const db = getFirestore()
       const userDoc = await getDoc(doc(db, 'users', email))
       const userData = userDoc.data() as UserRoleData | undefined
       
+      if (!userData) {
+        showAlert('error', 'Account Not Found', 'Your account is not registered. Please contact the administrator.')
+        await signOut(auth)
+        return
+      }
+      
+      if (userData.isActive === false) {
+        showAlert('error', 'Account Deactivated', 'Your account has been deactivated. Please contact the administrator.')
+        await signOut(auth)
+        return
+      }
+
+      // Verify email verification status
+      if (!result.user.emailVerified) {
+        showAlert('error', 'Email Not Verified', 'Please verify your email address before signing in.')
+        await signOut(auth)
+        return
+      }
+      
+      // Ensure user data exists with a photo URL
       if (userData && !userData.photoURL) {
         // If no photo URL exists, set a default avatar
         const defaultAvatar = getDefaultAvatarURL(userData.displayName || result.user.displayName || 'User')
         await setDoc(doc(db, 'users', email), { photoURL: defaultAvatar }, { merge: true })
       }
+
+      // Update last login timestamp
+      await setDoc(doc(db, 'users', email), { 
+        lastLogin: new Date().toISOString(),
+        lastLoginIP: await getClientIP() // You'll need to implement this function
+      }, { merge: true })
 
       await handleUserAuthState(result.user, true)
     } catch (error) {
@@ -278,10 +336,28 @@ export function useFirebaseAuth() {
         case 'auth/network-request-failed':
           errorMessage = 'Network error. Please check your internet connection'
           break
+        case 'auth/account-exists-with-different-credential':
+          errorMessage = 'An account already exists with this email address'
+          break
+        case 'auth/too-many-requests':
+          errorMessage = 'Too many sign in attempts. Please try again later'
+          break
       }
       
       showAlert('error', 'Sign In Failed', errorMessage)
       console.error('Sign in error:', authError)
+    }
+  }
+
+  // Add this helper function to get client IP
+  const getClientIP = async (): Promise<string> => {
+    try {
+      const response = await fetch('https://api.ipify.org?format=json')
+      const data = await response.json()
+      return data.ip
+    } catch (error) {
+      console.error('Failed to get client IP:', error)
+      return 'unknown'
     }
   }
 

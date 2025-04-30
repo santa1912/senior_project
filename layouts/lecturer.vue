@@ -197,7 +197,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, watch, computed } from 'vue'
-import { useFirebaseAuth, standardizePhotoURL } from '~/composables/useFirebaseAuth'
+import { useFirebaseAuth } from '~/composables/useFirebaseAuth'
 import { doc, getDoc, getFirestore } from 'firebase/firestore'
 import mfulogo from '@/components/mfulogo.vue'
 
@@ -218,8 +218,7 @@ const handleImageLoad = () => {
 
 // Compute standardized photo URL
 const photoURL = computed(() => {
-  const standardizedURL = standardizePhotoURL(user.value?.photoURL)
-  return standardizedURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.value?.displayName || 'User')}`
+  return user.value?.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.value?.displayName || 'User')}`
 })
 
 async function fetchUserData() {

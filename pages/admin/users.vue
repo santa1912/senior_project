@@ -1,239 +1,259 @@
 <template>
-  <div class="min-h-screen bg-gray-50 py-8">
+  <div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <!-- Header -->
-      <div class="flex justify-between items-center mb-8 bg-white p-8 rounded-lg shadow-sm">
+      <!-- Header with gradient background -->
+      <div class="flex justify-between items-center mb-8 bg-white bg-opacity-95 p-8 rounded-xl shadow-lg border border-gray-100">
         <div>
-          <h1 class="text-2xl font-bold text-gray-900">Users Management</h1>
-          <p class="text-gray-600 mt-1">Manage user roles and system access</p>
+          <h1 class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">
+            Users Management
+          </h1>
+          <p class="text-gray-600 mt-1 text-sm">Manage user roles and system access</p>
         </div>
-        <div class="bg-blue-50 text-blue-700 px-4 py-2 rounded-full font-medium">
+        <div class="bg-indigo-50 text-indigo-700 px-6 py-2.5 rounded-lg font-medium border border-indigo-100 shadow-sm flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
           {{ users.length }} {{ users.length === 1 ? 'user' : 'users' }} total
         </div>
       </div>
 
-    <!-- Search and Filter -->
-    <div class="bg-white p-6 rounded-lg shadow-sm mb-6">
-      <div class="flex flex-col sm:flex-row gap-4">
-        <div class="flex-1 relative">
-          <label for="search" class="block text-sm font-medium text-gray-700 mb-2">Search Users</label>
-          <div class="relative">
-            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
+      <!-- Search and Filter with glass effect -->
+      <div class="bg-white bg-opacity-95 p-8 rounded-xl shadow-lg mb-8 border border-gray-100 backdrop-blur-sm">
+        <div class="flex flex-col sm:flex-row gap-6">
+          <div class="flex-1">
+            <label for="search" class="block text-sm font-medium text-gray-700 mb-2">Search Users</label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div>
+              <input 
+                id="search"
+                v-model="searchQuery"
+                type="text"
+                placeholder="Search by name or email..."
+                class="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 shadow-sm hover:border-gray-300"
+              />
             </div>
-            <input 
-              id="search"
-              v-model="searchQuery"
-              type="text"
-              placeholder="Search by name or email..."
-              class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors shadow-sm"
-            />
           </div>
-        </div>
-        <div class="sm:w-64">
-          <label for="role-filter" class="block text-sm font-medium text-gray-700 mb-2">Filter by Role</label>
-          <div class="relative">
-            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-              </svg>
-            </div>
-            <select 
-              id="role-filter"
-              v-model="roleFilter"
-              class="w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 appearance-none transition-colors shadow-sm bg-white"
-            >
-              <option value="">All Roles</option>
-              <option value="admin">Admin</option>
-              <option value="dean">Dean</option>
-              <option value="lecturer">Lecturer</option>
-            </select>
-            <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-              <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-              </svg>
+          <div class="sm:w-72">
+            <label for="role-filter" class="block text-sm font-medium text-gray-700 mb-2">Filter by Role</label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+              </div>
+              <select 
+                id="role-filter"
+                v-model="roleFilter"
+                class="w-full pl-12 pr-10 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 appearance-none transition-all duration-200 shadow-sm hover:border-gray-300 bg-white cursor-pointer"
+              >
+                <option value="">All Roles</option>
+                <option value="admin">Admin</option>
+                <option value="dean">Dean</option>
+                <option value="lecturer">Lecturer</option>
+              </select>
+              <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
+                <svg class="h-4 w-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    </div>
 
-    <!-- Users Table -->
-    <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200">
-      <table class="min-w-full divide-y divide-gray-200">
-        <thead>
-          <tr class="bg-gray-50 border-b border-gray-200">
-            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">User</th>
-            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Email</th>
-            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Role</th>
-            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
-            <th scope="col" class="px-6 py-4 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">Actions</th>
-          </tr>
-        </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
-          <tr v-for="user in filteredUsers" :key="user.email" class="hover:bg-gray-50">
-            <td class="px-6 py-5 whitespace-nowrap">
-              <div class="flex items-center">
-                <img 
-                  :src="user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || 'User')}&background=random`" 
-                  :alt="user.displayName"
-                  class="h-10 w-10 rounded-full ring-2 ring-gray-100"
-                  loading="lazy"
-                />
-                <div class="ml-4">
-                  <div class="text-sm font-semibold text-gray-900">
-                    {{ user.displayName || 'No Name' }}
+      <!-- Users Table with improved design -->
+      <div class="bg-white bg-opacity-95 rounded-xl shadow-lg overflow-hidden border border-gray-100">
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead>
+              <tr class="bg-gray-50 border-b border-gray-200">
+                <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">User</th>
+                <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Email</th>
+                <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Role</th>
+                <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
+                <th scope="col" class="px-6 py-4 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <tr v-for="user in filteredUsers" :key="user.email" class="hover:bg-gray-50 transition-colors duration-150">
+                <td class="px-6 py-5 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <div class="relative">
+                      <img 
+                        :src="user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || 'User')}&background=random`" 
+                        :alt="user.displayName"
+                        class="h-12 w-12 rounded-full object-cover ring-4 ring-gray-100"
+                        loading="lazy"
+                      />
+                      <span 
+                        class="absolute bottom-0 right-0 h-3.5 w-3.5 rounded-full border-2 border-white"
+                        :class="user.isActive ? 'bg-emerald-500' : 'bg-gray-400'"
+                      ></span>
+                    </div>
+                    <div class="ml-4">
+                      <div class="text-sm font-semibold text-gray-900">
+                        {{ user.displayName || 'No Name' }}
+                      </div>
+                      <div class="text-xs text-gray-500 mt-0.5">
+                        Added {{ user.createdAt?.toDate().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) || 'N/A' }}
+                      </div>
+                    </div>
                   </div>
-                  <div class="text-xs text-gray-500 mt-0.5">
-                    Added {{ user.createdAt?.toDate().toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) || 'N/A' }}
+                </td>
+                <td class="px-6 py-5 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">{{ user.email }}</div>
+                  <div class="text-xs text-gray-500 mt-0.5">@mfu.ac.th</div>
+                </td>
+                <td class="px-6 py-5 whitespace-nowrap">
+                  <span 
+                    class="px-3 py-1.5 inline-flex text-xs leading-5 font-semibold rounded-lg items-center justify-center shadow-sm"
+                    :class="{
+                      'bg-indigo-50 text-indigo-700 ring-1 ring-indigo-200': user.role === 'admin',
+                      'bg-blue-50 text-blue-700 ring-1 ring-blue-200': user.role === 'dean',
+                      'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200': user.role === 'lecturer'
+                    }"
+                  >
+                    <span class="w-1.5 h-1.5 rounded-full mr-1.5"
+                      :class="{
+                        'bg-indigo-500': user.role === 'admin',
+                        'bg-blue-500': user.role === 'dean',
+                        'bg-emerald-500': user.role === 'lecturer'
+                      }"
+                    ></span>
+                    {{ user.role }}
+                  </span>
+                </td>
+                <td class="px-6 py-5 whitespace-nowrap">
+                  <span 
+                    class="px-3 py-1.5 inline-flex text-xs leading-5 font-semibold rounded-lg items-center justify-center shadow-sm"
+                    :class="user.isActive ? 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200' : 'bg-red-50 text-red-700 ring-1 ring-red-200'"
+                  >
+                    <span class="w-1.5 h-1.5 rounded-full mr-1.5"
+                      :class="user.isActive ? 'bg-emerald-500' : 'bg-red-500'"
+                    ></span>
+                    {{ user.isActive ? 'Active' : 'Inactive' }}
+                  </span>
+                </td>
+                <td class="px-6 py-5 whitespace-nowrap text-right text-sm font-medium">
+                  <div class="flex items-center justify-end space-x-3">
+                    <button
+                      @click="openEditModal(user)"
+                      class="p-2 text-indigo-600 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 rounded-lg transition-all duration-200 group relative shadow-sm hover:shadow-md"
+                      title="Edit User"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                      </svg>
+                      <span class="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 bg-gray-900 text-white text-xs rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-50">
+                        Edit User
+                      </span>
+                    </button>
+                    <button
+                      @click="toggleUserStatus(user)"
+                      :class="user.isActive 
+                        ? 'p-2 text-red-600 bg-red-50 hover:bg-red-100 border border-red-200 rounded-lg transition-all duration-200 group relative shadow-sm hover:shadow-md' 
+                        : 'p-2 text-emerald-600 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg transition-all duration-200 group relative shadow-sm hover:shadow-md'"
+                      :title="user.isActive ? 'Deactivate User' : 'Activate User'"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path v-if="user.isActive" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                        <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span class="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 bg-gray-900 text-white text-xs rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-50">
+                        {{ user.isActive ? 'Deactivate User' : 'Activate User' }}
+                      </span>
+                    </button>
+                    <button
+                      v-if="auth.currentUser?.email !== user.email"
+                      @click="confirmDelete(user)"
+                      class="p-2 text-red-600 bg-red-50 hover:bg-red-100 border border-red-200 rounded-lg transition-all duration-200 group relative shadow-sm hover:shadow-md"
+                      title="Delete User"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                      <span class="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 bg-gray-900 text-white text-xs rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-50">
+                        Delete User
+                      </span>
+                    </button>
                   </div>
-                </div>
-              </div>
-            </td>
-            <td class="px-6 py-5 whitespace-nowrap">
-              <div class="text-sm text-gray-900">{{ user.email }}</div>
-              <div class="text-xs text-gray-500 mt-0.5">@mfu.ac.th</div>
-            </td>
-            <td class="px-6 py-5 whitespace-nowrap">
-              <span 
-                class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full items-center justify-center"
-                :class="{
-                  'bg-purple-100 text-purple-800 ring-1 ring-purple-300': user.role === 'admin',
-                  'bg-blue-100 text-blue-800 ring-1 ring-blue-300': user.role === 'dean',
-                  'bg-green-100 text-green-800 ring-1 ring-green-300': user.role === 'lecturer'
-                }"
-              >
-                <span class="w-1.5 h-1.5 rounded-full mr-1.5"
-                  :class="{
-                    'bg-purple-500': user.role === 'admin',
-                    'bg-blue-500': user.role === 'dean',
-                    'bg-green-500': user.role === 'lecturer'
-                  }"
-                ></span>
-                {{ user.role }}
-              </span>
-            </td>
-            <td class="px-6 py-5 whitespace-nowrap">
-              <span 
-                class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full items-center justify-center"
-                :class="user.isActive ? 'bg-green-50 text-green-700 ring-1 ring-green-200' : 'bg-red-50 text-red-700 ring-1 ring-red-200'"
-              >
-                <span class="w-1.5 h-1.5 rounded-full mr-1.5"
-                  :class="user.isActive ? 'bg-green-500' : 'bg-red-500'"
-                ></span>
-                {{ user.isActive ? 'Active' : 'Inactive' }}
-              </span>
-            </td>
-            <td class="px-6 py-5 whitespace-nowrap text-right text-sm font-medium">
-              <div class="flex items-center justify-end space-x-2">
-                <button
-                  @click="openEditModal(user)"
-                  class="p-1.5 text-blue-600 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-lg transition-all duration-200 group relative shadow-sm hover:shadow-md"
-                  title="Edit User"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                  </svg>
-                  <span class="absolute -top-9 left-1/2 -translate-x-1/2 px-2 py-1 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-50">Edit User</span>
-                </button>
-                <button
-                  @click="toggleUserStatus(user)"
-                  :class="user.isActive 
-                    ? 'p-1.5 text-red-600 bg-red-50 hover:bg-red-100 border border-red-200 rounded-lg transition-all duration-200 group relative shadow-sm hover:shadow-md' 
-                    : 'p-1.5 text-green-600 bg-green-50 hover:bg-green-100 border border-green-200 rounded-lg transition-all duration-200 group relative shadow-sm hover:shadow-md'"
-                  :title="user.isActive ? 'Deactivate User' : 'Activate User'"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path v-if="user.isActive" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
-                    <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <span class="absolute -top-9 left-1/2 -translate-x-1/2 px-2 py-1 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-50">{{ user.isActive ? 'Deactivate User' : 'Activate User' }}</span>
-                </button>
-                <button
-                  v-if="auth.currentUser?.email !== user.email"
-                  @click="confirmDelete(user)"
-                  class="p-1.5 text-red-600 bg-red-50 hover:bg-red-100 border border-red-200 rounded-lg transition-all duration-200 group relative shadow-sm hover:shadow-md"
-                  title="Delete User"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                  </svg>
-                  <span class="absolute -top-9 left-1/2 -translate-x-1/2 px-2 py-1 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-50">Delete User</span>
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
 
-    <!-- Edit User Modal -->
-    <div v-if="showEditModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center">
-      <div class="relative bg-white rounded-lg shadow-xl p-8 max-w-md w-full mx-4">
-        <h2 class="text-xl font-bold mb-4">Edit User</h2>
-        <div class="space-y-4">
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Name</label>
-            <input 
-              :value="editingUser?.displayName"
-              @input="e => editingUser && (editingUser.displayName = (e.target as HTMLInputElement).value)"
-              type="text"
-              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-            />
+      <!-- Edit User Modal with improved design -->
+      <div v-if="showEditModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center backdrop-blur-sm z-50">
+        <div class="relative bg-white rounded-xl shadow-2xl p-8 max-w-md w-full mx-4 transform transition-all">
+          <h2 class="text-xl font-bold mb-6 text-gray-900">Edit User</h2>
+          <div class="space-y-6">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Name</label>
+              <input 
+                :value="editingUser?.displayName"
+                @input="e => editingUser && (editingUser.displayName = (e.target as HTMLInputElement).value)"
+                type="text"
+                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 shadow-sm"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Role</label>
+              <select 
+                :value="editingUser?.role"
+                @change="e => editingUser && (editingUser.role = (e.target as HTMLSelectElement).value as 'admin' | 'dean' | 'lecturer')"
+                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 shadow-sm appearance-none bg-white"
+              >
+                <option value="admin">Admin</option>
+                <option value="dean">Dean</option>
+                <option value="lecturer">Lecturer</option>
+              </select>
+            </div>
+            <div class="flex justify-end space-x-4 mt-8">
+              <button 
+                @click="closeEditModal"
+                class="px-6 py-2.5 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-all duration-200 shadow-sm hover:shadow-md"
+              >
+                Cancel
+              </button>
+              <button 
+                @click="saveUser"
+                class="px-6 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all duration-200 shadow-sm hover:shadow-md"
+              >
+                Save Changes
+              </button>
+            </div>
           </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Role</label>
-            <select 
-              :value="editingUser?.role"
-              @change="e => editingUser && (editingUser.role = (e.target as HTMLSelectElement).value as 'admin' | 'dean' | 'lecturer')"
-              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-            >
-              <option value="admin">Admin</option>
-              <option value="dean">Dean</option>
-              <option value="lecturer">Lecturer</option>
-            </select>
-          </div>
-          <div class="flex justify-end space-x-4 mt-6">
-            <button 
-              @click="closeEditModal"
-              class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+        </div>
+      </div>
+
+      <!-- Delete Confirmation Modal with improved design -->
+      <div v-if="showDeleteConfirm" class="fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center backdrop-blur-sm z-50">
+        <div class="relative bg-white rounded-xl shadow-2xl p-8 max-w-md w-full mx-4 transform transition-all">
+          <h2 class="text-xl font-bold mb-4 text-red-600">Confirm Delete</h2>
+          <p class="text-gray-600 mb-6">
+            Are you sure you want to delete the user <span class="font-semibold text-gray-900">{{ userToDelete?.email }}</span>? This action cannot be undone.
+          </p>
+          <div class="flex justify-end space-x-4">
+            <button
+              @click="showDeleteConfirm = false"
+              class="px-6 py-2.5 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-all duration-200 shadow-sm hover:shadow-md"
             >
               Cancel
             </button>
-            <button 
-              @click="saveUser"
-              class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            <button
+              @click="deleteUser"
+              class="px-6 py-2.5 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all duration-200 shadow-sm hover:shadow-md"
             >
-              Save Changes
+              Delete
             </button>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-  <!-- Delete Confirmation Modal -->
-  <div v-if="showDeleteConfirm" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50">
-    <div class="relative bg-white rounded-lg shadow-xl p-8 max-w-md w-full mx-4">
-      <h2 class="text-xl font-bold mb-4 text-red-600">Confirm Delete</h2>
-      <p class="text-gray-700 mb-6">
-        Are you sure you want to delete the user <span class="font-semibold">{{ userToDelete?.email }}</span>? This action cannot be undone.
-      </p>
-      <div class="flex justify-end space-x-4">
-        <button
-          @click="showDeleteConfirm = false"
-          class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
-        >
-          Cancel
-        </button>
-        <button
-          @click="deleteUser"
-          class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
-        >
-          Delete
-        </button>
       </div>
     </div>
   </div>
