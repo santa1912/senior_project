@@ -119,7 +119,7 @@ import { getAuth, signOut } from 'firebase/auth'
 import type { UserRole } from '~/types/auth'
 import type { UserRoleData } from '~/types/auth'
 import { useAlert } from '~/composables/useAlert'
-import { roleRoutes } from '~/composables/useFirebaseAuth'
+import { roleRoutes, getClientIP } from '~/composables/useFirebaseAuth'
 import MFULogo from '~/components/mfulogo.vue'
 
 const route = useRoute()
@@ -238,7 +238,9 @@ const verifyAndSetupRole = async () => {
       role: selectedRole.value,
       verified: true as const,
       createdAt: new Date(),
-      isActive: true
+      isActive: true,
+      lastLogin: new Date().toISOString(),
+      lastLoginIP: await getClientIP()
     }
     console.log('Creating user data with role:', userData)
     await setDoc(doc(db, 'users', email), userData)

@@ -108,6 +108,18 @@ const getUserData = async (email: string): Promise<UserRoleData | null> => {
 }
 
 
+// Helper function to get client IP
+export const getClientIP = async (): Promise<string> => {
+  try {
+    const response = await fetch('https://api.ipify.org?format=json')
+    const data = await response.json()
+    return data.ip
+  } catch (error) {
+    console.error('Failed to get client IP:', error)
+    return 'unknown'
+  }
+}
+
 export function useFirebaseAuth() {
   const router = useRouter()
   const auth = getAuth()
@@ -286,12 +298,14 @@ export function useFirebaseAuth() {
       const userDoc = await getDoc(doc(db, 'users', email))
       const userData = userDoc.data() as UserRoleData | undefined
       
+
+      
       if (!userData) {
-        showAlert('error', 'Account Not Found', 'Your account is not registered. Please contact the administrator.')
-        await signOut(auth)
+        // New user - redirect to role setup
+        router.push(`/auth/role-setup?email=${encodeURIComponent(email)}`)
         return
       }
-      
+
       if (userData.isActive === false) {
         showAlert('error', 'Account Deactivated', 'Your account has been deactivated. Please contact the administrator.')
         await signOut(auth)
@@ -346,18 +360,6 @@ export function useFirebaseAuth() {
       
       showAlert('error', 'Sign In Failed', errorMessage)
       console.error('Sign in error:', authError)
-    }
-  }
-
-  // Add this helper function to get client IP
-  const getClientIP = async (): Promise<string> => {
-    try {
-      const response = await fetch('https://api.ipify.org?format=json')
-      const data = await response.json()
-      return data.ip
-    } catch (error) {
-      console.error('Failed to get client IP:', error)
-      return 'unknown'
     }
   }
 

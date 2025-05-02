@@ -17,4 +17,6 @@ export interface UserRoleData {
   createdAt: Date
   verified?: boolean
   isActive?: boolean
+  lastLogin?: string
+  lastLoginIP?: string
 }

@@ -7,7 +7,7 @@
     leave-from-class="opacity-100"
     leave-to-class="opacity-0"
   >
-    <div v-if="alertState.show" class="fixed top-4 right-4 z-50 max-w-sm w-full overflow-hidden">
+    <div v-if="alertState.show" class="fixed top-4 right-4 z-[100] max-w-sm w-full overflow-hidden">
       <!-- Backdrop blur for depth -->
       <div class="absolute inset-0 bg-white/30 backdrop-blur-sm rounded-lg"></div>
       <div :class="{
