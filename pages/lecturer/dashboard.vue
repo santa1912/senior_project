@@ -6,11 +6,8 @@
     </div>
     <div class="absolute inset-0 bg-black/30"></div>
     <div class="relative container mx-auto px-8 py-20 z-10">
-      <h1 class="text-5xl font-bold text-white mb-2">Welcome</h1>
-      <h2 class="text-3xl font-semibold text-white">{{ user?.displayName || 'User' }}</h2>
-      <p class="text-blue-100 text-lg max-w-2xl mt-4">
-        Track your academic performance, manage research projects, and view your teaching evaluations all in one place.
-      </p>
+      <h1 class="text-6xl font-bold text-white mb-2">Welcome</h1>
+      <h2 class="text-4xl font-semibold text-white">{{ user?.displayName || 'User' }}</h2>
     </div>
   </div>
 
@@ -49,8 +46,8 @@
             </div>
           </div>
           <div class="flex-1 min-w-0">
-            <h2 class="text-2xl font-bold text-gray-800">{{ user?.displayName || 'User' }}</h2>
-            <p class="text-gray-600 mb-2">Lecturer</p>
+            <h2 class="text-2xl font-bold text-gray-800">{{ user?.displayName || 'User' }}(SA)</h2>
+            <p class="text-gray-600 mb-2">Accounting Program</p>
             <div class="flex flex-col gap-4 mt-4 text-gray-700">
               <!-- Email -->
               <div class="flex items-center gap-3">
@@ -80,7 +77,7 @@
         <div class="bg-white rounded-xl shadow p-6">
           <div class="flex justify-between items-center mb-4">
             <h3 class="text-2xl font-bold text-gray-800">Recent Publications</h3>
-            <a href="#" class="text-blue-600 text-base hover:underline">View All</a>
+            <NuxtLink to="/lecturer/publications" class="text-blue-600 text-base hover:underline">View All</NuxtLink>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div v-for="(pub, idx) in publications" :key="idx" class="bg-blue-50 rounded-lg p-4 flex flex-col justify-between shadow hover:shadow-lg transition">

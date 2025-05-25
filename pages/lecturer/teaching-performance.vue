@@ -96,7 +96,7 @@
         "
       >
         <p class="text-sm text-inherit">Arts and culture ({{ selectedRound?.categories[4]?.percent || 0 }}%)</p>
-        <p class="text-xl font-bold text-inherit">{{ selectedRound?.categories[4]?.value || 0 }}%</p>
+        <p class="text-xl font-bold text-gray-700">3.75%</p>
       </NuxtLink>
     </div>
 
