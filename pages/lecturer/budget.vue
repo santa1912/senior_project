@@ -1,23 +1,24 @@
 <template>
   <div class="container mx-auto px-4 py-8">
     <!-- Header -->
-    <div class="flex justify-between items-center mb-8">
-      <div>
+    <div class="mb-8">
+      <div class="flex items-center gap-12">
         <h1 class="text-2xl font-bold text-gray-900">Budget Management</h1>
-        <p class="text-gray-600">Welcome back, {{ user?.displayName }}</p>
-      </div>
-      <div class="relative">
-        <select class="appearance-none bg-white border border-gray-300 rounded-md py-2 pl-4 pr-10 shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-          <option>Year/ 2025</option>
-          <option>Year/ 2024</option>
-          <option>Year/ 2023</option>
-        </select>
-        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-          <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-          </svg>
+        <div class="relative">
+          <select
+            class="appearance-none bg-white border-0 rounded-lg py-2 pl-4 pr-10 shadow-sm ring-2 ring-[#4697b9] text-sm w-44">
+            <option>Year/ 2025</option>
+            <option>Year/ 2024</option>
+            <option>Year/ 2023</option>
+          </select>
+          <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+            <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
         </div>
       </div>
+      <p class="text-gray-600 text-sm mt-2">Welcome back, {{ user?.displayName }}</p>
     </div>
 
     <!-- Budget Overview Cards -->
@@ -74,7 +75,7 @@
     <!-- Budget Distribution and Details -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
       <!-- Budget Distribution Chart -->
-      <div class="lg:col-span-2 bg-white rounded-xl shadow-md p-8 mb-8">
+      <div class="lg:col-span-2 bg-white rounded-xl shadow-md p-8 mb-8 h-full">
   <h2 class="text-2xl font-semibold text-gray-900 mb-8">Budget Distribution</h2>
   <div class="space-y-6">
     <div
@@ -156,18 +157,48 @@
 
       <!-- Budget Details -->
       <div class="lg:col-span-1">
-        <div class="bg-white rounded-lg shadow-md p-6">
-          <h2 class="text-lg font-medium text-gray-900 mb-6">Budget Details</h2>
-          <div class="space-y-6 max-h-72 overflow-y-auto pr-2">
-            <div v-for="(detail, index) in budgetDetails" :key="index" class="border-b border-gray-200 pb-4 last:border-0">
-              <div class="flex justify-between items-start mb-2">
-                <div>
-                  <h3 class="font-medium text-gray-900">{{ detail.title }}</h3>
-                  <p class="text-sm text-gray-500">{{ detail.description }}</p>
+        <div class="bg-white rounded-2xl shadow-lg p-5 h-full flex flex-col">
+          <h2 class="text-xl font-semibold text-gray-900 mb-4">Budget Details</h2>
+          <div class="space-y-3 overflow-y-scroll pr-2 h-[400px] scrollbar scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+            <div v-for="detail in budgetDetails" :key="detail.title" 
+                 class="p-3 bg-white rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.1)] transition-shadow">
+              <h3 class="text-base font-medium text-gray-900">{{ detail.title }}</h3>
+              
+              <!-- Multiple owners with selector -->
+              <template v-if="detail.owners">
+                <div class="flex items-center mt-1">
+                  <span class="text-gray-500">with</span>
+                  <div class="relative ml-1">
+                    <button @click="toggleOwnerSelect(detail.title)"
+                            class="appearance-none text-gray-600 hover:text-gray-900 py-1 pl-1 pr-5 focus:outline-none">
+                      {{ selectedOwners[detail.title] }}
+                      <svg class="h-4 w-4 absolute right-0 top-1/2 -translate-y-1/2 text-gray-400" 
+                           viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                      </svg>
+                    </button>
+                    <!-- Dropdown menu -->
+                    <div v-if="openDropdown === detail.title"
+                         class="absolute z-10 mt-1 w-48 bg-white rounded-lg shadow-lg py-1">
+                      <button v-for="owner in detail.owners" :key="owner"
+                              @click="selectOwner(detail.title, owner)"
+                              class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        {{ owner }}
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded">{{ detail.duration }}</span>
+              </template>
+              
+              <!-- Single owner -->
+              <template v-else>
+                <p class="text-gray-500 mt-1">{{ detail.owner }}</p>
+              </template>
+              
+              <p class="text-gray-500 mt-2">Budget: ฿ {{ detail.budget.toLocaleString() }}</p>
+              <div class="flex justify-end mt-2">
+                <span class="text-sm text-[#4cd964]">{{ detail.duration }}</span>
               </div>
-              <p class="text-sm text-gray-600">Budget: ฿ {{ detail.budget.toLocaleString() }}</p>
             </div>
           </div>
         </div>
@@ -177,18 +208,34 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
 import { useFirebaseAuth } from '@/composables/useFirebaseAuth'
 
-const { user,logout } = useFirebaseAuth()
+const { user, logout } = useFirebaseAuth()
+
+const selectedYear = ref('2025')
+const openDropdown = ref('')
+const selectedOwners = ref({
+  'SoM Project': 'Dr. Korawit Fakkhong'
+})
+
+function toggleOwnerSelect(projectTitle: string) {
+  openDropdown.value = openDropdown.value === projectTitle ? '' : projectTitle
+}
+
+function selectOwner(projectTitle: string, owner: string) {
+  selectedOwners.value[projectTitle] = owner
+  openDropdown.value = ''
+}
 
 definePageMeta({
   layout: 'lecturer'
 })
 
 const budgetItems = [
-  { name: 'Self Development', amount: 80000, percentage: 64, color: '#3B82F6' },
+  { name: 'Self Development', amount: 10000, percentage: 64, color: '#3B82F6' },
   { name: 'Academic Service Project', amount: 42000, percentage: 33.6, color: '#EC4899' },
-  { name: 'Research Project', amount: 38000, percentage: 30.4, color: '#8B5CF6' },
+  { name: 'Research Project', amount: 18000, percentage: 30.4, color: '#8B5CF6' },
   { name: 'Guest Speaker', amount: 15000, percentage: 12, color: '#10B981' },
   { name: 'Guest Lecturer', amount: 15000, percentage: 12, color: '#F59E0B' },
   { name: 'Student Activity', amount: 15000, percentage: 12, color: '#EF4444' }
@@ -197,21 +244,25 @@ const budgetItems = [
 const budgetDetails = [
   {
     title: 'Guest Speaker 130S305',
-    description: 'Dr. Supansa Chaising',
+    owner: 'Dr. Supansa Chaising',
     budget: 12000,
     duration: '6 Month'
   },
   {
     title: 'SoM Project',
-    description: 'with Dr. Kornthip Watcharapipat',
+    owners: [
+      'Dr. Korawit Fakkhong',
+      'Dr. Supansa Chaising',
+      'Dr. John Smith'
+    ],
     budget: 8000,
     duration: '6 Month'
   },
   {
     title: 'Guest Lecturer 130S305',
-    description: 'Dr. Supansa Chaising',
+    owner: 'Dr. Supansa Chaising',
     budget: 5000,
     duration: '6 Month'
-  }
+    },
 ]
 </script>
