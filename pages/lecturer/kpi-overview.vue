@@ -35,19 +35,19 @@
       </div>
     </div>
 
-    <!-- KPI Categories with NuxtLink-->
-    <div v-if="selectedRound" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+     <!-- KPI Categories with NuxtLink-->
+     <div v-if="selectedRound" class="grid grid-cols-2 sm:grid-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-6 sm:mb-8">
       <NuxtLink
         to="/lecturer/teaching-performance"
         class="rounded-lg p-4 text-center transition-colors cursor-pointer"
         :class="
           $route.path === '/lecturer/teaching-performance'
-            ? 'bg-blue-200'
-            : 'bg-gray-100 hover:bg-blue-100'
+            ? 'bg-gradient-to-b from-[#38ADEA] to-[#21739D] text-white'
+            : 'bg-gray-100 hover:bg-gradient-to-b hover:from-[#38ADEA] hover:to-[#21739D] hover:text-white'
         "
       >
-        <p class="text-sm text-gray-600">Teaching ({{ selectedRound?.categories[0]?.percent || 0 }}%)</p>
-        <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[0]?.value || 0 }}%</p>
+        <p class="text-sm text-inherit">Teaching ({{ selectedRound?.categories[0]?.percent || 0 }}%)</p>
+        <p class="text-xl font-bold text-inherit">{{ selectedRound?.categories[0]?.value || 0 }}%</p>
       </NuxtLink>
 
       <NuxtLink
@@ -55,12 +55,12 @@
         class="rounded-lg p-4 text-center transition-colors cursor-pointer"
         :class="
           $route.path === '/lecturer/research-performance'
-            ? 'bg-blue-200'
-            : 'bg-gray-100 hover:bg-blue-100'
+            ? 'bg-gradient-to-b from-[#38ADEA] to-[#21739D] text-white'
+            : 'bg-gray-100 hover:bg-gradient-to-b hover:from-[#38ADEA] hover:to-[#21739D] hover:text-white'
         "
       >
-        <p class="text-sm text-gray-600">Research ({{ selectedRound?.categories[1]?.percent || 0 }}%)</p>
-        <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[1]?.value || 0 }}%</p>
+        <p class="text-sm text-inherit">Research ({{ selectedRound?.categories[1]?.percent || 0 }}%)</p>
+        <p class="text-xl font-bold text-inherit">{{ selectedRound?.categories[1]?.value || 0 }}%</p>
       </NuxtLink>
 
       <NuxtLink
@@ -68,12 +68,12 @@
         class="rounded-lg p-4 text-center transition-colors cursor-pointer"
         :class="
           $route.path === '/lecturer/academic-performance'
-            ? 'bg-blue-200'
-            : 'bg-gray-100 hover:bg-blue-100'
+            ? 'bg-gradient-to-b from-[#38ADEA] to-[#21739D] text-white'
+            : 'bg-gray-100 hover:bg-gradient-to-b hover:from-[#38ADEA] hover:to-[#21739D] hover:text-white'
         "
       >
-        <p class="text-sm text-gray-600">Academic Service ({{ selectedRound?.categories[2]?.percent || 0 }}%)</p>
-        <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[2]?.value || 0 }}%</p>
+        <p class="text-sm text-inherit">Academic Service ({{ selectedRound?.categories[2]?.percent || 0 }}%)</p>
+        <p class="text-xl font-bold text-inherit">{{ selectedRound?.categories[2]?.value || 0 }}%</p>
       </NuxtLink>
 
       <NuxtLink
@@ -81,12 +81,12 @@
         class="rounded-lg p-4 text-center transition-colors cursor-pointer"
         :class="
           $route.path === '/lecturer/administration'
-            ? 'bg-blue-200'
-            : 'bg-gray-100 hover:bg-blue-100'
+            ? 'bg-gradient-to-b from-[#38ADEA] to-[#21739D] text-white'
+            : 'bg-gray-100 hover:bg-gradient-to-b hover:from-[#38ADEA] hover:to-[#21739D] hover:text-white'
         "
       >
-        <p class="text-sm text-gray-600">Administration ({{ selectedRound?.categories[3]?.percent || 0 }}%)</p>
-        <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[3]?.value || 0 }}%</p>
+        <p class="text-sm text-inherit">Administration ({{ selectedRound?.categories[3]?.percent || 0 }}%)</p>
+        <p class="text-xl font-bold text-inherit">{{ selectedRound?.categories[3]?.value || 0 }}%</p>
       </NuxtLink>
 
       <NuxtLink
@@ -94,14 +94,15 @@
         class="rounded-lg p-4 text-center transition-colors cursor-pointer"
         :class="
           $route.path === '/lecturer/arts-culture'
-            ? 'bg-blue-200'
-            : 'bg-gray-100 hover:bg-blue-100'
+            ? 'bg-gradient-to-b from-[#38ADEA] to-[#21739D] text-white'
+            : 'bg-gray-100 hover:bg-gradient-to-b hover:from-[#38ADEA] hover:to-[#21739D] hover:text-white'
         "
       >
-        <p class="text-sm text-gray-600">Arts and culture ({{ selectedRound?.categories[4]?.percent || 0 }}%)</p>
-        <p class="text-xl font-bold text-gray-700">3.75%</p>
+        <p class="text-sm text-inherit">Arts and culture ({{ selectedRound?.categories[4]?.percent || 0 }}%)</p>
+        <p class="text-xl font-bold text-inherit">3.75%</p>
       </NuxtLink>
     </div>
+
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
       <!-- Teaching Track Chart -->

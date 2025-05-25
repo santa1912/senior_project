@@ -8,8 +8,9 @@
       </div>
       <div class="relative w-full sm:w-auto">
         <select
-          class="w-full sm:w-auto appearance-none bg-white border border-gray-300 rounded-lg py-2 pl-4 pr-10 shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm">
-          <option>Round 2/2025</option>
+          class="w-full sm:w-auto appearance-none bg-white border-0  rounded-lg py-2 pl-4 pr-10 shadow-sm ring-2 ring-[#4697b9] text-sm"
+        >
+         <option>Round 2/2025</option>
           <option>Round 1/2025</option>
           <option>Round 2/2024</option>
         </select>
