@@ -7,7 +7,7 @@
         <h1 class="text-xl sm:text-2xl font-bold text-gray-900 leading-tight">
           Domain 1: Teaching Performance
         </h1>
-        <p class="text-sm sm:text-base text-gray-600 mt-1">Welcome back, {{ user?.displayName }}</p>
+        <p class="text-sm sm:text-base text-inherit mt-1">Welcome back, {{ user?.displayName }}</p>
       </div>
       <!-- Round Selector - Full Width on Mobile -->
       <div class="relative w-full md:w-auto">
@@ -18,7 +18,7 @@
           <option>Round 1/2025</option>
           <option>Round 2/2024</option>
         </select>
-        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-inherit">
           <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
           </svg>
@@ -28,7 +28,7 @@
 
     <!-- Teaching Track -->
     <div class="mb-4 sm:mb-6">
-      <h2 class="text-center text-base sm:text-lg font-medium text-gray-700 mb-1">Teaching Track</h2>
+      <h2 class="text-center text-base sm:text-lg font-medium text-inherit mb-1">Teaching Track</h2>
       <p class="text-center text-xs sm:text-sm text-gray-500 mb-4">11 Feb 2025-31 July 2025</p>
     </div>
 
@@ -39,12 +39,12 @@
         class="rounded-lg p-4 text-center transition-colors cursor-pointer"
         :class="
           $route.path === '/lecturer/teaching-performance'
-            ? 'bg-blue-200'
-            : 'bg-gray-100 hover:bg-blue-100'
+            ? 'bg-gradient-to-b from-[#38ADEA] to-[#21739D] text-white'
+            : 'bg-gray-100 hover:bg-gradient-to-b hover:from-[#38ADEA] hover:to-[#21739D] hover:text-white'
         "
       >
-        <p class="text-sm text-gray-600">Teaching ({{ selectedRound?.categories[0]?.percent || 0 }}%)</p>
-        <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[0]?.value || 0 }}%</p>
+        <p class="text-sm text-inherit">Teaching ({{ selectedRound?.categories[0]?.percent || 0 }}%)</p>
+        <p class="text-xl font-bold text-inherit">{{ selectedRound?.categories[0]?.value || 0 }}%</p>
       </NuxtLink>
 
       <NuxtLink
@@ -52,12 +52,12 @@
         class="rounded-lg p-4 text-center transition-colors cursor-pointer"
         :class="
           $route.path === '/lecturer/research-performance'
-            ? 'bg-blue-200'
-            : 'bg-gray-100 hover:bg-blue-100'
+            ? 'bg-gradient-to-b from-[#38ADEA] to-[#21739D] text-white'
+            : 'bg-gray-100 hover:bg-gradient-to-b hover:from-[#38ADEA] hover:to-[#21739D] hover:text-white'
         "
       >
-        <p class="text-sm text-gray-600">Research ({{ selectedRound?.categories[1]?.percent || 0 }}%)</p>
-        <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[1]?.value || 0 }}%</p>
+        <p class="text-sm text-inherit">Research ({{ selectedRound?.categories[1]?.percent || 0 }}%)</p>
+        <p class="text-xl font-bold text-inherit">{{ selectedRound?.categories[1]?.value || 0 }}%</p>
       </NuxtLink>
 
       <NuxtLink
@@ -65,12 +65,12 @@
         class="rounded-lg p-4 text-center transition-colors cursor-pointer"
         :class="
           $route.path === '/lecturer/academic-performance'
-            ? 'bg-blue-200'
-            : 'bg-gray-100 hover:bg-blue-100'
+            ? 'bg-gradient-to-b from-[#38ADEA] to-[#21739D] text-white'
+            : 'bg-gray-100 hover:bg-gradient-to-b hover:from-[#38ADEA] hover:to-[#21739D] hover:text-white'
         "
       >
-        <p class="text-sm text-gray-600">Academic Service ({{ selectedRound?.categories[2]?.percent || 0 }}%)</p>
-        <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[2]?.value || 0 }}%</p>
+        <p class="text-sm text-inherit">Academic Service ({{ selectedRound?.categories[2]?.percent || 0 }}%)</p>
+        <p class="text-xl font-bold text-inherit">{{ selectedRound?.categories[2]?.value || 0 }}%</p>
       </NuxtLink>
 
       <NuxtLink
@@ -78,12 +78,12 @@
         class="rounded-lg p-4 text-center transition-colors cursor-pointer"
         :class="
           $route.path === '/lecturer/administration'
-            ? 'bg-blue-200'
-            : 'bg-gray-100 hover:bg-blue-100'
+            ? 'bg-gradient-to-b from-[#38ADEA] to-[#21739D] text-white'
+            : 'bg-gray-100 hover:bg-gradient-to-b hover:from-[#38ADEA] hover:to-[#21739D] hover:text-white'
         "
       >
-        <p class="text-sm text-gray-600">Administration ({{ selectedRound?.categories[3]?.percent || 0 }}%)</p>
-        <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[3]?.value || 0 }}%</p>
+        <p class="text-sm text-inherit">Administration ({{ selectedRound?.categories[3]?.percent || 0 }}%)</p>
+        <p class="text-xl font-bold text-inherit">{{ selectedRound?.categories[3]?.value || 0 }}%</p>
       </NuxtLink>
 
       <NuxtLink
@@ -91,12 +91,12 @@
         class="rounded-lg p-4 text-center transition-colors cursor-pointer"
         :class="
           $route.path === '/lecturer/arts-culture'
-            ? 'bg-blue-200'
-            : 'bg-gray-100 hover:bg-blue-100'
+            ? 'bg-gradient-to-b from-[#38ADEA] to-[#21739D] text-white'
+            : 'bg-gray-100 hover:bg-gradient-to-b hover:from-[#38ADEA] hover:to-[#21739D] hover:text-white'
         "
       >
-        <p class="text-sm text-gray-600">Arts and culture ({{ selectedRound?.categories[4]?.percent || 0 }}%)</p>
-        <p class="text-xl font-bold text-gray-700">{{ selectedRound?.categories[4]?.value || 0 }}%</p>
+        <p class="text-sm text-inherit">Arts and culture ({{ selectedRound?.categories[4]?.percent || 0 }}%)</p>
+        <p class="text-xl font-bold text-inherit">{{ selectedRound?.categories[4]?.value || 0 }}%</p>
       </NuxtLink>
     </div>
 
@@ -137,7 +137,7 @@
                   <td class="px-3 py-1 text-center">1203331</td>
                   <td class="px-3 py-1 text-center">50</td>
                 </tr>
-                <tr class="bg-gray-50">
+                <tr class="bg-[#E8F4FC]">
                   <td class="px-3 py-1 text-center">2.</td>
                   <td class="px-3 py-1">Business Law and Ethics</td>
                   <td class="px-3 py-1 text-center">1203217</td>
@@ -149,7 +149,7 @@
                   <td class="px-3 py-1 text-center">1203121</td>
                   <td class="px-3 py-1 text-center">50</td>
                 </tr>
-                <tr class="bg-gray-50">
+                <tr class="bg-[#E8F4FC]">
                   <td class="px-3 py-1 text-center">4.</td>
                   <td class="px-3 py-1">Digital Business</td>
                   <td class="px-3 py-1 text-center">1203108</td>
@@ -185,7 +185,7 @@
                   <td class="px-3 py-1 text-center">1203907</td>
                   <td class="px-3 py-1 text-center">50</td>
                 </tr>
-                <tr class="bg-gray-50">
+                <tr class="bg-[#E8F4FC]">
                   <td class="px-3 py-1 text-center">2.</td>
                   <td class="px-3 py-1">Advanced Research Methodology in Business</td>
                   <td class="px-3 py-1 text-center">1203911</td>
@@ -209,6 +209,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import Chart from "chart.js/auto";
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { useAirtableKpi } from '@/composables/useAirtableKpi'
 import { useFirebaseAuth } from '@/composables/useFirebaseAuth'
 
@@ -219,6 +220,9 @@ const { kpiRounds, selectedRound, selectRound, isLoading, error } = useAirtableK
 const selectedRoundId = ref(selectedRound.value?.id || '')
 const teachingChart = ref<HTMLCanvasElement | null>(null);
 const { user } = useFirebaseAuth()
+
+// Register the plugin
+Chart.register(ChartDataLabels);
 
 onMounted(() => {
   // Create bar chart
@@ -237,7 +241,7 @@ onMounted(() => {
         datasets: [
           {
             label: "Lecture (Score)",
-            data: [0, 0, 0, 2, 30, 90], // Example: 30 for grad, 90 for undergrad
+            data: [0, 0, 0, 3, 30, 90], // Example: 30 for grad, 90 for undergrad
             backgroundColor: ["#172554", "#172554", "#172554", "#172554", "#172554", "#172554"],
             borderWidth: 0,
             borderRadius: 0,
@@ -307,6 +311,27 @@ onMounted(() => {
             },
             padding: 12,
             cornerRadius: 4
+          },
+          datalabels: {
+            display: true,
+            align: 'end',
+            anchor: 'end',
+            formatter: function(value, context) {
+              // Only show the total for each group
+              if (context.datasetIndex === context.chart.data.datasets.length - 1) {
+                const total = context.chart.data.datasets.reduce((sum, dataset) => sum + dataset.data[context.dataIndex], 0);
+                return total;
+              }
+              return null;
+            },
+            color: '#64748B',
+            font: {
+              size: 14,
+              weight: 'bold'
+            },
+            padding: {
+              left: 10
+            }
           }
         },
       },
