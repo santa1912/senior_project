@@ -159,7 +159,7 @@
       <div class="lg:col-span-1">
         <div class="bg-white rounded-2xl shadow-lg p-5 h-full flex flex-col">
           <h2 class="text-xl font-semibold text-gray-900 mb-4">Budget Details</h2>
-          <div class="space-y-3 overflow-y-scroll pr-2 h-[400px] scrollbar scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+          <div class="space-y-3 overflow-y-scroll pr-2 h-[400px] custom-scrollbar">
             <div v-for="detail in budgetDetails" :key="detail.title" 
                  class="p-3 bg-white rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.1)] transition-shadow">
               <h3 class="text-base font-medium text-gray-900">{{ detail.title }}</h3>
@@ -266,3 +266,23 @@ const budgetDetails = [
     },
 ]
 </script>
+
+<style scoped>
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+</style>
