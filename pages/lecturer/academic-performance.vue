@@ -98,13 +98,16 @@
       </NuxtLink>
     </div>
 
-    <!-- Academic Service Performance -->
+    <!-- Academic Performance -->
     <div class="grid grid-cols-1 lg:grid-cols-[60%_40%] gap-6 sm:gap-8">
       <div class="bg-white rounded-lg shadow-md p-4 sm:p-6 mb-6 sm:mb-8">
         <div class="flex flex-col items-center">
           <h2 class="text-lg sm:text-xl font-bold text-gray-900 mb-2">
-            Academic Service Performance
+            Academic Performance
           </h2>
+          <p class="text-xs sm:text-sm text-gray-500 text-center mb-4 sm:mb-6">
+          Threshold (10) - Earned score (59)
+        </p>
         </div>
 
         <!-- Performance Chart -->

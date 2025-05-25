@@ -145,8 +145,8 @@
         ['Academic Administration assigned', 'by the School or University'],
         'Coordination with Guest Lecturer',
           'Course Coordination',
-          'University\'s Committee',
-          'School\'s Committee',
+          ['University\'s Committee or ','Committee-Appointed Working Group'],
+          ['School\'s Committee or ','Committee-Appointed Working Group'],
           'School Committee',
           'Curricular Committee',
           ['Administrative duty assigned', 'by the school']
