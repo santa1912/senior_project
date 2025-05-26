@@ -10,8 +10,7 @@
       </div>
       <div class="relative w-full sm:w-auto">
         <select
-          class="w-full sm:w-auto appearance-none bg-white border-0  rounded-lg py-2 pl-4 pr-10 shadow-sm ring-2 ring-[#4697b9] text-sm"
-        >
+          class="w-full sm:w-auto appearance-none bg-white border border-gray-300 rounded-lg py-2 pl-4 pr-10 shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm">
         <option>Round 2/2025</option>
           <option>Round 1/2025</option>
           <option>Round 2/2024</option>
@@ -131,7 +130,7 @@
                   <td class="px-3 py-1 text-center">1</td>
                   <td class="px-3 py-1">Self Project</td>
                 </tr>
-                <tr class="bg-gray-50">
+                <tr class="bg-[#E8F4FC]">
                   <td class="px-3 py-1 text-center">2</td>
                   <td class="px-3 py-1">RECAI (Research Centre Reform)</td>
                 </tr>
@@ -139,7 +138,7 @@
                   <td class="px-3 py-1 text-center">3</td>
                   <td class="px-3 py-1">AI-Enhanced Learning Analytics</td>
                 </tr>
-                <tr class="bg-gray-50">
+                <tr class="bg-[#E8F4FC]">
                   <td class="px-3 py-1 text-center">4</td>
                   <td class="px-3 py-1">Smart Campus Initiative</td>
                 </tr>
@@ -147,7 +146,7 @@
                   <td class="px-3 py-1 text-center">5</td>
                   <td class="px-3 py-1">Educational Data Mining Project</td>
                 </tr>
-                <tr class="bg-gray-50">
+                <tr class="bg-[#E8F4FC]">
                   <td class="px-3 py-1 text-center">6</td>
                   <td class="px-3 py-1">Student Success Prediction Model</td>
                 </tr>
@@ -155,7 +154,7 @@
                   <td class="px-3 py-1 text-center">7</td>
                   <td class="px-3 py-1">Blockchain in Education</td>
                 </tr>
-                <tr class="bg-gray-50">
+                <tr class="bg-[#E8F4FC]">
                   <td class="px-3 py-1 text-center">8</td>
                   <td class="px-3 py-1">Virtual Reality Learning Environments</td>
                 </tr>
@@ -179,7 +178,7 @@
                   <td class="px-3 py-1 text-center">4</td>
                   <td class="px-3 py-1">Self Research Highlights</td>
                 </tr>
-                <tr class="bg-gray-50">
+                <tr class="bg-[#E8F4FC]">
                   <td class="px-3 py-1 text-center">5</td>
                   <td class="px-3 py-1">Gold Chain of Knowledge</td>
                 </tr>
@@ -187,7 +186,7 @@
                   <td class="px-3 py-1 text-center">6</td>
                   <td class="px-3 py-1">Machine Learning in Education</td>
                 </tr>
-                <tr class="bg-gray-50">
+                <tr class="bg-[#E8F4FC]">
                   <td class="px-3 py-1 text-center">7</td>
                   <td class="px-3 py-1">Adaptive Learning Systems</td>
                 </tr>
@@ -195,7 +194,7 @@
                   <td class="px-3 py-1 text-center">8</td>
                   <td class="px-3 py-1">Educational Technology Integration</td>
                 </tr>
-                <tr class="bg-gray-50">
+                <tr class="bg-[#E8F4FC]">
                   <td class="px-3 py-1 text-center">9</td>
                   <td class="px-3 py-1">Digital Assessment Methods</td>
                 </tr>
@@ -203,7 +202,7 @@
                   <td class="px-3 py-1 text-center">10</td>
                   <td class="px-3 py-1">Learning Analytics Dashboard</td>
                 </tr>
-                <tr class="bg-gray-50">
+                <tr class="bg-[#E8F4FC]">
                   <td class="px-3 py-1 text-center">11</td>
                   <td class="px-3 py-1">InsightlyHub</td>
                 </tr>
@@ -219,6 +218,7 @@
 <script setup lang="ts">
 import { useAirtableKpi } from '@/composables/useAirtableKpi';
 import Chart from "chart.js/auto";
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { onMounted, ref } from "vue";
 import { useFirebaseAuth } from '@/composables/useFirebaseAuth'
 
@@ -234,6 +234,9 @@ function onRoundChange() {
   selectRound(selectedRoundId.value)
 }
 
+// Register the plugin
+Chart.register(ChartDataLabels);
+
 onMounted(() => {
   // Create bar chart
   if (researchChart.value) {
@@ -241,10 +244,10 @@ onMounted(() => {
       type: "bar",
       data: {
         labels: [
-          "Other Academic Work (School)",
+          ["Other Academic Work", "assigned by the School"],
           "Other Academic Work",
           "Patented Inventions",
-          "Textbooks & e-Learning Materials",
+          ["Composition of textbooks, Books,", "and interactive/e-Learning Materials"],
           "Academic Articles",
           "Research Publication",
           "Research Studies"
@@ -252,7 +255,7 @@ onMounted(() => {
         datasets: [
           {
             label: "Level 4 (Score)",
-            data: [10, 0, 0, 50, 0, 25, 15],
+            data: [10, 0, 0, 50, 0, 25, 7],
             backgroundColor: "#172554",
             borderWidth: 0,
             borderRadius: 4,
@@ -260,7 +263,7 @@ onMounted(() => {
           },
           {
             label: "Level 6 (Score)",
-            data: [0, 0, 0, 0, 0, 30, 15],
+            data: [0, 0, 0, 0, 0, 30, 8],
             backgroundColor: "#a21a5b",
             borderWidth: 0,
             borderRadius: 4,
@@ -280,27 +283,11 @@ onMounted(() => {
         indexAxis: "y" as const,
         responsive: true,
         maintainAspectRatio: false,
-        layout: {
-          padding: {
-            left: 8,
-            right: 4,
-            top: 4,
-            bottom: 4
-          }
-        },
         scales: {
           x: {
             stacked: true,
             beginAtZero: true,
             max: 180,
-            title: {
-              display: true,
-              text: 'Raw Score',
-              color: '#64748B',
-              font: {
-                size: 12
-              }
-            },
             grid: {
               color: "#E5E7EB",
               drawTicks: false
@@ -310,12 +297,10 @@ onMounted(() => {
             },
             ticks: {
               color: "#64748B",
-              padding: 4,
+              padding: 8,
               font: {
-                size: 11
-              },
-              maxRotation: 0,
-              autoSkip: false
+                size: 10
+              }
             }
           },
           y: {
@@ -327,17 +312,14 @@ onMounted(() => {
             },
             ticks: {
               color: "#64748B",
-              padding: 2,
+              padding: 16,
               font: {
                 size: 10
               },
-              maxRotation: 0,
-              autoSkip: false,
-              autoSkipPadding: 0,
-              labelOffset: 0
-            },
-            afterFit: function(scaleInstance) {
-              scaleInstance.width = 160;
+              callback: function(value) {
+                const label = this.getLabelForValue(value);
+                return Array.isArray(label) ? label : [label];
+              }
             }
           },
         },
@@ -356,13 +338,26 @@ onMounted(() => {
             padding: 12,
             cornerRadius: 4
           },
-          // @ts-ignore - Custom plugin options
-          rowSum: {
-            font: {
-              size: 11,
-              family: "'Inter', sans-serif"
+          datalabels: {
+            display: true,
+            align: 'end',
+            anchor: 'end',
+            formatter: function(value, context) {
+              // Only show the total for each group
+              if (context.datasetIndex === context.chart.data.datasets.length - 1) {
+                const total = context.chart.data.datasets.reduce((sum, dataset) => sum + dataset.data[context.dataIndex], 0);
+                return total;
+              }
+              return null;
             },
-            color: "#64748B"
+            color: '#64748B',
+            font: {
+              size: 14,
+              weight: 'bold'
+            },
+            padding: {
+              left: 10
+            }
           }
         },
       },
@@ -370,3 +365,4 @@ onMounted(() => {
   }
 });
 </script>
+
