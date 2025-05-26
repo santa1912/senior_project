@@ -24,7 +24,7 @@
   
       <!-- Administration Track -->
       <div class="mb-6">
-        <h2 class="text-center text-lg font-medium text-gray-700 mb-1">Arts and Culture Track</h2>
+        <h2 class="text-center text-base sm:text-lg font-medium text-inherit mb-1">Arts and Culture Track</h2>
         <p class="text-center text-sm text-gray-500 mb-4">11 Feb 2025-31 July 2025</p>
       </div>
   
@@ -100,7 +100,7 @@
       <div class="grid grid-cols-1 lg:grid-cols-[60%_40%] gap-6 sm:gap-8">
         <div class="bg-white rounded-lg shadow-md p-4 sm:p-6 mb-6 sm:mb-8">
         <div class="flex flex-col items-center">
-          <h2 class="text-lg sm:text-xl font-bold text-gray-900 mb-2">
+          <h2 class="text-md font-bold text-gray-900 mb-1 text-center">
             Arts and Culture Conservation Performance
           </h2>
           <p class="text-xs sm:text-sm text-gray-500 text-center mb-4 sm:mb-6">
@@ -192,11 +192,11 @@ onMounted(() => {
             type: 'bar',
             data: {
                 labels: [
-                'Cultural & student tasks',
-                'Organization & involvement',
-                'Self-improvement',
-                'Student Development',
-                'Cultural Preservation Activities'
+                'Arts & Culture Conservation Performance',
+                'Organization development or participation',
+                "Self-development",
+                'Student Development activites',
+                'MFU-arranged arts & culture conservation activities'
                 ],
                 datasets: [{
                 data: [0, 0, 5, 5, 5],

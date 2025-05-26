@@ -24,7 +24,7 @@
   
       <!-- Administration Track -->
       <div class="mb-6">
-        <h2 class="text-center text-lg font-medium text-gray-700 mb-1">Administration Track</h2>
+        <h2 class="text-center text-base sm:text-lg font-medium text-inherit mb-1">Administration Track</h2>
         <p class="text-center text-sm text-gray-500 mb-4">11 Feb 2025-31 July 2025</p>
       </div>
   
@@ -99,7 +99,7 @@
       <!-- Administration Performance -->
       <div class="bg-white rounded-lg shadow-md p-4 md:p-6 mb-8 mx-0 md:mx-4 lg:mx-20">
         <div class="flex flex-col items-center">
-            <h2 class="text-lg font-medium text-gray-900 mb-1 text-center">Administration Performance</h2>
+            <h2 class="text-md font-bold text-gray-900 mb-1 text-center">Administration Performance</h2>
             <span class="text-sm text-gray-500 mb-6 text-center">Threshold (30) - Earned score (115)</span>
         </div>
         

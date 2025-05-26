@@ -26,7 +26,7 @@
 
     <!-- Administration Track -->
     <div class="mb-6">
-      <h2 class="text-center text-lg font-medium text-gray-700 mb-1">Academic Service Track</h2>
+      <h2 class="text-center text-base sm:text-lg font-medium text-inherit mb-1">Academic Service Track</h2>
       <p class="text-center text-sm text-gray-500 mb-4">11 Feb 2025-31 July 2025</p>
     </div>
 
@@ -102,7 +102,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-[60%_40%] gap-6 sm:gap-8">
       <div class="bg-white rounded-lg shadow-md p-4 sm:p-6 mb-6 sm:mb-8">
         <div class="flex flex-col items-center">
-          <h2 class="text-lg sm:text-xl font-bold text-gray-900 mb-2">
+          <h2 class="text-md font-bold text-gray-900 mb-1 text-center">
             Academic Performance
           </h2>
           <p class="text-xs sm:text-sm text-gray-500 text-center mb-4 sm:mb-6">
@@ -150,7 +150,7 @@
       </div>
       <div class="bg-[#FAFBFD] rounded-lg shadow-md p-4 sm:p-6 mr-0 sm:mr-8">
         <h2 class="text-lg sm:text-xl font-bold text-gray-900 mb-2">
-          Academic Reviewer
+          Performance as an Invited Lecturer or Speaker
         </h2>
         <div class="w-full h-0.5 bg-[#B0B9C4] mb-2"></div>
 
@@ -199,39 +199,37 @@ onMounted(() => {
       type: 'bar',
       data: {
         labels: [
-          'Other Services',
-          'Visiting Professor',
-          'Additional Assigned Tasks',
-          'Reviewer',
-          'Committee/Advisor',
-          'Guest Lecturer',
+          'Other types of Academic Service Provided',
+          'Academic Reviewer',
+          'External Committee/Advisor/Member',
+          'Performance as an Invited Lecturer or Speaker',
           'Academic Service Activities'
         ],
         datasets: [
           {
             label: 'Internal (Score)',
-            data: [0, 0, 0, 5, 0, 27, 0], 
+            data: [ 0, 5, 0, 27, 0], 
             backgroundColor: '#1D3555',
             borderWidth: 0,
             borderRadius: 4
           },
           {
             label: 'External (Score)',
-            data: [0, 0, 0, 0, 0, 27, 0],
+            data: [ 0, 0, 0, 27, 0],
             backgroundColor: '#AC0078',
             borderWidth: 0,
             borderRadius: 4
           },
           {
             label: 'Non-Revenue (Score)',
-            data: [0, 0, 0, 0, 0, 0, 27],  
+            data: [ 0, 0, 0, 0, 27],  
             backgroundColor: '#1D3555',
             borderWidth: 0,
             borderRadius: 4
           },
           {
             label: 'Revenue (Score)',
-            data: [0, 0, 0, 0, 0, 0, 27], 
+            data: [ 0, 0, 0, 0, 27], 
             backgroundColor: '#AC0078',
             borderWidth: 0,
             borderRadius: 4
