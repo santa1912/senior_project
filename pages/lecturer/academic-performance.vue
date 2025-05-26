@@ -117,14 +117,15 @@
       </div>
       <!-- table -->
       <div class="">
-        <div class="bg-[#F7F9FB] rounded-lg shadow-md p-4 sm:p-6 mr-0 sm:mr-8 mb-2">
+        <div class="bg-[#FAFBFD] rounded-lg shadow-md p-4 sm:p-6 mr-0 sm:mr-8 mb-2">
         <h2 class="text-lg sm:text-xl font-bold text-gray-900 mb-1">
           Academic Service Activities
         </h2>
         <div class="w-full h-0.5 bg-[#B0B9C4] mb-1"></div>
 
         <div class="flex flex-col">
-          <div class="flex items-start gap-4 bg-[#FFFFFF] p-4 mt-2 rounded-lg shadow-2xl">
+          <div class="flex items-start gap-4 bg-[#FFFFFF] p-4 mt-4 rounded-lg shadow-sm shadow-b-gray-300">
+
           <div>
             <p class="text-xs font-bold mb-2">Digital Literacy Enhancement Training for Elderly (Ban Pang Lao)</p>
             <p class="text-xs text-[#606060]">Dr.Supansa Chaising(Co-organizer)</p>
@@ -134,7 +135,8 @@
             <span class="bg-[#22C55E] text-[#FFFFFF] text-xs font-semibold px-3 py-1 rounded-full mt-8 whitespace-nowrap">Non-revenue</span>
           </div>
         </div>  
-        <div class="flex items-start gap-4 bg-[#FFFFFF] p-4 mt-2 rounded-lg shadow-2xl">
+        <div class="flex items-start gap-4 bg-[#FFFFFF] p-4 mt-4 rounded-lg shadow-sm shadow-b-gray-300">
+
           <div>
             <p class="text-xs font-bold mb-2">Digital Literacy Enhancement Training for Youth (NFE Chiang Rai)</p>
             <p class="text-xs text-[#606060]">Dr.Supansa Chaising(Co-organizer)</p>
@@ -146,13 +148,13 @@
         </div>
         </div>
       </div>
-      <div class="bg-[#F7F9FB] rounded-lg shadow-md p-4 sm:p-6 mr-0 sm:mr-8">
+      <div class="bg-[#FAFBFD] rounded-lg shadow-md p-4 sm:p-6 mr-0 sm:mr-8">
         <h2 class="text-lg sm:text-xl font-bold text-gray-900 mb-2">
           Academic Reviewer
         </h2>
         <div class="w-full h-0.5 bg-[#B0B9C4] mb-2"></div>
 
-        <div class="flex items-start gap-4 bg-[#FFFFFF] p-4 mt-4 rounded-lg shadow-2xl">
+        <div class="flex items-start gap-4 bg-[#FFFFFF] p-4 mt-3 rounded-lg shadow-sm shadow-b-gray-300">
           <div>
             <p class="text-xs font-bold mb-2">Developing Steps for Learning Programming through Gamification</p>
             <p class="text-xs text-[#606060]">Dr.Supansa Chaising(Co-organizer)</p>

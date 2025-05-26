@@ -167,7 +167,6 @@
               <!-- Multiple owners with selector -->
               <template v-if="detail.owners">
                 <div class="flex items-center mt-1">
-                  <span class="text-gray-500">with</span>
                   <div class="relative ml-1">
                     <button @click="toggleOwnerSelect(detail.title)"
                             class="appearance-none text-gray-600 hover:text-gray-900 py-1 pl-1 pr-5 focus:outline-none">
