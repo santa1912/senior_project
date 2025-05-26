@@ -1,24 +1,24 @@
 <template>
   <!-- Overview Banner with background image -->
-  <div class="relative h-72 overflow-hidden transition-all duration-500 ease-in-out hover:h-80">
+  <div class="relative h-48 overflow-hidden">
     <div class="absolute inset-0">
       <img :src="bgImage" alt="Background" class="w-full h-full object-cover opacity-60" />
     </div>
     <div class="absolute inset-0 bg-black/30"></div>
-    <div class="relative container mx-auto px-8 py-20 z-10">
-      <h1 class="text-6xl font-bold text-white mb-2">Welcome</h1>
-      <h2 class="text-4xl font-semibold text-white">{{ user?.displayName || 'User' }}</h2>
+    <div class="relative container mx-auto px-20 pt-6 z-10">
+      <h1 class="text-[76px] font-bold text-[#1D3555] leading-tight">Overview</h1>
+      <h2 class="text-xl text-[#1D3555] px-1.5">Welcome back, {{ user?.displayName || 'User' }}</h2>
     </div>
   </div>
 
   <!-- Content Area -->
-  <div class="px-4 py-8 max-w-7xl mx-auto">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+  <div class="px-4 py-4 max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
       <!-- Left Column: Education & Research Area -->
       <div class="md:col-span-1">
-        <div class="bg-white rounded-xl shadow p-6 mb-8">
-          <h3 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">Education</h3>
-          <ul class="space-y-6">
+        <div class="bg-white rounded-xl shadow p-4 mb-4">
+          <h3 class="text-xl font-bold text-gray-800 mb-3 border-b pb-2">Education</h3>
+          <ul class="space-y-3">
             <li v-for="(edu, idx) in education" :key="idx" class="relative pl-8">
               <span class="absolute left-0 top-1.5 w-3 h-3 rounded-full bg-blue-500"></span>
               <div class="flex flex-col">
@@ -29,19 +29,19 @@
             </li>
           </ul>
         </div>
-        <div class="bg-white rounded-xl shadow p-6">
-          <h3 class="text-2xl font-bold text-gray-800 mb-4 border-b pb-2">Research Area</h3>
+        <div class="bg-white rounded-xl shadow p-4">
+          <h3 class="text-xl font-bold text-gray-800 mb-2 border-b pb-2">Research Area</h3>
           <ul class="space-y-3 list-disc list-inside ml-2">
             <li v-for="(area, idx) in researchAreas" :key="idx" class="text-gray-700 text-base">{{ area }}</li>
           </ul>
         </div>
       </div>
       <!-- Right Column: Contact & Publications -->
-      <div class="md:col-span-2 flex flex-col gap-8">
+      <div class="md:col-span-2 flex flex-col gap-4">
         <!-- Contact Card -->
-        <div class="flex flex-col md:flex-row items-center bg-white rounded-xl shadow p-6 gap-6 mb-4">
+        <div class="flex flex-col md:flex-row items-center bg-white rounded-xl shadow p-4 gap-4 mb-3">
           <div class="flex-shrink-0">
-            <div class="w-28 h-28 rounded-full overflow-hidden border-4 border-blue-300 bg-white shadow">
+            <div class="w-20 h-20 rounded-full overflow-hidden border-4 border-blue-300 bg-white shadow">
               <img :src="user?.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user?.displayName || 'User')" :alt="user?.displayName || 'User'" class="w-full h-full object-cover" />
             </div>
           </div>
@@ -74,15 +74,15 @@
           </div>
         </div>
         <!-- Publications Card -->
-        <div class="bg-white rounded-xl shadow p-6">
-          <div class="flex justify-between items-center mb-4">
-            <h3 class="text-2xl font-bold text-gray-800">Recent Publications</h3>
+        <div class="bg-white rounded-xl shadow p-4">
+          <div class="flex justify-between items-center mb-3">
+            <h3 class="text-xl font-bold text-gray-800">Recent Publications</h3>
             <NuxtLink to="/lecturer/publications" class="text-blue-600 text-base hover:underline">View All</NuxtLink>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div v-for="(pub, idx) in publications" :key="idx" class="bg-blue-50 rounded-lg p-4 flex flex-col justify-between shadow hover:shadow-lg transition">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div v-for="(pub, idx) in publications" :key="idx" class="bg-blue-50 rounded-lg p-3 flex flex-col justify-between shadow hover:shadow-lg transition">
               <div>
-                <p class="font-semibold text-blue-900 text-lg mb-1">{{ pub.title }}</p>
+                <p class="font-semibold text-blue-900 text-base mb-1">{{ pub.title }}</p>
                 <p class="text-gray-600 text-sm mb-2">{{ pub.venue }} &bull; {{ pub.year }}</p>
                 <a :href="pub.link" v-if="pub.link" class="inline-block px-2 py-0.5 bg-blue-200 text-blue-800 rounded text-xs font-semibold mb-2">Link</a>
               </div>
