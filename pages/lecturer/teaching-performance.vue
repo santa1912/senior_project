@@ -279,6 +279,14 @@ onMounted(() => {
               font: {
                 size: 10
               }
+            },
+            title: {
+              display: true,
+              text: 'Raw Score',
+              font: {
+                size: 14,
+                weight: 'bold'
+              }
             }
           },
           y: {
