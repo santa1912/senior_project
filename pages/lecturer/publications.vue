@@ -7,9 +7,9 @@
         <div class="flex items-center gap-4">
           <!-- Year Filter -->
           <div class="relative inline-block">
-            <select v-model="selectedYear" 
-                    class="appearance-none bg-white pl-4 pr-10 py-2 rounded-lg border border-gray-200 hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm text-gray-700 min-w-[140px]">
-              <option value="2023">Year/ 2023</option>
+            <select
+          class="w-full sm:w-auto appearance-none bg-white border-0  rounded-lg py-2 pl-4 pr-10 shadow-sm ring-2 ring-[#4697b9] text-sm"
+        >    <option value="2023">Year/ 2023</option>
               <option value="2022">Year/ 2022</option>
               <option value="2021">Year/ 2021</option>
               <option value="2020">Year/ 2020</option>
