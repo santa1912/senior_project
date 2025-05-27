@@ -95,8 +95,8 @@
             : 'bg-gray-100 hover:bg-gradient-to-b hover:from-[#38ADEA] hover:to-[#21739D] hover:text-white'
         "
       >
-        <p class="text-sm text-inherit">Arts and culture ({{ selectedRound?.categories[4]?.percent || 0 }}%)</p>
-        <p class="text-xl font-bold text-inherit">3.75%</p>
+        <p class="text-sm text-inherit">Arts and culture (10%)</p>
+        <p class="text-xl font-bold text-inherit">{{ selectedRound?.categories[4]?.value || 0 }}%</p>
       </NuxtLink>
     </div>
 
