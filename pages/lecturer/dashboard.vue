@@ -1,22 +1,22 @@
 <template>
   <!-- Overview Banner with background image -->
-  <div class="relative h-48 overflow-hidden">
+  <div class="relative h-56 overflow-hidden">
     <div class="absolute inset-0">
       <img :src="bgImage" alt="Background" class="w-full h-full object-cover opacity-60" />
     </div>
     <div class="absolute inset-0 bg-black/30"></div>
-    <div class="relative container mx-auto px-20 pt-6 z-10">
-      <h1 class="text-[76px] font-bold text-[#1D3555] leading-tight">Overview</h1>
-      <h2 class="text-xl text-[#1D3555] px-1.5">Welcome back, {{ user?.displayName || 'User' }}</h2>
+    <div class="relative container mx-auto px-20 pt-8 z-10">
+      <h1 class="text-[82px] font-bold text-[#1D3555] leading-tight">Overview</h1>
+      <h2 class="text-2xl text-[#1D3555] px-1.5 mt-1">Welcome back, {{ user?.displayName || 'User' }}</h2>
     </div>
   </div>
 
   <!-- Content Area -->
-  <div class="px-4 py-4 max-w-7xl mx-auto">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+  <div class="px-6 py-8 max-w-7xl mx-auto min-h-[calc(100vh-14rem)]">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
       <!-- Left Column: Education & Research Area -->
       <div class="md:col-span-1">
-        <div class="bg-white rounded-xl shadow p-4 mb-4">
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
           <h3 class="text-xl font-bold text-gray-800 mb-3 border-b pb-2">Education</h3>
           <ul class="space-y-3">
             <li v-for="(edu, idx) in education" :key="idx" class="relative pl-8">
