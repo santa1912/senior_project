@@ -351,9 +351,5 @@ function renderChart() {
 }
 
 onMounted(renderChart)
-watch(() => selectedRound.value, renderChart)
-
-definePageMeta({
-  layout: "lecturer",
-});
+watch(() => selectedRound.value, renderChart);
 </script>
