@@ -166,10 +166,18 @@
   </div>
 </template>
 <script setup lang="ts">
-import { navigateTo } from '#app'
+import { useState, navigateTo } from '#app'
+import { onMounted } from 'vue'
+
+interface AppUser {
+  role: 'admin' | 'dean' | 'lecturer'
+  name: string
+  email: string
+}
 
 definePageMeta({
-  layout: 'admin'
+
+  middleware: 'admin-only'
 })
 
 interface Activity {
