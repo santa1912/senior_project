@@ -1,222 +1,196 @@
 <template>
-  <div class="min-h-screen bg-gray-50 p-8">
-    <!-- Header -->
-    <div class="mb-8">
-      <h1 class="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-      <p class="mt-2 text-gray-600">Manage KPI evaluation system and user roles</p>
+  <div class="min-h-screen bg-gray-100 p-6">
+    <h1 class="text-3xl font-bold mb-6">Edit Profile</h1>
+
+    <!-- กล่องคอลัมน์ตรงกลาง -->
+    <div class="w-[1100px] h-[558px] bg-white rounded-lg shadow mx-auto p-6 flex flex-col items-center">
+
+      <!-- รูปภาพวงกลม -->
+      <div class="w-28 h-28 rounded-full overflow-hidden mb-4 mt-6">
+        <img
+          src="https://i0.wp.com/www.xinhuathai.com/wp-content/uploads/2024/02/7507fc8a87b444b69dfa21c7b448c481.jpg?resize=696%2C466&ssl=1"
+          alt="Profile"
+          class="w-full h-full object-cover"
+        />
+      </div>
+
+      <!-- เนื้อหาไอคอน + ข้อความ Change Photo -->
+      <div class="flex items-center justify-center space-x-2 text-gray-400 text-sm mb-4">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="3.2" fill="#c5c5c5"/>
+          <path fill="#c5c5c5" d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5s5 2.24 5 5s-2.24 5-5 5"/>
+        </svg>
+        <h2>Change Photo</h2>
+      </div>
+
+      <!-- ข้อความ Information -->
+      <p class="text-xl font-semibold mb-6 text-left w-full ml-10">
+        Information
+      </p>
+
+      <!-- กล่องข้อมูล 6 กล่อง (3 แถว × 2 คอลัมน์) -->
+      <div
+        class="grid grid-cols-2 w-full justify-center px-10 mt-[2mm]"
+        style="column-gap: 1.5cm; row-gap: 8mm;"
+      >
+         <div>
+          <p class="text-sm text-gray-700 mb-1">Full Name :</p>     
+        <div class="w-[400px] h-[32px] bg-gray-50 rounded-md border border-gray-400"></div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-700 mb-1">Email :</p>
+        <div class="w-[400px] h-[32px] bg-gray-50 rounded-md border border-gray-400"></div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-700 mb-1">Phone Number :</p>
+        <div class="w-[400px] h-[32px] bg-gray-50 rounded-md border border-gray-400"></div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-700 mb-1">Department :</p>
+        <div class="w-[400px] h-[32px] bg-gray-50 rounded-md border border-gray-400"></div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-700 mb-1">Faulty/Position :</p>
+        <div class="w-[400px] h-[32px] bg-gray-50 rounded-md border border-gray-400"></div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-700 mb-1">Office Location :</p>
+        <div class="w-[400px] h-[32px] bg-gray-50 rounded-md border border-gray-400"></div>
+        </div>
+      </div>
+      </div>
+     <!-- กล่องแม่ที่ครอบคอลัมน์เล็กทั้งสอง -->
+<div class="w-[1100px] mx-auto mt-6 flex justify-between" style="gap: 0.5cm;">
+  <!-- คอลัมน์เล็กซ้าย -->
+  <div class="w-[540px] h-[391px] bg-white rounded-lg shadow p-6">
+  <div class="flex items-center mb-2">
+    <p class="text-xl font-semibold text-left ml-5 flex-grow">
+      Education
+    </p>
+    <button class="w-[130px] h-[30px] bg-[#036E94] text-white text-sm font-medium rounded-sm hover:bg-[#025a78] flex items-center justify-center space-x-1">
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+  </svg>
+  <span>Add Degree</span>
+</button>
+  </div>
+    <!-- ✅ กล่อง 3 ช่องติดกัน -->
+  <div class="space-y-0.5 mt-[8mm]">
+    <div class="border border-gray-300 rounded-md p-4 h-[22mm]">Bachelor's degree : Accounting, Management</div>
+    <div class="border border-gray-300 rounded-md p-4 h-[22mm]">Master's degree : Computer Engineering</div>
+    <div class="border border-gray-300 rounded-md p-4 h-[22mm]">Doctor of Philosophy : Computer Engineering</div>
+  </div>
+</div>
+
+  <!-- คอลัมน์เล็กขวา -->
+  <div class="w-[540px] h-[391px] bg-white rounded-lg shadow p-6">
+    <div class="flex items-center mb-2">
+      <p class="text-xl font-semibold text-left ml-5 flex-grow">
+        Research Area
+      </p>
+      <button
+        class="w-[130px] h-[30px] bg-[#036E94] text-white text-sm font-medium rounded-sm hover:bg-[#025a78] flex items-center justify-center space-x-1"
+        type="button"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-4 w-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+        </svg>
+        <span>Add Research</span>
+      </button>
     </div>
+    <!-- ✅ กล่อง 3 ช่องติดกัน -->
+  <div class="space-y-0.5 mt-[8mm]">
+    <div class="border border-gray-300 rounded-md p-4 h-[22mm]">Machine Learning</div>
+    <div class="border border-gray-300 rounded-md p-4 h-[22mm]">Data Analytics</div>
+    <div class="border border-gray-300 rounded-md p-4 h-[22mm]">Accounting Information Systems</div>
+  </div>
+</div>
+</div>
+<!-- กล่องล่างสุด -->
+<div class="w-[1100px] h-[420px] mx-auto mt-6 bg-white rounded-lg shadow p-6">
+  <div class="flex justify-between items-center mb-4">
+    <p class="text-xl font-semibold text-left w-full ml-5">Recent Publications</p>
+    <button
+      class="w-[200px] h-[32px] bg-[#036E94] text-white text-sm font-medium rounded-sm hover:bg-[#025a78] flex items-center justify-center space-x-2 mr-5"
+      type="button"
+    >
+      <!-- SVG ไอคอนบวก -->
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+      </svg>
+      <span>Add Publication</span>
+    </button>
+  </div>
 
-    <!-- Stats Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-      <!-- Total Users -->
-      <div class="bg-white rounded-lg shadow p-6">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-sm font-medium text-gray-600">Total Users</p>
-            <p class="text-2xl font-bold text-gray-900">156</p>
-          </div>
-          <div class="bg-blue-100 rounded-full p-3">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-            </svg>
-          </div>
-        </div>
-        <div class="mt-4 flex items-center text-sm">
-          <span class="text-green-500 flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
-            </svg>
-            12%
-          </span>
-          <span class="text-gray-600 ml-2">vs last month</span>
-        </div>
-      </div>       <!-- Active KPI Rounds -->
-      <div class="bg-white rounded-lg shadow p-6">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-sm font-medium text-gray-600">Active KPI Rounds</p>
-            <p class="text-2xl font-bold text-gray-900">3</p>
-          </div>
-          <div class="bg-green-100 rounded-full p-3">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-            </svg>
-          </div>
-        </div>
-        <div class="mt-4 flex items-center text-sm">
-          <span class="text-gray-600">Current Academic Year</span>
-        </div>
-      </div>
-
-      <!-- Pending Reviews -->
-      <div class="bg-white rounded-lg shadow p-6">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-sm font-medium text-gray-600">Pending Reviews</p>
-            <p class="text-2xl font-bold text-gray-900">24</p>
-          </div>
-          <div class="bg-yellow-100 rounded-full p-3">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
-        </div>
-        <div class="mt-4 flex items-center text-sm">
-          <span class="text-red-500 flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-            </svg>
-            8%
-          </span>
-          <span class="text-gray-600 ml-2">vs last week</span>
-        </div>
-      </div>
-
-      <!-- System Health -->
-      <div class="bg-white rounded-lg shadow p-6">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-sm font-medium text-gray-600">System Health</p>
-            <p class="text-2xl font-bold text-gray-900">99.9%</p>
-          </div>
-          <div class="bg-purple-100 rounded-full p-3">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
-        </div>
-        <div class="mt-4 flex items-center text-sm">
-          <span class="text-green-500">Operational</span>
-        </div>
-      </div>
-    </div>     <!-- Recent Activity and Quick Actions -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-      <!-- Recent Activity -->
-      <div class="bg-white rounded-lg shadow">
-        <div class="px-6 py-4 border-b border-gray-200">
-          <h2 class="text-lg font-medium text-gray-900">Recent Activity</h2>
-        </div>
-        <div class="p-6">
-          <ul class="space-y-4">
-            <li v-for="activity in recentActivities" :key="activity.id" class="flex items-center space-x-4">
-              <div :class="[
-                'w-8 h-8 rounded-full flex items-center justify-center',
-                activity.type === 'user' ? 'bg-blue-100' : 
-                activity.type === 'kpi' ? 'bg-green-100' : 
-                'bg-yellow-100'
-              ]">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" :class="[
-                  activity.type === 'user' ? 'text-blue-600' : 
-                  activity.type === 'kpi' ? 'text-green-600' : 
-                  'text-yellow-600'
-                ]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path v-if="activity.type === 'user'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  <path v-else-if="activity.type === 'kpi'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                  <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <div class="flex-1">
-                <p class="text-sm font-medium text-gray-900">{{ activity.message }}</p>
-                <p class="text-sm text-gray-500">{{ activity.time }}</p>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Quick Actions -->
-      <div class="bg-white rounded-lg shadow">
-        <div class="px-6 py-4 border-b border-gray-200">
-          <h2 class="text-lg font-medium text-gray-900">Quick Actions</h2>
-        </div>
-        <div class="p-6">
-          <div class="grid grid-cols-2 gap-4">
-            <button @click="navigateTo('/admin/kpi-management')" class="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-              </svg>
-              <span class="text-sm font-medium text-gray-900">New KPI Round</span>
-            </button>
-
-            <button @click="navigateTo('/admin/users')" class="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-              </svg>
-              <span class="text-sm font-medium text-gray-900">Add User</span>
-            </button>
-
-            <button @click="navigateTo('/admin/reports')" class="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-600 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-              <span class="text-sm font-medium text-gray-900">Generate Report</span>
-            </button>
-
-            <button @click="navigateTo('/admin/settings')" class="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-600 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-              <span class="text-sm font-medium text-gray-900">System Settings</span>
-            </button>
-          </div>
-        </div>
-      </div>
+  <!-- กล่องย่อย 3 กล่อง -->
+  <div class="space-y-1 mt-[8mm]">
+    <div class="border border-gray-300 rounded-md p-4 min-h-[90px] text-[#003F93]">
+      Classification Approach for Industry Standards Categorization
+    </div>
+    <div class="border border-gray-300 rounded-md p-4 min-h-[90px] text-[#003F93]">
+      Blockchain-based Trusty Buyer Coalition Scheme Using A Group Signature
+    </div>
+    <div class="border border-gray-300 rounded-md p-4 min-h-[90px] text-[#003F93]">
+      Blockchain-based Trusty Buyer Coalition Scheme Using A Group Signature
     </div>
   </div>
+</div>
+  </div>
 </template>
-<script setup lang="ts">
-import { useState, navigateTo } from '#app'
-import { onMounted } from 'vue'
 
-interface AppUser {
-  role: 'admin' | 'dean' | 'lecturer'
-  name: string
-  email: string
-}
+<script setup lang="ts">
+import { ref } from 'vue'
+import { navigateTo } from '#app'
+import adminOnly from '~/middleware/admin-only'
 
 definePageMeta({
-
-  middleware: 'admin-only'
+  layout: 'admin',
+  middleware: [adminOnly]
 })
 
-interface Activity {
-  id: number
-  type: 'user' | 'kpi' | 'review'
-  message: string
-  time: string
+interface ApiResponse<T> {
+  status: string
+  data: T
 }
 
-const recentActivities: Activity[] = [
-  {
-    id: 1,
-    type: 'user',
-    message: 'New user Dr. Sarah Johnson registered',
-    time: '5 minutes ago'
-  },
-  {
-    id: 2,
-    type: 'kpi',
-    message: 'KPI Round 2024-1 started',
-    time: '1 hour ago'
-  },
-  {
-    id: 3,
-    type: 'review',
-    message: 'Dr. Michael Chang submitted KPI review',
-    time: '2 hours ago'
-  },
-  {
-    id: 4,
-    type: 'user',
-    message: 'Updated role for Dr. Emily White',
-    time: '3 hours ago'
-  },
-  {
-    id: 5,
-    type: 'kpi',
-    message: 'Modified KPI criteria for Research category',
-    time: '4 hours ago'
-  }
-]
+interface User {
+  id: number
+  name: string
+  role: string
+}
+
+const users = ref<User[]>([])
+
+const { data, error } = await useFetch<User[]>('/api/users')
+
+if (error.value) {
+  console.error('Failed to fetch users:', error.value)
+} else {
+  users.value = data.value || []
+  console.log('Users:', users.value)
+}
+
+const userResponse = ref<User | null>(null)
+
+const createUser = async () => {
+  const res = await $fetch<ApiResponse<User>>('/api/users', {
+    method: 'POST',
+    body: {
+      name: 'New Admin',
+      role: 'admin'
+    }
+  })
+  userResponse.value = res.data
+}
+
+const goToUsers = () => navigateTo('/admin/users')
+const goToKpi = () => navigateTo('/admin/kpi')
+const goToReports = () => navigateTo('/admin/reports')
 </script>

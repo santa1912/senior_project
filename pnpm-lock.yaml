@@ -5,7 +5,7 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  default-connector: link:../AppData/Local/pnpm/global/5/node_modules/dataconnect-generated/js/default-connector
+  default-connector: link:../../AppData/Local/pnpm/global/5/node_modules/dataconnect-generated/js/default-connector
 
 importers:
 
@@ -24,8 +24,8 @@ importers:
         specifier: ^2.2.0
         version: 2.2.0(chart.js@4.5.0)
       default-connector:
-        specifier: link:../AppData/Local/pnpm/global/5/node_modules/dataconnect-generated/js/default-connector
-        version: link:../AppData/Local/pnpm/global/5/node_modules/dataconnect-generated/js/default-connector
+        specifier: link:../../AppData/Local/pnpm/global/5/node_modules/dataconnect-generated/js/default-connector
+        version: link:../../AppData/Local/pnpm/global/5/node_modules/dataconnect-generated/js/default-connector
       firebase:
         specifier: ^11.6.0
         version: 11.9.1

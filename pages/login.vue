@@ -45,7 +45,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPasswor
 import { useState } from '#app'
 
 const router = useRouter()
-const auth = getAuth()
+const { $auth } = useNuxtApp()
 
 interface AppUser {
   name: string
@@ -63,7 +63,7 @@ const loading = ref(false)
 const manualLogin = async () => {
   loading.value = true
   try {
-    const result = await signInWithEmailAndPassword(auth, email.value, password.value)
+    const result = await signInWithEmailAndPassword($auth, email.value, password.value)
     const firebaseUser = result.user
 
     // กำหนด role จาก email
@@ -101,7 +101,7 @@ const googleLogin = async () => {
   const provider = new GoogleAuthProvider()
   
   try {
-    const result = await signInWithPopup(auth, provider)
+    const result = await signInWithPopup($auth, provider)
     const userData = result.user
 
     let role: 'admin' | 'dean' | 'lecturer' = 'lecturer'
@@ -134,7 +134,7 @@ const googleLogin = async () => {
 
 // 🔄 ติดตามสถานะผู้ใช้
 onMounted(() => {
-  onAuthStateChanged(auth, async (firebaseUser) => {
+  onAuthStateChanged($auth, async (firebaseUser) => {
     if (firebaseUser) {
       const tokenResult = await firebaseUser.getIdTokenResult()
       const role = ((): 'admin' | 'dean' | 'lecturer' => {

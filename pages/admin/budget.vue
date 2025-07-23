@@ -1,21 +1,29 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <!-- Header with gradient background -->
-      <div class="flex justify-between items-center mb-8 bg-white bg-opacity-95 p-8 rounded-xl shadow-lg border border-gray-100">
-        <div>
-          <h1 class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">
-            Users Management
-          </h1>
-          <p class="text-gray-600 mt-1 text-sm">Manage user roles and system access</p>
+  <div class="min-h-screen bg-gray-100 p-6">
+    <h1 class="text-3xl font-bold mb-6">Edit Budget Management</h1>
+    <div class="absolute top-6 right-6 w-48">
+      <select
+        id="year-select"
+        v-model="selectedYear"
+        class="w-full p-2 pr-10 border rounded-md border-[#036E94] appearance-none"
+      >
+        <option>Year/2025</option>
+        <option>Year/2024</option>
+        <option>Year/2023</option>
+        <option>Year/2022</option>
+      </select>
+      <!-- Chevron Down Icon -->
+      <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-[#036E94]">
+        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </div>
+    </div>
         </div>
         <div class="bg-indigo-50 text-indigo-700 px-6 py-2.5 rounded-lg font-medium border border-indigo-100 shadow-sm flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
           {{ users.length }} {{ users.length === 1 ? 'user' : 'users' }} total
         </div>
-      </div>
 
       <!-- Search and Filter with glass effect -->
       <div class="bg-white bg-opacity-95 p-8 rounded-xl shadow-lg mb-8 border border-gray-100 backdrop-blur-sm">
@@ -255,8 +263,6 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
 </template>
 
 <script setup lang="ts">
@@ -288,6 +294,7 @@ const showEditModal = ref(false)
 const editingUser = ref<User | null>(null)
 const showDeleteConfirm = ref(false)
 const userToDelete = ref<User | null>(null)
+const selectedYear = ref('Year/2025')
 
 // Fetch users on mount
 onMounted(async () => {

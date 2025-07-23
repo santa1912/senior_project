@@ -23,13 +23,20 @@
 </template>
 
 <script setup lang="ts">
+import { getAuth, signOut } from 'firebase/auth'
 const router = useRouter()
 
 const goBack = () => {
   router.back()
 }
 
-const goHome = () => {
-  navigateTo('/')
+const goHome = async () => {
+  const auth = getAuth()
+  try {
+    await signOut(auth)              // ← ออกจากระบบ
+    await router.push('/login')     // ← กลับไปหน้า login
+  } catch (error) {
+    console.error('Logout failed:', error)
+  }
 }
 </script>
